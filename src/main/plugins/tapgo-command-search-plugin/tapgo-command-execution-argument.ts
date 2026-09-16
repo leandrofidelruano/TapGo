@@ -1,4 +1,4 @@
-export enum UeliCommandExecutionArgument {
+export enum TapGoCommandExecutionArgument {
     Exit = "exit",
     Reload = "reload",
     EditConfigFile = "edit-config-file",

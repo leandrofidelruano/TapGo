@@ -2,15 +2,15 @@ import { SearchPlugin } from "../../search-plugin";
 import { PluginType } from "../../plugin-type";
 import { SearchResultItem } from "../../../common/search-result-item";
 import { UserConfigOptions } from "../../../common/config/user-config-options";
-import { UeliCommand } from "./ueli-command";
+import { TapGoCommand } from "./tapgo-command";
 import { IconType } from "../../../common/icon/icon-type";
-import { UeliCommandExecutionArgument } from "./ueli-command-execution-argument";
+import { TapGoCommandExecutionArgument } from "./tapgo-command-execution-argument";
 import { ipcMain } from "electron";
 import { IpcChannels } from "../../../common/ipc-channels";
 import { TranslationSet } from "../../../common/translation/translation-set";
 
-export class UeliCommandSearchPlugin implements SearchPlugin {
-    public readonly pluginType = PluginType.UeliCommandSearchPlugin;
+export class TapGoCommandSearchPlugin implements SearchPlugin {
+    public readonly pluginType = PluginType.TapGoCommandSearchPlugin;
     private translationSet: TranslationSet;
     private readonly icon = `
     <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -32,21 +32,21 @@ export class UeliCommandSearchPlugin implements SearchPlugin {
 
     public getAll(): Promise<SearchResultItem[]> {
         return new Promise((resolve) => {
-            const result = this.getAllCommands().map((command) => this.createSearchResultItemFromUeliCommand(command));
+            const result = this.getAllCommands().map((command) => this.createSearchResultItemFromTapGoCommand(command));
             resolve(result);
         });
     }
 
     public execute(searchResultItem: SearchResultItem): Promise<void> {
         return new Promise((resolve, reject) => {
-            const ueliCommand = this.getAllCommands().find(
+            const TapGoCommand = this.getAllCommands().find(
                 (command) => command.executionArgument === searchResultItem.executionArgument,
             );
-            if (ueliCommand) {
-                ipcMain.emit(IpcChannels.ueliCommandExecuted, ueliCommand);
+            if (TapGoCommand) {
+                ipcMain.emit(IpcChannels.TapGoCommandExecuted, TapGoCommand);
                 resolve();
             } else {
-                reject("Error while trying to execute ueli command: Invalid ueli command");
+                reject("Error while trying to execute TapGo command: Invalid TapGo command");
             }
         });
     }
@@ -70,64 +70,64 @@ export class UeliCommandSearchPlugin implements SearchPlugin {
         });
     }
 
-    private createSearchResultItemFromUeliCommand(ueliCommand: UeliCommand): SearchResultItem {
+    private createSearchResultItemFromTapGoCommand(TapGoCommand: TapGoCommand): SearchResultItem {
         return {
-            description: ueliCommand.description,
-            executionArgument: ueliCommand.executionArgument,
-            hideMainWindowAfterExecution: ueliCommand.hideMainWindowAfterExecution,
+            description: TapGoCommand.description,
+            executionArgument: TapGoCommand.executionArgument,
+            hideMainWindowAfterExecution: TapGoCommand.hideMainWindowAfterExecution,
             icon: {
                 parameter: this.icon,
                 type: IconType.SVG,
             },
-            name: ueliCommand.name,
+            name: TapGoCommand.name,
             originPluginType: this.pluginType,
-            searchable: [ueliCommand.name],
+            searchable: [TapGoCommand.name],
         };
     }
 
-    private getAllCommands(): UeliCommand[] {
+    private getAllCommands(): TapGoCommand[] {
         return [
             {
-                description: this.translationSet.ueliCommandExitDescription,
-                executionArgument: UeliCommandExecutionArgument.Exit,
+                description: this.translationSet.TapGoCommandExitDescription,
+                executionArgument: TapGoCommandExecutionArgument.Exit,
                 hideMainWindowAfterExecution: true,
-                name: this.translationSet.ueliCommandExit,
+                name: this.translationSet.TapGoCommandExit,
             },
             {
-                description: this.translationSet.ueliCommandReloadDescription,
-                executionArgument: UeliCommandExecutionArgument.Reload,
+                description: this.translationSet.TapGoCommandReloadDescription,
+                executionArgument: TapGoCommandExecutionArgument.Reload,
                 hideMainWindowAfterExecution: false,
-                name: this.translationSet.ueliCommandReload,
+                name: this.translationSet.TapGoCommandReload,
             },
             {
-                description: this.translationSet.ueliCommandEditSettingsFileDescription,
-                executionArgument: UeliCommandExecutionArgument.EditConfigFile,
+                description: this.translationSet.TapGoCommandEditSettingsFileDescription,
+                executionArgument: TapGoCommandExecutionArgument.EditConfigFile,
                 hideMainWindowAfterExecution: true,
-                name: this.translationSet.ueliCommandEditSettingsFile,
+                name: this.translationSet.TapGoCommandEditSettingsFile,
             },
             {
-                description: this.translationSet.ueliCommandOpenSettingsDescription,
-                executionArgument: UeliCommandExecutionArgument.OpenSettings,
+                description: this.translationSet.TapGoCommandOpenSettingsDescription,
+                executionArgument: TapGoCommandExecutionArgument.OpenSettings,
                 hideMainWindowAfterExecution: false,
-                name: this.translationSet.ueliCommandOpenSettings,
+                name: this.translationSet.TapGoCommandOpenSettings,
             },
             {
-                description: this.translationSet.ueliCommandRefreshIndexesDescription,
-                executionArgument: UeliCommandExecutionArgument.RefreshIndexes,
+                description: this.translationSet.TapGoCommandRefreshIndexesDescription,
+                executionArgument: TapGoCommandExecutionArgument.RefreshIndexes,
                 hideMainWindowAfterExecution: false,
-                name: this.translationSet.ueliCommandRefreshIndexes,
+                name: this.translationSet.TapGoCommandRefreshIndexes,
             },
             {
-                description: this.translationSet.ueliCommandClearCachesDescription,
-                executionArgument: UeliCommandExecutionArgument.ClearCaches,
+                description: this.translationSet.TapGoCommandClearCachesDescription,
+                executionArgument: TapGoCommandExecutionArgument.ClearCaches,
                 hideMainWindowAfterExecution: false,
-                name: this.translationSet.ueliCommandClearCaches,
+                name: this.translationSet.TapGoCommandClearCaches,
             },
             {
-                description: this.translationSet.ueliCommandOpenDebugLogDescription,
-                executionArgument: UeliCommandExecutionArgument.OpenDebugLog,
+                description: this.translationSet.TapGoCommandOpenDebugLogDescription,
+                executionArgument: TapGoCommandExecutionArgument.OpenDebugLog,
                 hideMainWindowAfterExecution: true,
-                name: this.translationSet.ueliCommandOpenDebugLog,
+                name: this.translationSet.TapGoCommandOpenDebugLog,
             },
         ];
     }

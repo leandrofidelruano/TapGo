@@ -3,7 +3,7 @@ import { SearchResultItem } from "../common/search-result-item";
 import { SearchPlugin } from "./search-plugin";
 import { UserConfigOptions } from "../common/config/user-config-options";
 import { ExecutionPlugin } from "./execution-plugin";
-import { UeliPlugin } from "./ueli-plugin";
+import { TapGoPlugin } from "./TapGo-plugin";
 import { TranslationSet } from "../common/translation/translation-set";
 import { getNoSearchResultsFoundResultItem } from "./no-search-results-found-result-item";
 import { FavoriteRepository } from "./favorites/favorite-repository";
@@ -293,7 +293,7 @@ export class SearchEngine {
         return searchResultItem.name.toLowerCase().indexOf(blackListKeyword.toLowerCase()) > -1;
     }
 
-    private getAllPlugins(): UeliPlugin[] {
+    private getAllPlugins(): TapGoPlugin[] {
         return [...this.searchPlugins, ...this.executionPlugins];
     }
 

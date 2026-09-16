@@ -181,7 +181,7 @@ export const colorThemeSettingsComponent = Vue.extend({
                         const translations: TranslationSet = this.translations;
                         const config: UserConfigOptions = this.config;
                         const fileContent = JSON.stringify(config.colorThemeOptions);
-                        const filePath = join(folderPath, "ueli-color-theme.json");
+                        const filePath = join(folderPath, "TapGo-color-theme.json");
                         FileHelpers.writeFile(filePath, fileContent)
                             .then(() =>
                                 vueEventDispatcher.$emit(

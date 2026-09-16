@@ -82,7 +82,7 @@ export const settingsComponent = Vue.extend({
             <settings-loading-overlay></settings-loading-overlay>
             <div class="settings__sidebar menu">
                 <div class="settings__sidebar-header-container">
-                    <img class="settings__sidebar-header-image" src="./assets/ueli.svg">
+                    <img class="settings__sidebar-header-image" src="./assets/TapGo.svg">
                     <span class="settings__sidebar-header-title">{{ translations.settings }}</span>
                 </div>
                 <div class="menu-label">

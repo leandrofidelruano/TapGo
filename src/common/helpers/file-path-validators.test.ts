@@ -10,7 +10,7 @@ const validWindowsFilePaths = [
 
 const invalidWindowsFilePaths = ["Program Files", "C:Program Files", "C::\\Program Files"];
 
-const validMacOsFilePaths = ["/", "/Users/Hansueli", "/Spaces are allowed as well", "/and.this.is/valid-as/well"];
+const validMacOsFilePaths = ["/", "/Users/HansTapGo", "/Spaces are allowed as well", "/and.this.is/valid-as/well"];
 
 const invalidMacOsFilePaths = ["\\this is invalid", "Applications/Gugus", "-/Gugus"];
 

@@ -13,7 +13,7 @@ export const invalidWindowsFilePaths = ["\\Program Files", "Program Files", "C:P
 
 export const validMacOsFilePaths = [
     "/",
-    "/Users/Hansueli",
+    "/Users/HansTapGo",
     "/Spaces are allowed as well",
     "/and.this.is/valid-as/well",
 ];

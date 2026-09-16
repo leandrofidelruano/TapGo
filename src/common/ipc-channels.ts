@@ -20,7 +20,7 @@ export enum IpcChannels {
     generalOptionsUpdated = "general-options-updated",
     languageUpdated = "language-updated",
     colorThemeOptionsUpdated = "color-theme-updated",
-    ueliCommandExecuted = "ueli-command-executed",
+    TapGoCommandExecuted = "tapgo-command-executed",
     folderPathRequested = "folder-path-requested",
     folderPathResult = "folder-path-result",
     folderAndFilePathsRequested = "folder-and-file-paths-requested",

@@ -3,7 +3,7 @@ import { SearchResultItem } from "../common/search-result-item";
 import { UserConfigOptions } from "../common/config/user-config-options";
 import { TranslationSet } from "../common/translation/translation-set";
 
-export interface UeliPlugin {
+export interface TapGoPlugin {
     pluginType: PluginType;
     isEnabled(): boolean;
     execute(searchResultItem: SearchResultItem, privileged: boolean): Promise<void>;

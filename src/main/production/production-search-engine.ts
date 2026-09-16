@@ -1,6 +1,6 @@
 import { ApplicationSearchPlugin } from "../plugins/application-search-plugin/application-search-plugin";
 import { UserConfigOptions } from "../../common/config/user-config-options";
-import { UeliCommandSearchPlugin } from "../plugins/ueli-command-search-plugin/ueli-command-search-plugin";
+import { TapGoCommandSearchPlugin } from "../plugins/tapgo-command-search-plugin/tapgo-command-search-plugin";
 import { ShortcutsSearchPlugin } from "../plugins/shortcuts-search-plugin/shortcuts-search-plugin";
 import { homedir } from "os";
 import { openUrlInBrowser } from "../executors/url-executor";
@@ -131,7 +131,7 @@ export function getProductionSearchEngine(
             : new MacOsOperatingSystemCommandRepository(translationSet);
 
     const searchPlugins: SearchPlugin[] = [
-        new UeliCommandSearchPlugin(translationSet),
+        new TapGoCommandSearchPlugin(translationSet),
         new ShortcutsSearchPlugin(
             config.shortcutOptions,
             urlExecutor,

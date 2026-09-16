@@ -1,10 +1,10 @@
 import { basename, extname, join } from "path";
 import { createHash } from "crypto";
-import { ueliTempFolder } from "../../../common/helpers/ueli-helpers";
+import { tapgoTempFolder } from "../../../common/helpers/tapgo-helpers";
 import { replaceWhitespace } from "../../../common/helpers/string-helpers";
 
-export const applicationIconLocation = join(ueliTempFolder, "application-icons");
-export const powershellScriptFilePath = join(ueliTempFolder, "generate-icons.ps1");
+export const applicationIconLocation = join(tapgoTempFolder, "application-icons");
+export const powershellScriptFilePath = join(tapgoTempFolder, "generate-icons.ps1");
 
 export function getApplicationIconFilePath(applicationFilePath: string): string {
     const hash = createHash("md5").update(`${applicationFilePath}`).digest("hex");

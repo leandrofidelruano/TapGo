@@ -10,20 +10,20 @@ export interface TranslationSet {
 
     refreshingIndexesPending: string;
 
-    ueliCommandExitDescription: string;
-    ueliCommandExit: string;
-    ueliCommandReloadDescription: string;
-    ueliCommandReload: string;
-    ueliCommandEditSettingsFileDescription: string;
-    ueliCommandEditSettingsFile: string;
-    ueliCommandOpenSettingsDescription: string;
-    ueliCommandOpenSettings: string;
-    ueliCommandRefreshIndexesDescription: string;
-    ueliCommandRefreshIndexes: string;
-    ueliCommandClearCachesDescription: string;
-    ueliCommandClearCaches: string;
-    ueliCommandOpenDebugLogDescription: string;
-    ueliCommandOpenDebugLog: string;
+    TapGoCommandExitDescription: string;
+    TapGoCommandExit: string;
+    TapGoCommandReloadDescription: string;
+    TapGoCommandReload: string;
+    TapGoCommandEditSettingsFileDescription: string;
+    TapGoCommandEditSettingsFile: string;
+    TapGoCommandOpenSettingsDescription: string;
+    TapGoCommandOpenSettings: string;
+    TapGoCommandRefreshIndexesDescription: string;
+    TapGoCommandRefreshIndexes: string;
+    TapGoCommandClearCachesDescription: string;
+    TapGoCommandClearCaches: string;
+    TapGoCommandOpenDebugLogDescription: string;
+    TapGoCommandOpenDebugLog: string;
 
     generalErrorTitle: string;
     generalErrorDescription: string;

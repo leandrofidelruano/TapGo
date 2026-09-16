@@ -45,7 +45,7 @@ const initialUpdateStatus: UpdateStatus = {
 const appInfo = {
     electron: process.versions.electron,
     node: process.versions.node,
-    ueli: version,
+    TapGo: version,
     v8: process.versions.v8,
 };
 
@@ -84,7 +84,7 @@ export const generalSettingsComponent = Vue.extend({
                 .then((filePath: string) => {
                     const config: UserConfigOptions = this.config;
                     const translations: TranslationSet = this.translations;
-                    const settingsFilePath = join(filePath, "ueli.config.json");
+                    const settingsFilePath = join(filePath, "TapGo.config.json");
                     FileHelpers.writeFile(settingsFilePath, JSON.stringify(config, undefined, 2))
                         .then(() =>
                             vueEventDispatcher.$emit(
@@ -608,10 +608,10 @@ export const generalSettingsComponent = Vue.extend({
                     <div class="settings__options-container">
                         <div class="settings__option">
                             <div class="settings__option-name">
-                                ueli
+                                TapGo
                             </div>
                             <div class="settings__option-content has-text-right">
-                                {{ appInfo.ueli }}
+                                {{ appInfo.TapGo }}
                             </div>
                         </div>
                         <div class="settings__option">

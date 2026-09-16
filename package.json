@@ -1,13 +1,13 @@
 {
-    "name": "ueli",
-    "productName": "ueli",
+    "name": "TapGo",
+    "productName": "TapGo",
     "version": "8.28.0",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/oliverschwendener/ueli"
+        "url": "https://github.com/oliverschwendener/TapGo"
     },
-    "homepage": "https://ueli.app",
+    "homepage": "https://tapgo.app",
     "author": {
         "name": "Oliver Schwendener",
         "email": "oliver.schwendener@proton.me",

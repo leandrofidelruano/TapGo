@@ -24,7 +24,7 @@ import { GlobalHotKeyKey } from "../common/global-hot-key/global-hot-key-key";
 import { GlobalHotKeyModifier } from "../common/global-hot-key/global-hot-key-modifier";
 import { deepCopy } from "../common/helpers/object-helpers";
 import { getCurrentOperatingSystem, getOperatingSystemVersion } from "../common/helpers/operating-system-helpers";
-import { logFilePath, ueliTempFolder } from "../common/helpers/ueli-helpers";
+import { logFilePath, tapgoTempFolder } from "../common/helpers/tapgo-helpers";
 import { IpcChannels } from "../common/ipc-channels";
 import { isDev } from "../common/is-dev";
 import { DevLogger } from "../common/logger/dev-logger";
@@ -42,13 +42,13 @@ import { trayIconPathMacOs, trayIconPathWindows } from "./helpers/tray-icon-help
 import { windowIconMacOs, windowIconWindows } from "./helpers/window-icon-helpers";
 import { PluginType } from "./plugin-type";
 import { toHex } from "./plugins/color-converter-plugin/color-converter-helpers";
-import { UeliCommand } from "./plugins/ueli-command-search-plugin/ueli-command";
-import { UeliCommandExecutionArgument } from "./plugins/ueli-command-search-plugin/ueli-command-execution-argument";
+import { TapGoCommand } from "./plugins/tapgo-command-search-plugin/tapgo-command";
+import { TapGoCommandExecutionArgument } from "./plugins/tapgo-command-search-plugin/tapgo-command-execution-argument";
 import { getProductionSearchEngine } from "./production/production-search-engine";
 import { UserInputHistoryManager } from "./user-input-history-manager";
 
-if (!FileHelpers.fileExistsSync(ueliTempFolder)) {
-    FileHelpers.createFolderSync(ueliTempFolder);
+if (!FileHelpers.fileExistsSync(tapgoTempFolder)) {
+    FileHelpers.createFolderSync(tapgoTempFolder);
 }
 
 const operatingSystem = getCurrentOperatingSystem(platform());
@@ -60,7 +60,7 @@ const filePathExecutor = operatingSystem === OperatingSystem.Windows ? executeFi
 const trayIconFilePath = operatingSystem === OperatingSystem.Windows ? trayIconPathWindows : trayIconPathMacOs;
 const windowIconFilePath = operatingSystem === OperatingSystem.Windows ? windowIconWindows : windowIconMacOs;
 const userInputHistoryManager = new UserInputHistoryManager();
-const releaseUrl = "https://github.com/oliverschwendener/ueli/releases/latest";
+const releaseUrl = "https://github.com/oliverschwendener/TapGo/releases/latest";
 const windowsPowerShellPath = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0";
 
 autoUpdater.autoDownload = false;
@@ -477,7 +477,7 @@ function updateAutoStartOptions(userConfig: UserConfigOptions) {
 function createTrayIcon() {
     if (config.generalOptions.showTrayIcon) {
         trayIcon = new Tray(trayIconFilePath);
-        trayIcon.setToolTip("ueli");
+        trayIcon.setToolTip("TapGo");
         updateTrayIconContextMenu();
     }
 }
@@ -496,7 +496,7 @@ function updateTrayIconContextMenu() {
                 },
                 {
                     click: refreshAllIndexes,
-                    label: translationSet.ueliCommandRefreshIndexes,
+                    label: translationSet.TapGoCommandRefreshIndexes,
                 },
                 {
                     click: quitApp,
@@ -609,7 +609,7 @@ function setKeyboardShortcuts() {
     if (operatingSystem === OperatingSystem.macOS && !appIsInDevelopment) {
         const template = [
             {
-                label: "ueli",
+                label: "TapGo",
                 submenu: [
                     { label: "Quit", accelerator: "Command+Q", click: quitApp },
                     { label: "Reload", accelerator: "Command+R", click: reloadApp },
@@ -833,7 +833,7 @@ function registerAllIpcListeners() {
     });
 
     ipcMain.on(IpcChannels.openTempFolderRequested, () => {
-        filePathExecutor(ueliTempFolder, false);
+        filePathExecutor(tapgoTempFolder, false);
     });
 
     ipcMain.on(IpcChannels.selectInputHistoryItem, (event: Electron.IpcMainEvent, direction: string) => {
@@ -843,34 +843,34 @@ function registerAllIpcListeners() {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ipcMain.on(IpcChannels.ueliCommandExecuted, (command: any) => {
-        command = command as UeliCommand;
+    ipcMain.on(IpcChannels.TapGoCommandExecuted, (command: any) => {
+        command = command as TapGoCommand;
 
         switch (command.executionArgument) {
-            case UeliCommandExecutionArgument.Exit:
+            case TapGoCommandExecutionArgument.Exit:
                 quitApp();
                 break;
-            case UeliCommandExecutionArgument.Reload:
+            case TapGoCommandExecutionArgument.Reload:
                 reloadApp();
                 break;
-            case UeliCommandExecutionArgument.EditConfigFile:
+            case TapGoCommandExecutionArgument.EditConfigFile:
                 configRepository.openConfigFile();
                 break;
-            case UeliCommandExecutionArgument.OpenSettings:
+            case TapGoCommandExecutionArgument.OpenSettings:
                 openSettings();
                 break;
-            case UeliCommandExecutionArgument.RefreshIndexes:
+            case TapGoCommandExecutionArgument.RefreshIndexes:
                 mainWindow.webContents.send(IpcChannels.userInputUpdated, "", false);
                 refreshAllIndexes();
                 break;
-            case UeliCommandExecutionArgument.ClearCaches:
+            case TapGoCommandExecutionArgument.ClearCaches:
                 clearAllCaches();
                 break;
-            case UeliCommandExecutionArgument.OpenDebugLog:
+            case TapGoCommandExecutionArgument.OpenDebugLog:
                 ipcMain.emit(IpcChannels.openDebugLogRequested);
                 break;
             default:
-                logger.error("Unhandled ueli command execution");
+                logger.error("Unhandled TapGo command execution");
                 break;
         }
     });
