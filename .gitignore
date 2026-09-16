@@ -78,3 +78,6 @@ typings/
 
 # optional npm files
 .npmrc
+
+# pnpm workspace config (local only)
+pnpm-workspace.yaml
