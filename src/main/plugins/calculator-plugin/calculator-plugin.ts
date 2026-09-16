@@ -39,24 +39,59 @@ export class CalculatorPlugin implements ExecutionPlugin {
 
     public getSearchResults(userInput: string): Promise<SearchResultItem[]> {
         return new Promise((resolve) => {
-            const result = Calculator.calculate(
+            const result = Calculator.calculateWithFraction(
                 userInput,
                 Number(this.config.precision),
                 this.generalConfig.decimalSeparator,
                 this.getArgumentSeparator(),
             );
-            resolve([
-                {
+
+            const results: SearchResultItem[] = [];
+
+            // Result 1: decimal (limited to 4 decimal places)
+            const decimalDisplay = this.formatDecimal(result.decimal, this.generalConfig.decimalSeparator);
+            results.push({
+                description: this.translationSet.calculatorCopyToClipboard,
+                executionArgument: decimalDisplay,
+                hideMainWindowAfterExecution: true,
+                icon: defaultCalculatorIcon,
+                name: `= ${decimalDisplay}`,
+                originPluginType: this.pluginType,
+                searchable: [],
+            });
+
+            // Result 2: fraction (if available)
+            if (result.fraction) {
+                results.push({
                     description: this.translationSet.calculatorCopyToClipboard,
-                    executionArgument: result,
+                    executionArgument: result.fraction,
                     hideMainWindowAfterExecution: true,
                     icon: defaultCalculatorIcon,
-                    name: `= ${result}`,
+                    name: `= ${result.fraction}`,
                     originPluginType: this.pluginType,
                     searchable: [],
-                },
-            ]);
+                });
+            }
+
+            resolve(results);
         });
+    }
+
+    private formatDecimal(value: string, decimalSeparator: string): string {
+        const parts = value.split(/[.,]/);
+        if (parts.length !== 2) {
+            return value;
+        }
+
+        const intPart = parts[0];
+        const decPart = parts[1];
+
+        if (decPart.length <= 4) {
+            return value;
+        }
+
+        const truncated = decPart.substring(0, 4);
+        return `${intPart}${decimalSeparator}${truncated}`;
     }
 
     public isEnabled(): boolean {

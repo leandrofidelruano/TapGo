@@ -72,6 +72,69 @@ describe(Calculator.name, () => {
         });
     });
 
+    describe(Calculator.toFraction.name, () => {
+        it("should convert simple decimals to fractions", () => {
+            expect(Calculator.toFraction(0.5)).toBe("1/2");
+            expect(Calculator.toFraction(0.25)).toBe("1/4");
+            expect(Calculator.toFraction(0.75)).toBe("3/4");
+            expect(Calculator.toFraction(0.6)).toBe("3/5");
+            expect(Calculator.toFraction(0.2)).toBe("1/5");
+        });
+
+        it("should convert improper fractions", () => {
+            expect(Calculator.toFraction(2.5)).toBe("5/2");
+            expect(Calculator.toFraction(3.75)).toBe("15/4");
+        });
+
+        it("should handle negative decimals", () => {
+            expect(Calculator.toFraction(-0.5)).toBe("-1/2");
+            expect(Calculator.toFraction(-0.25)).toBe("-1/4");
+        });
+
+        it("should return null for integers", () => {
+            expect(Calculator.toFraction(1)).toBeNull();
+            expect(Calculator.toFraction(5)).toBeNull();
+            expect(Calculator.toFraction(0)).toBe("0/1");
+        });
+
+        it("should return null for non-finite values", () => {
+            expect(Calculator.toFraction(Infinity)).toBeNull();
+            expect(Calculator.toFraction(-Infinity)).toBeNull();
+            expect(Calculator.toFraction(NaN)).toBeNull();
+        });
+    });
+
+    describe(Calculator.calculateWithFraction.name, () => {
+        it("should return decimal and fraction for 6/10", () => {
+            const result = Calculator.calculateWithFraction("6/10", 16);
+            expect(result.decimal).toBe("0.6");
+            expect(result.fraction).toBe("3/5");
+        });
+
+        it("should return decimal and fraction for 1/4", () => {
+            const result = Calculator.calculateWithFraction("1/4", 16);
+            expect(result.decimal).toBe("0.25");
+            expect(result.fraction).toBe("1/4");
+        });
+
+        it("should return null fraction for integers", () => {
+            const result = Calculator.calculateWithFraction("2+2", 16);
+            expect(result.decimal).toBe("4");
+            expect(result.fraction).toBeNull();
+        });
+
+        it("should return null fraction for results that cannot be simplified", () => {
+            const result = Calculator.calculateWithFraction("sqrt(2)", 16);
+            expect(result.fraction).toBeNull();
+        });
+
+        it("should use specified decimal separator", () => {
+            const result = Calculator.calculateWithFraction("6/10", 16, ",");
+            expect(result.decimal).toBe("0,6");
+            expect(result.fraction).toBe("3/5");
+        });
+    });
+
     describe(Calculator.isValidInput.name, () => {
         it("should return true if input is valid", () => {
             const validInputs = ["1 + 2", "(7 * pi / 53 ^2) * sqrt(9)"];
