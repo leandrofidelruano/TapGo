@@ -676,9 +676,6 @@ function openSettings() {
         settingsWindow.setMenu(null);
         settingsWindow.loadFile(join(__dirname, "..", "settings.html"));
         settingsWindow.on("close", onSettingsClose);
-        if (appIsInDevelopment) {
-            settingsWindow.webContents.openDevTools();
-        }
     } else {
         settingsWindow.focus();
     }
