@@ -97,6 +97,37 @@ export const colorThemeSettingsComponent = Vue.extend({
             config.colorThemeOptions.scrollbarBackgroundColor = defaultColorThemeOptions.scrollbarBackgroundColor;
             this.updateConfig();
         },
+        resetSettingsBackgroundColor() {
+            const config: UserConfigOptions = this.config;
+            config.colorThemeOptions.settingsBackgroundColor = defaultColorThemeOptions.settingsBackgroundColor;
+            this.updateConfig();
+        },
+        resetSettingsSidebarBackgroundColor() {
+            const config: UserConfigOptions = this.config;
+            config.colorThemeOptions.settingsSidebarBackgroundColor =
+                defaultColorThemeOptions.settingsSidebarBackgroundColor;
+            this.updateConfig();
+        },
+        resetSettingsTextColor() {
+            const config: UserConfigOptions = this.config;
+            config.colorThemeOptions.settingsTextColor = defaultColorThemeOptions.settingsTextColor;
+            this.updateConfig();
+        },
+        resetSettingsSidebarTextColor() {
+            const config: UserConfigOptions = this.config;
+            config.colorThemeOptions.settingsSidebarTextColor = defaultColorThemeOptions.settingsSidebarTextColor;
+            this.updateConfig();
+        },
+        resetSettingsAccentColor() {
+            const config: UserConfigOptions = this.config;
+            config.colorThemeOptions.settingsAccentColor = defaultColorThemeOptions.settingsAccentColor;
+            this.updateConfig();
+        },
+        resetSettingsBoxBackgroundColor() {
+            const config: UserConfigOptions = this.config;
+            config.colorThemeOptions.settingsBoxBackgroundColor = defaultColorThemeOptions.settingsBoxBackgroundColor;
+            this.updateConfig();
+        },
         updateConfig() {
             vueEventDispatcher.$emit(VueEventChannels.configUpdated, this.config);
         },
@@ -140,13 +171,10 @@ export const colorThemeSettingsComponent = Vue.extend({
                         FileHelpers.readFile(filePath)
                             .then((fileContent: string) => {
                                 const colorThemeOptions = JSON.parse(fileContent) as ColorThemeOptions;
-                                if (isValidColorTheme(colorThemeOptions)) {
+                                const mergedTheme = Object.assign({}, deepCopy(defaultColorThemeOptions), colorThemeOptions);
+                                if (isValidColorTheme(mergedTheme)) {
                                     const config: UserConfigOptions = this.config;
-                                    config.colorThemeOptions = Object.assign(
-                                        {},
-                                        config.colorThemeOptions,
-                                        colorThemeOptions,
-                                    );
+                                    config.colorThemeOptions = mergedTheme;
                                     this.updateConfig();
                                     vueEventDispatcher.$emit(
                                         VueEventChannels.notification,
@@ -607,6 +635,203 @@ export const colorThemeSettingsComponent = Vue.extend({
                         </div>
                     </div>
                 </div>
+            </div class="settings__options-container">
+        </div class="box">
+        <div class="box">
+            <div class="settings__options-container">
+
+                <div class="settings__setting-content-item-title mb-4">
+                    <div class="title is-5">
+                        {{ translations.settingsPanelTitle }}
+                    </div>
+                </div>
+
+                <div class="settings__option">
+                    <div class="settings__option-name">{{ translations.colorThemeSettingsBackgroundColor }}</div>
+                    <div class="settings__option-content">
+                        <div class="field has-addons has-addons-right">
+                            <div class="control">
+                                <button
+                                    class="button preview-button"
+                                    :style="getPreviewColor(config.colorThemeOptions.settingsBackgroundColor)"
+                                    @click="editColor('settingsBackgroundColor', config.colorThemeOptions.settingsBackgroundColor)"
+                                    >
+                                </button>
+                            </div>
+                            <div class="control">
+                                <input
+                                    class="input font-mono"
+                                    type="text"
+                                    v-model="config.colorThemeOptions.settingsBackgroundColor"
+                                    @change="updateConfig"
+                                    >
+                            </div>
+                            <div class="control">
+                                <button class="button" @click="resetSettingsBackgroundColor">
+                                    <span class="icon">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings__option">
+                    <div class="settings__option-name">{{ translations.colorThemeSettingsSidebarBackgroundColor }}</div>
+                    <div class="settings__option-content">
+                        <div class="field has-addons has-addons-right">
+                            <div class="control">
+                                <button
+                                    class="button preview-button"
+                                    :style="getPreviewColor(config.colorThemeOptions.settingsSidebarBackgroundColor)"
+                                    @click="editColor('settingsSidebarBackgroundColor', config.colorThemeOptions.settingsSidebarBackgroundColor)"
+                                    >
+                                </button>
+                            </div>
+                            <div class="control">
+                                <input
+                                    class="input font-mono"
+                                    type="text"
+                                    v-model="config.colorThemeOptions.settingsSidebarBackgroundColor"
+                                    @change="updateConfig"
+                                    >
+                            </div>
+                            <div class="control">
+                                <button class="button" @click="resetSettingsSidebarBackgroundColor">
+                                    <span class="icon">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings__option">
+                    <div class="settings__option-name">{{ translations.colorThemeSettingsTextColor }}</div>
+                    <div class="settings__option-content">
+                        <div class="field has-addons has-addons-right">
+                            <div class="control">
+                                <button
+                                    class="button preview-button"
+                                    :style="getPreviewColor(config.colorThemeOptions.settingsTextColor)"
+                                    @click="editColor('settingsTextColor', config.colorThemeOptions.settingsTextColor)"
+                                    >
+                                </button>
+                            </div>
+                            <div class="control">
+                                <input
+                                    class="input font-mono"
+                                    type="text"
+                                    v-model="config.colorThemeOptions.settingsTextColor"
+                                    @change="updateConfig"
+                                    >
+                            </div>
+                            <div class="control">
+                                <button class="button" @click="resetSettingsTextColor">
+                                    <span class="icon">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings__option">
+                    <div class="settings__option-name">{{ translations.colorThemeSettingsSidebarTextColor }}</div>
+                    <div class="settings__option-content">
+                        <div class="field has-addons has-addons-right">
+                            <div class="control">
+                                <button
+                                    class="button preview-button"
+                                    :style="getPreviewColor(config.colorThemeOptions.settingsSidebarTextColor)"
+                                    @click="editColor('settingsSidebarTextColor', config.colorThemeOptions.settingsSidebarTextColor)"
+                                    >
+                                </button>
+                            </div>
+                            <div class="control">
+                                <input
+                                    class="input font-mono"
+                                    type="text"
+                                    v-model="config.colorThemeOptions.settingsSidebarTextColor"
+                                    @change="updateConfig"
+                                    >
+                            </div>
+                            <div class="control">
+                                <button class="button" @click="resetSettingsSidebarTextColor">
+                                    <span class="icon">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings__option">
+                    <div class="settings__option-name">{{ translations.colorThemeSettingsAccentColor }}</div>
+                    <div class="settings__option-content">
+                        <div class="field has-addons has-addons-right">
+                            <div class="control">
+                                <button
+                                    class="button preview-button"
+                                    :style="getPreviewColor(config.colorThemeOptions.settingsAccentColor)"
+                                    @click="editColor('settingsAccentColor', config.colorThemeOptions.settingsAccentColor)"
+                                    >
+                                </button>
+                            </div>
+                            <div class="control">
+                                <input
+                                    class="input font-mono"
+                                    type="text"
+                                    v-model="config.colorThemeOptions.settingsAccentColor"
+                                    @change="updateConfig"
+                                    >
+                            </div>
+                            <div class="control">
+                                <button class="button" @click="resetSettingsAccentColor">
+                                    <span class="icon">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings__option">
+                    <div class="settings__option-name">{{ translations.colorThemeSettingsBoxBackgroundColor }}</div>
+                    <div class="settings__option-content">
+                        <div class="field has-addons has-addons-right">
+                            <div class="control">
+                                <button
+                                    class="button preview-button"
+                                    :style="getPreviewColor(config.colorThemeOptions.settingsBoxBackgroundColor)"
+                                    @click="editColor('settingsBoxBackgroundColor', config.colorThemeOptions.settingsBoxBackgroundColor)"
+                                    >
+                                </button>
+                            </div>
+                            <div class="control">
+                                <input
+                                    class="input font-mono"
+                                    type="text"
+                                    v-model="config.colorThemeOptions.settingsBoxBackgroundColor"
+                                    @change="updateConfig"
+                                    >
+                            </div>
+                            <div class="control">
+                                <button class="button" @click="resetSettingsBoxBackgroundColor">
+                                    <span class="icon">
+                                        <i class="fas fa-undo-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div class="settings__options-container">
         </div class="box">
 

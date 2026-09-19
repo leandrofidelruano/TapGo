@@ -138,6 +138,7 @@ export const italianTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Casella dei risultati di ricerca",
     settingsScrollbarTitle: "Barra di scorrimento",
     settingsGeneralTitle: "Generale",
+    settingsPanelTitle: "Pannello impostazioni",
     colorThemeSettings: "Tema colore",
 
     colorThemeSettingsImportColorTheme: "Importa tema",
@@ -159,6 +160,12 @@ export const italianTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Colore testo descrizione risultati di ricerca",
     colorThemeScrollbarForegroundColor: "Colore primo piano barra di scorrimento",
     colorThemeScrollbarBackgroundColor: "Colore di sfondo della barra di scorrimento",
+    colorThemeSettingsBackgroundColor: "Colore di sfondo delle impostazioni",
+    colorThemeSettingsSidebarBackgroundColor: "Colore di sfondo della barra laterale delle impostazioni",
+    colorThemeSettingsTextColor: "Colore del testo delle impostazioni",
+    colorThemeSettingsSidebarTextColor: "Colore del testo della barra laterale delle impostazioni",
+    colorThemeSettingsAccentColor: "Colore di accento delle impostazioni",
+    colorThemeSettingsBoxBackgroundColor: "Colore di sfondo della casella delle impostazioni",
 
     colorPicker: "Selettore colori",
 

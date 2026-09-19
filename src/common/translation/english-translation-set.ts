@@ -133,6 +133,7 @@ export const englishTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Search results box",
     settingsScrollbarTitle: "Scrollbar",
     settingsGeneralTitle: "General",
+    settingsPanelTitle: "Settings panel",
 
     colorThemeSettings: "Color Theme",
     colorThemeSettingsImportColorTheme: "Import color theme",
@@ -155,6 +156,12 @@ export const englishTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Search results description text color",
     colorThemeScrollbarForegroundColor: "Scrollbar foreground color",
     colorThemeScrollbarBackgroundColor: "Scrollbar background color",
+    colorThemeSettingsBackgroundColor: "Settings background color",
+    colorThemeSettingsSidebarBackgroundColor: "Settings sidebar background color",
+    colorThemeSettingsTextColor: "Settings text color",
+    colorThemeSettingsSidebarTextColor: "Settings sidebar text color",
+    colorThemeSettingsAccentColor: "Settings accent color",
+    colorThemeSettingsBoxBackgroundColor: "Settings box background color",
 
     colorPicker: "Color picker",
 

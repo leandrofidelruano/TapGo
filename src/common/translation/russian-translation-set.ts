@@ -132,6 +132,7 @@ export const russianTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Окно результатов поиска",
     settingsScrollbarTitle: "Полоса прокрутки",
     settingsGeneralTitle: "Основное",
+    settingsPanelTitle: "Панель настроек",
 
     colorThemeSettings: "Цветовые темы",
     colorThemeSettingsImportColorTheme: "Импортировать тему",
@@ -153,6 +154,12 @@ export const russianTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Цвет описания результатов поиска",
     colorThemeScrollbarForegroundColor: "Основной цвет полосы прокрутки",
     colorThemeScrollbarBackgroundColor: "Фон полосы прокрутки",
+    colorThemeSettingsBackgroundColor: "Фон настроек",
+    colorThemeSettingsSidebarBackgroundColor: "Фон боковой панели настроек",
+    colorThemeSettingsTextColor: "Цвет текста настроек",
+    colorThemeSettingsSidebarTextColor: "Цвет текста боковой панели настроек",
+    colorThemeSettingsAccentColor: "Цвет акцента настроек",
+    colorThemeSettingsBoxBackgroundColor: "Фон блока настроек",
 
     colorPicker: "Пипетка",
 

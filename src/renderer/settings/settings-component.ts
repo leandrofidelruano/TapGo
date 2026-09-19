@@ -6,6 +6,8 @@ import { PluginSettings } from "./plugin-settings";
 import { SettingOsSpecific } from "./settings-os-specific";
 import { platform } from "os";
 import { GeneralSettings } from "./general-settings";
+import { ColorThemeOptions } from "../../common/config/color-theme-options";
+import { UserConfigOptions } from "../../common/config/user-config-options";
 
 const autoHideErrorMessageDelayInMilliseconds = 5000;
 let autoHideErrorMessageTimeout: number;
@@ -48,6 +50,27 @@ export const settingsComponent = Vue.extend({
         };
     },
     methods: {
+        applyColorTheme(colorTheme: ColorThemeOptions) {
+            let styleEl = document.getElementById("settings-theme-styles") as HTMLStyleElement;
+            if (!styleEl) {
+                styleEl = document.createElement("style");
+                styleEl.id = "settings-theme-styles";
+                document.head.appendChild(styleEl);
+            }
+            styleEl.textContent = `
+                :root {
+                    --settings--background-color: ${colorTheme.settingsBackgroundColor || "#282c34"};
+                    --settings--sidebar-background-color: ${colorTheme.settingsSidebarBackgroundColor || "#21252b"};
+                    --settings--text-color: ${colorTheme.settingsTextColor || "#abb2bf"};
+                    --settings--sidebar-text-color: ${colorTheme.settingsSidebarTextColor || "#9198a5"};
+                    --settings--accent-color: ${colorTheme.settingsAccentColor || "#61afef"};
+                    --settings--box-background-color: ${colorTheme.settingsBoxBackgroundColor || "#2c313a"};
+                }
+            `;
+        },
+        injectStyles() {
+            this.applyColorTheme(this.config.colorThemeOptions);
+        },
         removeNotification() {
             this.notification.visible = false;
         },
@@ -75,6 +98,14 @@ export const settingsComponent = Vue.extend({
 
         vueEventDispatcher.$on(VueEventChannels.notification, (message: string, type: NotificationType) => {
             this.showNotification(message, type);
+        });
+
+        this.injectStyles();
+
+        vueEventDispatcher.$on(VueEventChannels.configUpdated, (updatedConfig: UserConfigOptions) => {
+            if (updatedConfig.colorThemeOptions) {
+                this.applyColorTheme(updatedConfig.colorThemeOptions);
+            }
         });
     },
     template: `

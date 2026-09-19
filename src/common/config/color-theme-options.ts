@@ -17,6 +17,13 @@ export interface ColorThemeOptions {
 
     scrollbarForegroundColor: string;
     scrollbarBackgroundColor: string;
+
+    settingsBackgroundColor: string;
+    settingsSidebarBackgroundColor: string;
+    settingsTextColor: string;
+    settingsSidebarTextColor: string;
+    settingsAccentColor: string;
+    settingsBoxBackgroundColor: string;
 }
 
 export const defaultColorThemeOptions = atomOneDark;

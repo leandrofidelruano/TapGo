@@ -20,6 +20,12 @@ describe(isValidColorTheme, () => {
                 searchResultsItemNameTextcolor: validHexCode,
                 userInputBackgroundColor: validHexCode,
                 userInputTextColor: validHexCode,
+                settingsBackgroundColor: "#f5f5f5",
+                settingsSidebarBackgroundColor: "#fff",
+                settingsTextColor: "#333",
+                settingsSidebarTextColor: "#555",
+                settingsAccentColor: "#3273dc",
+                settingsBoxBackgroundColor: "#fff",
             };
 
             expect(isValidColorTheme(colorTheme)).toBe(true);
@@ -40,6 +46,12 @@ describe(isValidColorTheme, () => {
                 searchResultsItemNameTextcolor: validHexCodes[0],
                 userInputBackgroundColor: validHexCodes[0],
                 userInputTextColor: invalidHexCode,
+                settingsBackgroundColor: "#f5f5f5",
+                settingsSidebarBackgroundColor: "#fff",
+                settingsTextColor: "#333",
+                settingsSidebarTextColor: "#555",
+                settingsAccentColor: "#3273dc",
+                settingsBoxBackgroundColor: "#fff",
             };
 
             expect(isValidColorTheme(colorTheme)).toBe(false);

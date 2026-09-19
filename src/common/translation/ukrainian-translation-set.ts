@@ -132,6 +132,7 @@ export const ukrainianTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Вікно результатів пошуку",
     settingsScrollbarTitle: "Полоса прокрутки",
     settingsGeneralTitle: "Основне",
+    settingsPanelTitle: "Панель налаштувань",
 
     colorThemeSettings: "Кольорові теми",
     colorThemeSettingsImportColorTheme: "Імпортувати тему",
@@ -153,6 +154,12 @@ export const ukrainianTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Колір опису результатів пошуку",
     colorThemeScrollbarForegroundColor: "Основний колір скролл-бару",
     colorThemeScrollbarBackgroundColor: "Фон скролл-бару",
+    colorThemeSettingsBackgroundColor: "Фон налаштувань",
+    colorThemeSettingsSidebarBackgroundColor: "Фон бічної панелі налаштувань",
+    colorThemeSettingsTextColor: "Колір тексту налаштувань",
+    colorThemeSettingsSidebarTextColor: "Колір тексту бічної панелі налаштувань",
+    colorThemeSettingsAccentColor: "Колір акценту налаштувань",
+    colorThemeSettingsBoxBackgroundColor: "Фон блоку налаштувань",
 
     colorPicker: "Піпетка",
 

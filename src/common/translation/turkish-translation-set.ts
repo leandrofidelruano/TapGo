@@ -135,6 +135,7 @@ export const turkishTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Arama sonuçları kutusu",
     settingsScrollbarTitle: "Kaydırma çubuğu",
     settingsGeneralTitle: "Genel",
+    settingsPanelTitle: "Ayarlar paneli",
 
     colorThemeSettings: "Renk teması",
     colorThemeSettingsImportColorTheme: "Renk temasını içe aktar",
@@ -157,6 +158,12 @@ export const turkishTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Arama sonuçları açıklama metni rengi",
     colorThemeScrollbarForegroundColor: "Kaydırma çubuğu ön plan rengi",
     colorThemeScrollbarBackgroundColor: "Kaydırma çubuğu arka plan rengi",
+    colorThemeSettingsBackgroundColor: "Ayarlar arka plan rengi",
+    colorThemeSettingsSidebarBackgroundColor: "Ayarlar kenar çubuğu arka plan rengi",
+    colorThemeSettingsTextColor: "Ayarlar metin rengi",
+    colorThemeSettingsSidebarTextColor: "Ayarlar kenar çubuğu metin rengi",
+    colorThemeSettingsAccentColor: "Ayarlar vurgu rengi",
+    colorThemeSettingsBoxBackgroundColor: "Ayarlar kutu arka plan rengi",
 
     colorPicker: "Renk seçici",
 

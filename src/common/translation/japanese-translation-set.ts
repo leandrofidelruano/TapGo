@@ -132,6 +132,7 @@ export const japaneseTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "検索結果",
     settingsScrollbarTitle: "スクロールバー",
     settingsGeneralTitle: "全般",
+    settingsPanelTitle: "設定パネル",
 
     colorThemeSettings: "配色テーマ",
     colorThemeSettingsImportColorTheme: "配色テーマのインポート",
@@ -153,6 +154,12 @@ export const japaneseTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "検索結果の説明の文字色",
     colorThemeScrollbarForegroundColor: "スクロールバー前景色",
     colorThemeScrollbarBackgroundColor: "スクロールバー背景色",
+    colorThemeSettingsBackgroundColor: "設定の背景色",
+    colorThemeSettingsSidebarBackgroundColor: "設定サイドバーの背景色",
+    colorThemeSettingsTextColor: "設定のテキスト色",
+    colorThemeSettingsSidebarTextColor: "設定サイドバーのテキスト色",
+    colorThemeSettingsAccentColor: "設定のアクセントカラー",
+    colorThemeSettingsBoxBackgroundColor: "設定ボックスの背景色",
 
     colorPicker: "カラーピッカー",
 

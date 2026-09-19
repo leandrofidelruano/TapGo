@@ -17,6 +17,13 @@ const light: ColorThemeOptions = {
 
     scrollbarBackgroundColor: "#ccc",
     scrollbarForegroundColor: "#858585",
+
+    settingsBackgroundColor: "#f5f5f5",
+    settingsSidebarBackgroundColor: "#fff",
+    settingsTextColor: "#333",
+    settingsSidebarTextColor: "#555",
+    settingsAccentColor: "#1976D2",
+    settingsBoxBackgroundColor: "#fff",
 };
 
 const dark: ColorThemeOptions = {
@@ -36,6 +43,13 @@ const dark: ColorThemeOptions = {
 
     scrollbarBackgroundColor: "#222",
     scrollbarForegroundColor: "#444",
+
+    settingsBackgroundColor: "#1a1a1a",
+    settingsSidebarBackgroundColor: "#222",
+    settingsTextColor: "#eee",
+    settingsSidebarTextColor: "#bbb",
+    settingsAccentColor: "#0078d7",
+    settingsBoxBackgroundColor: "#2a2a2a",
 };
 
 const polarNight: ColorThemeOptions = {
@@ -55,6 +69,13 @@ const polarNight: ColorThemeOptions = {
 
     scrollbarBackgroundColor: "#2E3440",
     scrollbarForegroundColor: "#4C566A",
+
+    settingsBackgroundColor: "#2E3440",
+    settingsSidebarBackgroundColor: "#3B4252",
+    settingsTextColor: "#ECEFF4",
+    settingsSidebarTextColor: "#D8DEE9",
+    settingsAccentColor: "#88C0D0",
+    settingsBoxBackgroundColor: "#3B4252",
 };
 
 const snowStorm: ColorThemeOptions = {
@@ -74,6 +95,13 @@ const snowStorm: ColorThemeOptions = {
 
     scrollbarBackgroundColor: "#D8DEE9",
     scrollbarForegroundColor: "#ECEFF4",
+
+    settingsBackgroundColor: "#ECEFF4",
+    settingsSidebarBackgroundColor: "#E5E9F0",
+    settingsTextColor: "#2E3440",
+    settingsSidebarTextColor: "#4C566A",
+    settingsAccentColor: "#5E81AC",
+    settingsBoxBackgroundColor: "#fff",
 };
 
 const shadesOfPurple: ColorThemeOptions = {
@@ -93,6 +121,13 @@ const shadesOfPurple: ColorThemeOptions = {
 
     scrollbarBackgroundColor: "#1e1e3f",
     scrollbarForegroundColor: "#fad000",
+
+    settingsBackgroundColor: "#1e1e3f",
+    settingsSidebarBackgroundColor: "#2d2b55",
+    settingsTextColor: "#aab2c0",
+    settingsSidebarTextColor: "#b362ff",
+    settingsAccentColor: "#fad000",
+    settingsBoxBackgroundColor: "#2d2b55",
 };
 
 export const atomOneDark: ColorThemeOptions = {
@@ -112,6 +147,13 @@ export const atomOneDark: ColorThemeOptions = {
 
     scrollbarBackgroundColor: "#1f2328",
     scrollbarForegroundColor: "#3d444f",
+
+    settingsBackgroundColor: "#282c34",
+    settingsSidebarBackgroundColor: "#21252b",
+    settingsTextColor: "#abb2bf",
+    settingsSidebarTextColor: "#9198a5",
+    settingsAccentColor: "#61afef",
+    settingsBoxBackgroundColor: "#2c313a",
 };
 
 export const colorThemes: ColorThemeOptions[] = [atomOneDark, dark, light, polarNight, snowStorm, shadesOfPurple];

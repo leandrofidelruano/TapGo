@@ -2,7 +2,7 @@ import { ColorThemeOptions } from "../config/color-theme-options";
 import { isValidColorCode } from "../../main/plugins/color-converter-plugin/color-converter-helpers";
 
 export function isValidColorTheme(colorThemeOptions: ColorThemeOptions): boolean {
-    const colorValues = [
+    const requiredColorValues = [
         colorThemeOptions.scrollbarBackgroundColor,
         colorThemeOptions.scrollbarForegroundColor,
         colorThemeOptions.searchResultsBackgroundColor,
@@ -15,5 +15,19 @@ export function isValidColorTheme(colorThemeOptions: ColorThemeOptions): boolean
         colorThemeOptions.userInputTextColor,
     ];
 
-    return colorValues.every((colorValue) => isValidColorCode(colorValue));
+    const optionalColorValues = [
+        colorThemeOptions.settingsBackgroundColor,
+        colorThemeOptions.settingsSidebarBackgroundColor,
+        colorThemeOptions.settingsTextColor,
+        colorThemeOptions.settingsSidebarTextColor,
+        colorThemeOptions.settingsAccentColor,
+        colorThemeOptions.settingsBoxBackgroundColor,
+    ];
+
+    const allValidRequired = requiredColorValues.every((colorValue) => isValidColorCode(colorValue));
+    const allValidOptional = optionalColorValues.every(
+        (colorValue) => colorValue === undefined || isValidColorCode(colorValue),
+    );
+
+    return allValidRequired && allValidOptional;
 }

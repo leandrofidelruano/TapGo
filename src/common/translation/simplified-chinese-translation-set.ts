@@ -131,6 +131,7 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "搜索结果栏",
     settingsScrollbarTitle: "滚动条",
     settingsGeneralTitle: "通用",
+    settingsPanelTitle: "设置面板",
 
     colorThemeSettings: "颜色主题",
     colorThemeSettingsImportColorTheme: "导入颜色主题",
@@ -152,6 +153,12 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "搜索结果详细信息的文字颜色",
     colorThemeScrollbarForegroundColor: "滚动条前景色",
     colorThemeScrollbarBackgroundColor: "滚动条背景色",
+    colorThemeSettingsBackgroundColor: "设置背景色",
+    colorThemeSettingsSidebarBackgroundColor: "设置侧边栏背景色",
+    colorThemeSettingsTextColor: "设置文字颜色",
+    colorThemeSettingsSidebarTextColor: "设置侧边栏文字颜色",
+    colorThemeSettingsAccentColor: "设置强调色",
+    colorThemeSettingsBoxBackgroundColor: "设置框背景色",
 
     colorPicker: "选择颜色",
 

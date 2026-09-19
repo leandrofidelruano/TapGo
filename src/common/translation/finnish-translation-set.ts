@@ -134,6 +134,7 @@ export const finnishTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Hakutuloskenttä",
     settingsScrollbarTitle: "Vierityspalkki",
     settingsGeneralTitle: "Yleiset",
+    settingsPanelTitle: "Asetuspaneeli",
 
     colorThemeSettings: "Väriteema",
     colorThemeSettingsImportColorTheme: "Tuo väriteema",
@@ -155,6 +156,12 @@ export const finnishTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Hakutulosten kuvauksen tekstin väri",
     colorThemeScrollbarForegroundColor: "Vierityspalkin etualanväri",
     colorThemeScrollbarBackgroundColor: "Vierityspalkin taustaväri",
+    colorThemeSettingsBackgroundColor: "Asetusten taustaväri",
+    colorThemeSettingsSidebarBackgroundColor: "Asetusten sivupaneelin taustaväri",
+    colorThemeSettingsTextColor: "Asetusten tekstin väri",
+    colorThemeSettingsSidebarTextColor: "Asetusten sivupaneelin tekstin väri",
+    colorThemeSettingsAccentColor: "Asetusten korostusväri",
+    colorThemeSettingsBoxBackgroundColor: "Asetusten ruudun taustaväri",
 
     colorPicker: "Värinvalitsin",
 

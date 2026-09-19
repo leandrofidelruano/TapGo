@@ -50,6 +50,13 @@ export const userStylesComponent = Vue.extend({
             --scrollbar--foreground-color: {{ colortheme.scrollbarForegroundColor }};
             --scrollbar--background-color: {{ colortheme.scrollbarBackgroundColor }};
             --scrollbar--border-radius: {{ appearance.scrollbarBorderRadius }};
+
+            --settings--background-color: {{ colortheme.settingsBackgroundColor }};
+            --settings--sidebar-background-color: {{ colortheme.settingsSidebarBackgroundColor }};
+            --settings--text-color: {{ colortheme.settingsTextColor }};
+            --settings--sidebar-text-color: {{ colortheme.settingsSidebarTextColor }};
+            --settings--accent-color: {{ colortheme.settingsAccentColor }};
+            --settings--box-background-color: {{ colortheme.settingsBoxBackgroundColor }};
         }
     </style>`,
 });

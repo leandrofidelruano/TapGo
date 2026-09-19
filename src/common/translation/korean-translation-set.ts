@@ -132,6 +132,7 @@ export const koreanTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "검색 결과 박스",
     settingsScrollbarTitle: "스크롤 바",
     settingsGeneralTitle: "일반",
+    settingsPanelTitle: "설정 패널",
 
     colorThemeSettings: "색상 테마",
     colorThemeSettingsImportColorTheme: "색상 테마 불러오기",
@@ -153,6 +154,12 @@ export const koreanTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "검색 결과 설명 텍스트 색",
     colorThemeScrollbarForegroundColor: "스크롤 바 전경 색",
     colorThemeScrollbarBackgroundColor: "스크롤 바 배경 색",
+    colorThemeSettingsBackgroundColor: "설정 배경 색",
+    colorThemeSettingsSidebarBackgroundColor: "설정 사이드바 배경 색",
+    colorThemeSettingsTextColor: "설정 텍스트 색",
+    colorThemeSettingsSidebarTextColor: "설정 사이드바 텍스트 색",
+    colorThemeSettingsAccentColor: "설정 포인트 색",
+    colorThemeSettingsBoxBackgroundColor: "설정 박스 배경 색",
 
     colorPicker: "색상 선택",
 

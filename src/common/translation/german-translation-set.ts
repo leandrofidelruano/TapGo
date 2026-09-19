@@ -135,6 +135,7 @@ export const germanTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Suchergebnisfeld",
     settingsScrollbarTitle: "Scrollleiste",
     settingsGeneralTitle: "Allgemein",
+    settingsPanelTitle: "Einstellungsbereich",
 
     colorThemeSettings: "Farbschema",
     colorThemeSettingsImportColorTheme: "Farbschema importieren",
@@ -157,6 +158,12 @@ export const germanTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Suchergebnis Beschreibung Textfarbe",
     colorThemeScrollbarForegroundColor: "Scrollbar Vordergrundfarbe",
     colorThemeScrollbarBackgroundColor: "Scrollbar Hintergrundfarbe",
+    colorThemeSettingsBackgroundColor: "Einstellungen Hintergrundfarbe",
+    colorThemeSettingsSidebarBackgroundColor: "Einstellungen Seitenleiste Hintergrundfarbe",
+    colorThemeSettingsTextColor: "Einstellungen Textfarbe",
+    colorThemeSettingsSidebarTextColor: "Einstellungen Seitenleiste Textfarbe",
+    colorThemeSettingsAccentColor: "Einstellungen Akzentfarbe",
+    colorThemeSettingsBoxBackgroundColor: "Einstellungen Box Hintergrundfarbe",
 
     colorPicker: "Farbwähler",
 

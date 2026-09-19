@@ -129,6 +129,7 @@ export interface TranslationSet {
     settingsSearchResultsBoxTitle: string;
     settingsScrollbarTitle: string;
     settingsGeneralTitle: string;
+    settingsPanelTitle: string;
 
     colorThemeSettings: string;
     colorThemeSettingsImportColorTheme: string;
@@ -150,6 +151,12 @@ export interface TranslationSet {
     colorThemeSearchResultsItemDescriptionTextColor: string;
     colorThemeScrollbarForegroundColor: string;
     colorThemeScrollbarBackgroundColor: string;
+    colorThemeSettingsBackgroundColor: string;
+    colorThemeSettingsSidebarBackgroundColor: string;
+    colorThemeSettingsTextColor: string;
+    colorThemeSettingsSidebarTextColor: string;
+    colorThemeSettingsAccentColor: string;
+    colorThemeSettingsBoxBackgroundColor: string;
 
     colorPicker: string;
 

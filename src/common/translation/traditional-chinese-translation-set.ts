@@ -131,6 +131,7 @@ export const traditionalChineseTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "搜尋結果欄",
     settingsScrollbarTitle: "滾動條",
     settingsGeneralTitle: "一般",
+    settingsPanelTitle: "設定面板",
 
     colorThemeSettings: "顏色主題",
     colorThemeSettingsImportColorTheme: "匯入顏色主題",
@@ -152,6 +153,12 @@ export const traditionalChineseTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "搜尋結果詳細資料的文字顏色",
     colorThemeScrollbarForegroundColor: "滾動條前景色",
     colorThemeScrollbarBackgroundColor: "滾動條背景色",
+    colorThemeSettingsBackgroundColor: "設定背景色",
+    colorThemeSettingsSidebarBackgroundColor: "設定側邊欄背景色",
+    colorThemeSettingsTextColor: "設定文字顏色",
+    colorThemeSettingsSidebarTextColor: "設定側邊欄文字顏色",
+    colorThemeSettingsAccentColor: "設定強調色",
+    colorThemeSettingsBoxBackgroundColor: "設定框背景色",
 
     colorPicker: "選擇顏色",
 

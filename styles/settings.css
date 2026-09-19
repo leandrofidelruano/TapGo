@@ -1,10 +1,22 @@
 :root {
     --font-family-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     --sidebar-width: 400px;
+    --settings--background-color: #f5f5f5;
+    --settings--sidebar-background-color: #fff;
+    --settings--text-color: #333;
+    --settings--sidebar-text-color: #555;
+    --settings--accent-color: #3273dc;
+    --settings--box-background-color: #fff;
 }
 
 html {
     overflow-y: hidden !important;
+    background-color: var(--settings--background-color);
+}
+
+body {
+    background-color: var(--settings--background-color);
+    color: var(--settings--text-color);
 }
 
 .settings {
@@ -13,12 +25,34 @@ html {
     justify-content: flex-start;
     height: 100vh;
     padding: 10px;
+    background-color: var(--settings--background-color) !important;
+    color: var(--settings--text-color);
 }
 
 .settings__sidebar {
     overflow-y: auto;
     padding: 10px;
     width: var(--sidebar-width);
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--sidebar-text-color);
+}
+
+.settings__sidebar .menu-label {
+    color: var(--settings--sidebar-text-color) !important;
+}
+
+.settings__sidebar .menu-list li a {
+    color: var(--settings--sidebar-text-color) !important;
+}
+
+.settings__sidebar .menu-list li a:hover {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.settings__sidebar .menu-list li a.is-active {
+    background-color: var(--settings--accent-color) !important;
+    color: #fff !important;
 }
 
 .settings__sidebar-name-container {
@@ -43,6 +77,11 @@ html {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    color: var(--settings--text-color);
+}
+
+.settings__setting-title .title {
+    color: var(--settings--text-color);
 }
 
 .settings__setting-description {
@@ -70,7 +109,7 @@ html {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.75rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.3);
     padding-bottom: 0.75rem;
 }
 
@@ -115,7 +154,8 @@ html {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: var(--settings--background-color);
+    opacity: 0.75;
     z-index: 100;
 }
 
@@ -168,6 +208,12 @@ html {
     font-size: 1.25rem;
     font-weight: 600;
     padding-left: 10px;
+    color: var(--settings--text-color);
+}
+
+.box {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color);
 }
 
 .modal-content.slim {
@@ -189,7 +235,8 @@ html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--settings--background-color);
+    opacity: 0.8;
     z-index: 5;
 }
 
@@ -213,10 +260,6 @@ html {
     font-family: var(--font-family-mono) !important;
 }
 
-.preview-button {
-    width: 37px;
-}
-
 /* Spinner */
 .lds-dual-ring {
     display: inline-block;
@@ -230,8 +273,8 @@ html {
     height: 46px;
     margin: 1px;
     border-radius: 50%;
-    border: 5px solid #444;
-    border-color: #444 transparent #444 transparent;
+    border: 5px solid var(--settings--accent-color);
+    border-color: var(--settings--accent-color) transparent var(--settings--accent-color) transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
@@ -241,4 +284,332 @@ html {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* ===== Dark theme for Bulma components ===== */
+
+/* Input fields */
+.input,
+.textarea {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-color: rgba(128, 128, 128, 0.4) !important;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--settings--accent-color) !important;
+    box-shadow: 0 0 0 0.125em rgba(0, 0, 0, 0.25) !important;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--settings--sidebar-text-color) !important;
+}
+
+/* Buttons */
+.button:not(.preview-button) {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-color: rgba(128, 128, 128, 0.4) !important;
+}
+
+.button:not(.preview-button):hover {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-color: rgba(128, 128, 128, 0.6) !important;
+}
+
+.button:not(.preview-button):focus {
+    border-color: var(--settings--accent-color) !important;
+}
+
+.preview-button {
+    width: 37px;
+    border-color: rgba(128, 128, 128, 0.4) !important;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background-color: var(--settings--box-background-color) !important;
+}
+
+.dropdown-content {
+    background-color: var(--settings--box-background-color) !important;
+}
+
+.dropdown-item {
+    color: var(--settings--text-color) !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.dropdown-item.is-active {
+    background-color: var(--settings--accent-color) !important;
+    color: #fff !important;
+}
+
+/* Titles inside settings */
+.settings__setting .title {
+    color: var(--settings--text-color) !important;
+}
+
+.settings__setting .title.is-3 {
+    color: var(--settings--text-color) !important;
+}
+
+.settings__setting .title.is-5 {
+    color: var(--settings--text-color) !important;
+}
+
+/* Subtitle / description text */
+.settings__setting .subtitle {
+    color: var(--settings--sidebar-text-color) !important;
+}
+
+/* Notification bar */
+.notification {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.notification .delete {
+    background-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+.notification .delete:hover {
+    background-color: rgba(128, 128, 128, 0.5) !important;
+}
+
+/* Scrollbar dark theme */
+.settings::-webkit-scrollbar,
+.settings__sidebar::-webkit-scrollbar,
+.settings__setting::-webkit-scrollbar,
+.table-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.settings::-webkit-scrollbar-track,
+.settings__sidebar::-webkit-scrollbar-track,
+.settings__setting::-webkit-scrollbar-track,
+.table-container::-webkit-scrollbar-track {
+    background: var(--settings--sidebar-background-color);
+    border-radius: 6px;
+}
+
+.settings::-webkit-scrollbar-thumb,
+.settings__sidebar::-webkit-scrollbar-thumb,
+.settings__setting::-webkit-scrollbar-thumb,
+.table-container::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.5);
+    border-radius: 4px;
+    border: 2px solid var(--settings--sidebar-background-color);
+}
+
+.settings::-webkit-scrollbar-thumb:hover,
+.settings__sidebar::-webkit-scrollbar-thumb:hover,
+.settings__setting::-webkit-scrollbar-thumb:hover,
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(128, 128, 128, 0.7);
+}
+
+.settings::-webkit-scrollbar-corner,
+.settings__sidebar::-webkit-scrollbar-corner,
+.settings__setting::-webkit-scrollbar-corner,
+.table-container::-webkit-scrollbar-corner {
+    background: var(--settings--sidebar-background-color);
+}
+
+/* Select dropdown */
+.select select {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-color: rgba(128, 128, 128, 0.4) !important;
+}
+
+.select select:hover {
+    border-color: rgba(128, 128, 128, 0.6) !important;
+}
+
+.select::after {
+    border-color: var(--settings--text-color) !important;
+}
+
+.select select option {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.select select option:checked {
+    background-color: var(--settings--accent-color) !important;
+    color: #fff !important;
+}
+
+.select select option:hover {
+    background-color: var(--settings--sidebar-background-color) !important;
+}
+
+/* Table */
+.table {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.table th {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.table td,
+.table th {
+    border-color: rgba(128, 128, 128, 0.3) !important;
+    color: var(--settings--text-color) !important;
+    background-color: transparent !important;
+}
+
+.table tr {
+    background-color: transparent !important;
+}
+
+.table tbody tr:hover td {
+    background-color: rgba(128, 128, 128, 0.1) !important;
+}
+
+.table-container {
+    background-color: var(--settings--box-background-color) !important;
+}
+
+.table-container .table {
+    margin-bottom: 0;
+}
+
+/* Tag / Badge */
+.tag {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+/* Modal */
+.modal-content {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.modal-content .title {
+    color: var(--settings--text-color) !important;
+}
+
+.modal-content .label {
+    color: var(--settings--text-color) !important;
+}
+
+.modal-background {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Modal card (user confirmation) */
+.modal-card {
+    background-color: var(--settings--box-background-color) !important;
+}
+
+.modal-card-head {
+    background-color: var(--settings--sidebar-background-color) !important;
+    border-bottom-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+.modal-card-head .title {
+    color: var(--settings--text-color) !important;
+}
+
+.modal-card-body {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.modal-card-foot {
+    background-color: var(--settings--sidebar-background-color) !important;
+    border-top-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+/* Message (used inside modals like websearch) */
+.message {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+}
+
+.message-header {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-bottom-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+.message-header p {
+    color: var(--settings--text-color) !important;
+}
+
+.message-header .delete {
+    background-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+.message-header .delete:hover {
+    background-color: rgba(128, 128, 128, 0.5) !important;
+}
+
+.message-body {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-left-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+/* Textarea */
+textarea.input {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Checkbox and radio */
+.checkbox,
+.radio {
+    color: var(--settings--text-color) !important;
+}
+
+/* Switch toggle */
+.switch input[type="checkbox"] + .check {
+    background-color: rgba(128, 128, 128, 0.3) !important;
+}
+
+.switch input[type="checkbox"]:checked + .check {
+    background-color: var(--settings--accent-color) !important;
+}
+
+/* File input */
+.file-cta {
+    background-color: var(--settings--box-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-color: rgba(128, 128, 128, 0.4) !important;
+}
+
+.file-name {
+    background-color: var(--settings--sidebar-background-color) !important;
+    color: var(--settings--text-color) !important;
+    border-color: rgba(128, 128, 128, 0.4) !important;
+}
+
+/* Icon colors */
+.icon {
+    color: var(--settings--text-color) !important;
+}
+
+/* Help text */
+.help {
+    color: var(--settings--sidebar-text-color) !important;
+}
+
+/* Field labels */
+.label {
+    color: var(--settings--text-color) !important;
 }

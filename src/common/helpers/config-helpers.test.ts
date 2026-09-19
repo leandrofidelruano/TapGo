@@ -44,6 +44,12 @@ const defaultUserConfigOptions: UserConfigOptions = {
         searchResultsItemNameTextcolor: "#aab2c0",
         scrollbarBackgroundColor: "#1f2328",
         scrollbarForegroundColor: "#3d444f",
+        settingsBackgroundColor: "#f5f5f5",
+        settingsSidebarBackgroundColor: "#fff",
+        settingsTextColor: "#333",
+        settingsSidebarTextColor: "#555",
+        settingsAccentColor: "#3273dc",
+        settingsBoxBackgroundColor: "#fff",
     },
     applicationSearchOptions: {
         applicationFileExtensions: [".app"],

@@ -135,6 +135,7 @@ export const hindiTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "खोज परिणाम बॉक्स",
     settingsScrollbarTitle: "स्क्रॉल बार",
     settingsGeneralTitle: "जनरल",
+    settingsPanelTitle: "सेटिंग्स पैनल",
 
     colorThemeSettings: "रंग थीम",
     colorThemeSettingsImportColorTheme: "रंग थीम आयात करें",
@@ -157,6 +158,12 @@ export const hindiTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "खोज परिणाम विवरण टेक्स्ट रंग",
     colorThemeScrollbarForegroundColor: "स्क्रॉलबार अग्रभूमि रंग",
     colorThemeScrollbarBackgroundColor: "स्क्रॉलबार पृष्ठभूमि रंग",
+    colorThemeSettingsBackgroundColor: "सेटिंग्स पृष्ठभूमि रंग",
+    colorThemeSettingsSidebarBackgroundColor: "सेटिंग्स साइडबार पृष्ठभूमि रंग",
+    colorThemeSettingsTextColor: "सेटिंग्स टेक्स्ट रंग",
+    colorThemeSettingsSidebarTextColor: "सेटिंग्स साइडबार टेक्स्ट रंग",
+    colorThemeSettingsAccentColor: "सेटिंग्स एक्सेंट कलर",
+    colorThemeSettingsBoxBackgroundColor: "सेटिंग्स बॉक्स पृष्ठभूमि रंग",
 
     colorPicker: "रंग चयनकर्ता",
 

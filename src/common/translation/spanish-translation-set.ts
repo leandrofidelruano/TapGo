@@ -135,6 +135,7 @@ export const spanishTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Caja de resultados de búsqueda",
     settingsScrollbarTitle: "Barra de scroll",
     settingsGeneralTitle: "General",
+    settingsPanelTitle: "Panel de configuración",
 
     colorThemeSettings: "Tema de color",
     colorThemeSettingsImportColorTheme: "Importar tema de color",
@@ -158,6 +159,12 @@ export const spanishTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Color de texto de la descripción de los resultados de búsqueda",
     colorThemeScrollbarForegroundColor: "Color destacado de la barra de scroll",
     colorThemeScrollbarBackgroundColor: "Color de fondo de la barra de scroll",
+    colorThemeSettingsBackgroundColor: "Color de fondo del panel de configuración",
+    colorThemeSettingsSidebarBackgroundColor: "Color de fondo del sidebar de configuración",
+    colorThemeSettingsTextColor: "Color de texto del panel de configuración",
+    colorThemeSettingsSidebarTextColor: "Color de texto del sidebar de configuración",
+    colorThemeSettingsAccentColor: "Color de acento del panel de configuración",
+    colorThemeSettingsBoxBackgroundColor: "Color de fondo de las cajas de configuración",
 
     colorPicker: "Selector de color",
 

@@ -133,6 +133,7 @@ export const czechTranslationSet: TranslationSet = {
     settingsSearchResultsBoxTitle: "Pole výsledků hledání",
     settingsScrollbarTitle: "Posuvník",
     settingsGeneralTitle: "Obecné",
+    settingsPanelTitle: "Nastavení panelu",
 
     colorThemeSettings: "Barevné schéma",
     colorThemeSettingsImportColorTheme: "Importovat barevné schéma",
@@ -154,6 +155,12 @@ export const czechTranslationSet: TranslationSet = {
     colorThemeSearchResultsItemDescriptionTextColor: "Barva popisů výsledků vyhledávání",
     colorThemeScrollbarForegroundColor: "Barva popředí posuvníků",
     colorThemeScrollbarBackgroundColor: "Barva pozadí posuvníků",
+    colorThemeSettingsBackgroundColor: "Barva pozadí nastavení",
+    colorThemeSettingsSidebarBackgroundColor: "Barva pozadí bočního panelu nastavení",
+    colorThemeSettingsTextColor: "Barva textu nastavení",
+    colorThemeSettingsSidebarTextColor: "Barva textu bočního panelu nastavení",
+    colorThemeSettingsAccentColor: "Barva zvýraznění nastavení",
+    colorThemeSettingsBoxBackgroundColor: "Barva pozadí pole nastavení",
 
     colorPicker: "Výběr barvy",
 
