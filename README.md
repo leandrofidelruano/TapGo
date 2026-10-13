@@ -232,3 +232,23 @@ For known issues, check [here](https://github.com/leandrofidelruano/tapgo/issues
 -   pnpm
 
 ### Setup
+
+    pnpm install
+
+### Commands
+
+| Command             | Description                 |
+| ------------------- | --------------------------- |
+| `pnpm bundle`       | Compile TypeScript with webpack |
+| `pnpm start`        | Run the app in Electron     |
+| `pnpm test`         | Run tests with Jest         |
+| `pnpm lint`         | Lint the source code        |
+
+### Build Windows installer
+
+    pnpm bundle
+    pnpm exec electron-builder --config electron-builder-config.yml --win nsis
+
+The installer will be created in `dist/TapGo Setup <version>.exe`. For a quick test without installing, run `dist/win-unpacked/TapGo.exe` instead.
+
+> Note: avoid running `npx electron-builder --win` without `--config`, as it ignores `electron-builder-config.yml` and produces a build with the default Electron icon, a one-click installer and unnecessary files.
