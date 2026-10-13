@@ -218,6 +218,8 @@ export const turkishTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Komut satırı aracı",
     shortcutSettingsEditModalCommandLinetoolDescription: "Visual Studio Kodunda dosya düzenleme",
     shortcutSettingsNeedsUserConfirmation: "Yürütmeden önce onay gerekiyor",
+    shortcutSettingsNotes: "Notlar",
+    shortcutSettingsNotesPlaceholder: "Not ekleyin",
 
     translationSettingsTranslation: "Çeviri",
     translationSettingsDescription: `Bu eklenti, kelimeleri veya kısa cümleleri hızlı bir şekilde çevirmenizi sağlar. Linguee (https://linguee.de) için  resmi olmayan bir API (https://github.com/imankulov/linguee-api) kullanır ve kararsız olabilir.`,

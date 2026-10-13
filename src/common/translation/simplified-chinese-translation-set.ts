@@ -211,6 +211,8 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "命令行工具",
     shortcutSettingsEditModalCommandLinetoolDescription: "使用 Visual Studio Code 编辑文件",
     shortcutSettingsNeedsUserConfirmation: "运行前需要确认",
+    shortcutSettingsNotes: "备注",
+    shortcutSettingsNotesPlaceholder: "添加备注",
 
     translationSettingsTranslation: "翻译",
     translationSettingsDescription: `这个插件让你可以快速翻译一些单词或者句子。它使用了一个 Linguee (https://linguee.de) 非官方的 API 也许不稳定`,

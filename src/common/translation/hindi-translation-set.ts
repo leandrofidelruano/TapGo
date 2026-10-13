@@ -218,6 +218,8 @@ export const hindiTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "कमांडलाइन टूल",
     shortcutSettingsEditModalCommandLinetoolDescription: "विजुअल स्टूडियो कोड में फ़ाइल संपादित करें",
     shortcutSettingsNeedsUserConfirmation: "निष्पादन से पहले पुष्टि की आवश्यकता है",
+    shortcutSettingsNotes: "नोट्स",
+    shortcutSettingsNotesPlaceholder: "नोट्स जोड़ें",
 
     translationSettingsTranslation: "अनुवाद",
     translationSettingsDescription: `यह प्लगइन आपको शब्दों या छोटे वाक्यों का त्वरित अनुवाद करने में सक्षम बनाता है। यह लिंगुई (https://linguee.de) के लिए एक अनौपचारिक एपीआई (https://github.com/imankulov/linguee-api) का उपयोग करता है और अस्थिर हो सकता है।`,

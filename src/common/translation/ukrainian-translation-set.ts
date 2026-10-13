@@ -213,6 +213,8 @@ export const ukrainianTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Командна строка",
     shortcutSettingsEditModalCommandLinetoolDescription: "Редагувати файл у Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Необхідність підтвердження",
+    shortcutSettingsNotes: "Нотатки",
+    shortcutSettingsNotesPlaceholder: "Додайте нотатки",
 
     translationSettingsTranslation: "Перекладач",
     translationSettingsDescription:

@@ -212,6 +212,8 @@ export const koreanTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "명령 행 도구",
     shortcutSettingsEditModalCommandLinetoolDescription: "Visual Studio Code에서 파일 수정",
     shortcutSettingsNeedsUserConfirmation: "실행 전 확인 필요",
+    shortcutSettingsNotes: "메모",
+    shortcutSettingsNotesPlaceholder: "메모 추가",
 
     translationSettingsTranslation: "번역",
     translationSettingsDescription: `이 플러그인은 단어나 짧은 문장을 빠르게 번역할 수 있게 해줍니다. Linguee (https://linguee.de)를 위한 비공식 API (https://github.com/imankulov/linguee-api)를 사용하므로 불안정할 수 있습니다.`,

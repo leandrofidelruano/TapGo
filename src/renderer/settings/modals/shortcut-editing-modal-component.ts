@@ -167,6 +167,9 @@ export const shortcutEditingModal = Vue.extend({
             (shortcut: Shortcut, editMode: ModalEditMode, saveIndex?: number) => {
                 this.visible = true;
                 this.editMode = editMode;
+                if (shortcut.notes === undefined) {
+                    shortcut.notes = "";
+                }
                 this.shortcut = shortcut;
                 this.initialShortcut = deepCopy(shortcut);
                 this.saveIndex = saveIndex;
@@ -251,6 +254,14 @@ export const shortcutEditingModal = Vue.extend({
                         </div>
                         <tags-editing :tags="shortcut.tags" :field-title="translations.shortcutSettingsTableTags" :translations="translations"></tags-editing>
                         <icon-editing :icon="shortcut.icon" :translations="translations"></icon-editing>
+                        <div class="field">
+                            <label class="label">
+                                {{ translations.shortcutSettingsNotes }}
+                            </label>
+                            <div class="control">
+                                <textarea class="textarea" :placeholder="translations.shortcutSettingsNotesPlaceholder" v-model="shortcut.notes"></textarea>
+                            </div>
+                        </div>
                         <div class="field is-grouped is-grouped-right">
                             <div class="control">
                                 <button class="button is-danger" @click="closeButtonClick">

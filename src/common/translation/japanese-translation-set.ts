@@ -212,6 +212,8 @@ export const japaneseTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "コマンドラインツール",
     shortcutSettingsEditModalCommandLinetoolDescription: "Visual Studio Code でファイルを編集",
     shortcutSettingsNeedsUserConfirmation: "実行前に確認が必要",
+    shortcutSettingsNotes: "メモ",
+    shortcutSettingsNotesPlaceholder: "メモを追加",
 
     translationSettingsTranslation: "翻訳",
     translationSettingsDescription: `このプラグインは単語あるいは短文を素早く翻訳することができます。Linguee (https://linguee.de) の非公式 API (https://github.com/imankulov/linguee-api) を使用しており、不安定になる可能性があります。`,

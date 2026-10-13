@@ -213,6 +213,8 @@ export const russianTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Командная строка",
     shortcutSettingsEditModalCommandLinetoolDescription: "Редактировать файл в Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Необходимость подтверждения",
+    shortcutSettingsNotes: "Заметки",
+    shortcutSettingsNotesPlaceholder: "Добавьте заметки",
 
     translationSettingsTranslation: "Переводчик",
     translationSettingsDescription: `Этот плагин позволяет быстро переводить слова или короткие предложения. Исползуется неофициальный API перевод (https://github.com/imankulov/linguee-api) для Linguee (https://linguee.de), функция может быть нестабильна.`,

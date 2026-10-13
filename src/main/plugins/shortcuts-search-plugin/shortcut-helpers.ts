@@ -13,6 +13,7 @@ export const defaultNewShortcut: Shortcut = {
     },
     name: "",
     needsUserConfirmationBeforeExecution: false,
+    notes: "",
     tags: [],
     type: ShortcutType.Url,
 };

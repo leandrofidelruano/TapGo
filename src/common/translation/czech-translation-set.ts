@@ -214,6 +214,8 @@ export const czechTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Příkazový řádek",
     shortcutSettingsEditModalCommandLinetoolDescription: "Upravit soubor in Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Před provedením vyžadovat potvrzení",
+    shortcutSettingsNotes: "Poznámky",
+    shortcutSettingsNotesPlaceholder: "Přidejte poznámky",
 
     translationSettingsTranslation: "Překlad",
     translationSettingsDescription: `Tento plugin umožňuje rychle překládat slova nebo krátké věty. Používá neoficiální API (https://github.com/imankulov/linguee-api) pro Linguee (https://linguee.de) a může být nestabilní.`,

@@ -7,6 +7,7 @@ export interface Shortcut {
     executionArgument: string;
     needsUserConfirmationBeforeExecution: boolean;
     icon: Icon;
+    notes: string;
     tags: string[];
     type: ShortcutType;
 }

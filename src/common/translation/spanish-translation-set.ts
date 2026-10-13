@@ -219,6 +219,8 @@ export const spanishTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Herramienta de línea de comandos",
     shortcutSettingsEditModalCommandLinetoolDescription: "Editar archivo en Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Necesita confirmación antes de la ejecución",
+    shortcutSettingsNotes: "Notas",
+    shortcutSettingsNotesPlaceholder: "Añade notas de interés",
 
     translationSettingsTranslation: "Traducción",
     translationSettingsDescription: `Este plugin te permite traducir de forma rápida palabras o frasees cortas. Usa un API no oficial (https://github.com/imankulov/linguee-api) de Linguee (https://linguee.de) y puede ser inestable.`,
