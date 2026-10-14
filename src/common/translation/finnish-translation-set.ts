@@ -45,6 +45,8 @@ export const finnishTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "Yleiset",
     pluginSettingsMenuSection: "Lisäosat",
+    pluginSettingsReorder: "Järjestä lisäosat uudelleen",
+    pluginSettingsReorderReset: "Palauta aakkosjärjestys",
 
     generalSettings: "Yleiset",
     generalSettingsLanguage: "Kieli",

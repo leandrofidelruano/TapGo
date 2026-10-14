@@ -45,6 +45,8 @@ export const koreanTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "일반",
     pluginSettingsMenuSection: "플러그인",
+    pluginSettingsReorder: "플러그인 순서 변경",
+    pluginSettingsReorderReset: "알파벳 순으로 재설정",
 
     generalSettings: "일반",
     generalSettingsLanguage: "언어",

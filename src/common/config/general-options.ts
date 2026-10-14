@@ -14,6 +14,7 @@ export interface GeneralOptions {
     language: Language;
     logExecution: boolean;
     persistentUserInput: boolean;
+    pluginSettingsOrder: string[];
     rememberWindowPosition: boolean;
     rescanEnabled: boolean;
     rescanIntervalInSeconds: number;
@@ -37,6 +38,7 @@ export const defaultGeneralOptions: GeneralOptions = {
     language: Language.English,
     logExecution: true,
     persistentUserInput: false,
+    pluginSettingsOrder: [],
     rememberWindowPosition: false,
     rescanEnabled: true,
     rescanIntervalInSeconds: 300,

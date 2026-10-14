@@ -45,6 +45,8 @@ export const englishTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "General",
     pluginSettingsMenuSection: "Plugins",
+    pluginSettingsReorder: "Reorder plugins",
+    pluginSettingsReorderReset: "Reset to alphabetical order",
 
     generalSettings: "General",
     generalSettingsLanguage: "Language",

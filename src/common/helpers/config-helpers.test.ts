@@ -112,6 +112,7 @@ const defaultUserConfigOptions: UserConfigOptions = {
         language: Language.English,
         logExecution: true,
         persistentUserInput: false,
+        pluginSettingsOrder: [],
         rememberWindowPosition: false,
         rescanEnabled: true,
         rescanIntervalInSeconds: 300,

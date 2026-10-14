@@ -8,6 +8,7 @@ import { platform } from "os";
 import { GeneralSettings } from "./general-settings";
 import { ColorThemeOptions } from "../../common/config/color-theme-options";
 import { UserConfigOptions } from "../../common/config/user-config-options";
+import { getSettingsItemName } from "./helpers";
 
 const autoHideErrorMessageDelayInMilliseconds = 5000;
 let autoHideErrorMessageTimeout: number;
@@ -29,24 +30,45 @@ export const settingsComponent = Vue.extend({
 
             return this.notification.visible ? `visible ${typeClass}` : typeClass;
         },
-    },
-    data() {
-        return {
-            generalSettingMenuItems: Object.values(GeneralSettings).sort(),
-            notification: {
-                message: "",
-                type: undefined,
-                visible: false,
-            },
-            pluginSettingMenuItems: Object.values(PluginSettings)
+        pluginSettingMenuItems(): string[] {
+            const allItems: string[] = Object.values(PluginSettings)
                 .map((setting) => setting.toString())
                 .concat(
                     Object.values(SettingOsSpecific)
                         .map((setting) => setting.toString())
                         .filter((setting: string) => setting.startsWith(platform()))
                         .map((setting: string) => setting.replace(`${platform()}:`, "")),
-                )
-                .sort(),
+                );
+
+            const sortAlphabetically = (a: string, b: string) =>
+                getSettingsItemName(a as PluginSettings, this.translations).localeCompare(
+                    getSettingsItemName(b as PluginSettings, this.translations),
+                    "es",
+                    { sensitivity: "base" },
+                );
+
+            const savedOrder = this.config.generalOptions.pluginSettingsOrder;
+            if (savedOrder && savedOrder.length > 0) {
+                const knownItems = savedOrder.filter((item: string) => allItems.indexOf(item) > -1);
+                const unknownItems = allItems.filter((item: string) => savedOrder.indexOf(item) === -1);
+                return knownItems.concat(unknownItems.sort(sortAlphabetically));
+            }
+
+            return allItems.sort(sortAlphabetically);
+        },
+    },
+    data() {
+        return {
+            draggedPluginIndex: -1,
+            dropIndicatorIndex: -1,
+            dropIndicatorPosition: "",
+            generalSettingMenuItems: Object.values(GeneralSettings).sort(),
+            notification: {
+                message: "",
+                type: undefined,
+                visible: false,
+            },
+            pluginSettingsEditMode: false,
         };
     },
     methods: {
@@ -71,8 +93,59 @@ export const settingsComponent = Vue.extend({
         injectStyles() {
             this.applyColorTheme(this.config.colorThemeOptions);
         },
+        finishPluginDrag() {
+            if (this.draggedPluginIndex < 0 || this.dropIndicatorIndex < 0) {
+                this.resetPluginDragState();
+                return;
+            }
+            const items = this.pluginSettingMenuItems.slice();
+            let targetIndex = this.dropIndicatorPosition === "bottom" ? this.dropIndicatorIndex + 1 : this.dropIndicatorIndex;
+            const moved = items.splice(this.draggedPluginIndex, 1)[0];
+            if (this.draggedPluginIndex < targetIndex) {
+                targetIndex -= 1;
+            }
+            items.splice(targetIndex, 0, moved);
+            this.resetPluginDragState();
+            const config: UserConfigOptions = this.config;
+            config.generalOptions.pluginSettingsOrder = items;
+            vueEventDispatcher.$emit(VueEventChannels.configUpdated, config);
+        },
+        onPluginListMouseMove(event: MouseEvent) {
+            if (this.draggedPluginIndex < 0) {
+                return;
+            }
+            const target = event.target as HTMLElement;
+            const li = target.closest("li[data-plugin-index]") as HTMLElement | null;
+            if (!li) {
+                return;
+            }
+            const rect = li.getBoundingClientRect();
+            this.dropIndicatorIndex = Number(li.dataset.pluginIndex);
+            this.dropIndicatorPosition = event.clientY - rect.top < rect.height / 2 ? "top" : "bottom";
+        },
+        onPluginItemMouseDown(index: number, event: MouseEvent) {
+            if (!this.pluginSettingsEditMode) {
+                return;
+            }
+            event.preventDefault();
+            this.draggedPluginIndex = index;
+            window.addEventListener("mouseup", this.finishPluginDrag, { once: true });
+        },
+        resetPluginDragState() {
+            this.draggedPluginIndex = -1;
+            this.dropIndicatorIndex = -1;
+            this.dropIndicatorPosition = "";
+        },
+        resetPluginSettingsOrder() {
+            const config: UserConfigOptions = this.config;
+            config.generalOptions.pluginSettingsOrder = [];
+            vueEventDispatcher.$emit(VueEventChannels.configUpdated, config);
+        },
         removeNotification() {
             this.notification.visible = false;
+        },
+        togglePluginSettingsEditMode() {
+            this.pluginSettingsEditMode = !this.pluginSettingsEditMode;
         },
         showNotification(message: string, type: NotificationType) {
             if (autoHideErrorMessageTimeout) {
@@ -109,7 +182,7 @@ export const settingsComponent = Vue.extend({
         });
     },
     template: `
-        <div class="settings container is-fluid">
+        <div class="settings container is-fluid" :class="{ 'settings--dragging-plugin' : draggedPluginIndex >= 0 }">
             <settings-loading-overlay></settings-loading-overlay>
             <div class="settings__sidebar menu">
                 <div class="settings__sidebar-header-container">
@@ -128,16 +201,39 @@ export const settingsComponent = Vue.extend({
                         :config="config"
                         ></setting-menu-item>
                 </ul>
-                <div class="menu-label">
-                    {{ translations.pluginSettingsMenuSection }}
+                <div class="menu-label settings__sidebar-menu-label">
+                    <span>{{ translations.pluginSettingsMenuSection }}</span>
+                    <span class="settings__sidebar-menu-actions">
+                        <button
+                            v-if="pluginSettingsEditMode"
+                            class="settings__sidebar-menu-button tooltip"
+                            :data-tooltip="translations.pluginSettingsReorderReset"
+                            @click="resetPluginSettingsOrder"
+                            >
+                            <span class="icon"><i class="fas fa-sort-alpha-down"></i></span>
+                        </button>
+                        <button
+                            class="settings__sidebar-menu-button tooltip"
+                            :class="{ 'is-active': pluginSettingsEditMode }"
+                            :data-tooltip="translations.pluginSettingsReorder"
+                            @click="togglePluginSettingsEditMode"
+                            >
+                            <span class="icon"><i class="fas fa-pen"></i></span>
+                        </button>
+                    </span>
                 </div>
-                <ul class="menu-list">
+                <ul class="menu-list" @mousemove="onPluginListMouseMove">
                     <setting-menu-item
-                        v-for="pluginSettingMenuItem in pluginSettingMenuItems"
+                        v-for="(pluginSettingMenuItem, pluginSettingMenuItemIndex) in pluginSettingMenuItems"
                         :key="pluginSettingMenuItem"
                         :item="pluginSettingMenuItem"
                         :translations="translations"
                         :config="config"
+                        :edit-mode="pluginSettingsEditMode"
+                        :data-plugin-index="pluginSettingMenuItemIndex"
+                        :drop-indicator-position="dropIndicatorIndex === pluginSettingMenuItemIndex ? dropIndicatorPosition : ''"
+                        :dragging-source="draggedPluginIndex === pluginSettingMenuItemIndex"
+                        @mousedown.native="onPluginItemMouseDown(pluginSettingMenuItemIndex, $event)"
                         ></setting-menu-item>
                 </ul>
             </div>

@@ -45,6 +45,8 @@ export const japaneseTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "全般",
     pluginSettingsMenuSection: "プラグイン",
+    pluginSettingsReorder: "プラグインを並べ替える",
+    pluginSettingsReorderReset: "アルファベット順に戻す",
 
     generalSettings: "全般",
     generalSettingsLanguage: "言語",

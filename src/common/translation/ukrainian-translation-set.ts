@@ -45,6 +45,8 @@ export const ukrainianTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "Основне",
     pluginSettingsMenuSection: "Плагіни",
+    pluginSettingsReorder: "Змінити порядок плагінів",
+    pluginSettingsReorderReset: "Скинути алфавітний порядок",
 
     generalSettings: "Основне",
     generalSettingsLanguage: "Мова",

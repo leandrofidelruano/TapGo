@@ -41,6 +41,74 @@ body {
     color: var(--settings--sidebar-text-color) !important;
 }
 
+.settings__sidebar-menu-label {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings__sidebar-menu-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.settings__sidebar-menu-button {
+    background: transparent;
+    border: none;
+    color: var(--settings--sidebar-text-color);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 2px 4px;
+}
+
+.settings__sidebar-menu-button:hover {
+    color: var(--settings--text-color);
+}
+
+.settings__sidebar-menu-button.is-active {
+    color: var(--settings--accent-color, #61afef);
+}
+
+.settings__sidebar .menu-list li a.settings__sidebar-item--draggable {
+    cursor: grab;
+}
+
+.settings__sidebar .menu-list li a.settings__sidebar-item--draggable:active {
+    cursor: grabbing;
+}
+
+.settings__sidebar .menu-list li {
+    position: relative;
+}
+
+.settings__sidebar-drop-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--settings--accent-color, #61afef);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.settings__sidebar-drop-indicator--top {
+    top: -1px;
+}
+
+.settings__sidebar-drop-indicator--bottom {
+    bottom: -1px;
+}
+
+.settings--dragging-plugin,
+.settings--dragging-plugin * {
+    cursor: grabbing !important;
+    user-select: none !important;
+}
+
+.settings__sidebar .menu-list li.settings__sidebar-item--dragging-source {
+    opacity: 0.4;
+}
+
 .settings__sidebar .menu-list li a {
     color: var(--settings--sidebar-text-color) !important;
 }

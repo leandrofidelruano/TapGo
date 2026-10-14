@@ -45,6 +45,8 @@ export const turkishTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "Genel",
     pluginSettingsMenuSection: "Eklentiler",
+    pluginSettingsReorder: "Eklentileri yeniden sırala",
+    pluginSettingsReorderReset: "Alfabetik sıralamaya sıfırla",
 
     generalSettings: "Genel",
     generalSettingsLanguage: "Dil",

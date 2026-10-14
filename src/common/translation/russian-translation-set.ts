@@ -45,6 +45,8 @@ export const russianTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "Основное",
     pluginSettingsMenuSection: "Плагины",
+    pluginSettingsReorder: "Изменить порядок плагинов",
+    pluginSettingsReorderReset: "Сбросить порядок по алфавиту",
 
     generalSettings: "Основное",
     generalSettingsLanguage: "Язык",

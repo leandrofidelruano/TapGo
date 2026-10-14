@@ -43,6 +43,8 @@ export interface TranslationSet {
 
     generalSettingsMenuSection: string;
     pluginSettingsMenuSection: string;
+    pluginSettingsReorder: string;
+    pluginSettingsReorderReset: string;
 
     generalSettings: string;
     generalSettingsLanguage: string;

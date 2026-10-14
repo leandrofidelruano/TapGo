@@ -45,6 +45,8 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "通用",
     pluginSettingsMenuSection: "插件",
+    pluginSettingsReorder: "重新排序插件",
+    pluginSettingsReorderReset: "恢复按字母顺序排列",
 
     generalSettings: "通用",
     generalSettingsLanguage: "语言",

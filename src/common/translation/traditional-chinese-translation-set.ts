@@ -45,6 +45,8 @@ export const traditionalChineseTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "一般",
     pluginSettingsMenuSection: "外掛程式",
+    pluginSettingsReorder: "重新排序外掛程式",
+    pluginSettingsReorderReset: "重設為依字母排序",
 
     generalSettings: "一般",
     generalSettingsLanguage: "語言",

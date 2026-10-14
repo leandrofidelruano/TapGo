@@ -45,6 +45,8 @@ export const hindiTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "जनरल",
     pluginSettingsMenuSection: "प्लग-इन",
+    pluginSettingsReorder: "प्लग-इन पुनः व्यवस्थित करें",
+    pluginSettingsReorderReset: "वर्णानुक्रम में रीसेट करें",
 
     generalSettings: "जनरल",
     generalSettingsLanguage: "भाषा",

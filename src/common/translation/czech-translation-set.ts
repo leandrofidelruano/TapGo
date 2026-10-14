@@ -45,6 +45,8 @@ export const czechTranslationSet: TranslationSet = {
 
     generalSettingsMenuSection: "Obecné nastavení",
     pluginSettingsMenuSection: "Pluginy",
+    pluginSettingsReorder: "Změnit pořadí pluginů",
+    pluginSettingsReorderReset: "Obnovit abecední pořadí",
 
     generalSettings: "Obecné",
     generalSettingsLanguage: "Jazyk",
