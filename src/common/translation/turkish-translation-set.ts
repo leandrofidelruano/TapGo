@@ -220,6 +220,7 @@ export const turkishTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Komut satırı aracı",
     shortcutSettingsEditModalCommandLinetoolDescription: "Visual Studio Kodunda dosya düzenleme",
     shortcutSettingsNeedsUserConfirmation: "Yürütmeden önce onay gerekiyor",
+    shortcutSettingsNeedsUserConfirmationShort: "Onay gerekiyor",
     shortcutSettingsNotes: "Notlar",
     shortcutSettingsNotesPlaceholder: "Not ekleyin",
 

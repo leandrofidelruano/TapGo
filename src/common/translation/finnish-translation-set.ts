@@ -217,6 +217,7 @@ export const finnishTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Komentorivityökalu",
     shortcutSettingsEditModalCommandLinetoolDescription: "Muokkaa tiedostoa Visual Studio Codessa",
     shortcutSettingsNeedsUserConfirmation: "Tarvitsee vahvistuksen ennen suorittamista",
+    shortcutSettingsNeedsUserConfirmationShort: "Tarvitsee vahvistuksen",
     shortcutSettingsNotes: "Muistiinpanot",
     shortcutSettingsNotesPlaceholder: "Lisää muistiinpanoja",
 

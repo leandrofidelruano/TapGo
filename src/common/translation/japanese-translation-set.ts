@@ -214,6 +214,7 @@ export const japaneseTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "コマンドラインツール",
     shortcutSettingsEditModalCommandLinetoolDescription: "Visual Studio Code でファイルを編集",
     shortcutSettingsNeedsUserConfirmation: "実行前に確認が必要",
+    shortcutSettingsNeedsUserConfirmationShort: "確認が必要",
     shortcutSettingsNotes: "メモ",
     shortcutSettingsNotesPlaceholder: "メモを追加",
 

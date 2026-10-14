@@ -211,6 +211,7 @@ export interface TranslationSet {
     shortcutSettingsTypeCommandlineTool: string;
     shortcutSettingsEditModalCommandLinetoolDescription: string;
     shortcutSettingsNeedsUserConfirmation: string;
+    shortcutSettingsNeedsUserConfirmationShort: string;
     shortcutSettingsNotes: string;
     shortcutSettingsNotesPlaceholder: string;
 

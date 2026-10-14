@@ -220,6 +220,7 @@ export const hindiTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "कमांडलाइन टूल",
     shortcutSettingsEditModalCommandLinetoolDescription: "विजुअल स्टूडियो कोड में फ़ाइल संपादित करें",
     shortcutSettingsNeedsUserConfirmation: "निष्पादन से पहले पुष्टि की आवश्यकता है",
+    shortcutSettingsNeedsUserConfirmationShort: "पुष्टि की आवश्यकता",
     shortcutSettingsNotes: "नोट्स",
     shortcutSettingsNotesPlaceholder: "नोट्स जोड़ें",
 

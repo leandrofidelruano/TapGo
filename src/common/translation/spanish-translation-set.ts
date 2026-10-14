@@ -221,6 +221,7 @@ export const spanishTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Herramienta de línea de comandos",
     shortcutSettingsEditModalCommandLinetoolDescription: "Editar archivo en Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Necesita confirmación antes de la ejecución",
+    shortcutSettingsNeedsUserConfirmationShort: "Necesita confirmación",
     shortcutSettingsNotes: "Notas",
     shortcutSettingsNotesPlaceholder: "Añade notas de interés",
 

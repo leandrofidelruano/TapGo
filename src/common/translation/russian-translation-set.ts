@@ -215,6 +215,7 @@ export const russianTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Командная строка",
     shortcutSettingsEditModalCommandLinetoolDescription: "Редактировать файл в Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Необходимость подтверждения",
+    shortcutSettingsNeedsUserConfirmationShort: "Требует подтверждения",
     shortcutSettingsNotes: "Заметки",
     shortcutSettingsNotesPlaceholder: "Добавьте заметки",
 

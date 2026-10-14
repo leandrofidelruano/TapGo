@@ -219,6 +219,7 @@ export const germanTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Kommandozeilenprogramm",
     shortcutSettingsEditModalCommandLinetoolDescription: "Datei mit Visual Studio Code bearbeiten",
     shortcutSettingsNeedsUserConfirmation: "Braucht eine Bestätigung vor der Ausführung",
+    shortcutSettingsNeedsUserConfirmationShort: "Braucht Bestätigung",
     shortcutSettingsNotes: "Notizen",
     shortcutSettingsNotesPlaceholder: "Notizen hinzufügen",
 

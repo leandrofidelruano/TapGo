@@ -214,6 +214,7 @@ export const koreanTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "명령 행 도구",
     shortcutSettingsEditModalCommandLinetoolDescription: "Visual Studio Code에서 파일 수정",
     shortcutSettingsNeedsUserConfirmation: "실행 전 확인 필요",
+    shortcutSettingsNeedsUserConfirmationShort: "확인 필요",
     shortcutSettingsNotes: "메모",
     shortcutSettingsNotesPlaceholder: "메모 추가",
 

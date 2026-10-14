@@ -216,6 +216,7 @@ export const czechTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "Příkazový řádek",
     shortcutSettingsEditModalCommandLinetoolDescription: "Upravit soubor in Visual Studio Code",
     shortcutSettingsNeedsUserConfirmation: "Před provedením vyžadovat potvrzení",
+    shortcutSettingsNeedsUserConfirmationShort: "Vyžaduje potvrzení",
     shortcutSettingsNotes: "Poznámky",
     shortcutSettingsNotesPlaceholder: "Přidejte poznámky",
 

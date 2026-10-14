@@ -213,6 +213,7 @@ export const simplifiedChineseTranslationSet: TranslationSet = {
     shortcutSettingsTypeCommandlineTool: "命令行工具",
     shortcutSettingsEditModalCommandLinetoolDescription: "使用 Visual Studio Code 编辑文件",
     shortcutSettingsNeedsUserConfirmation: "运行前需要确认",
+    shortcutSettingsNeedsUserConfirmationShort: "需要确认",
     shortcutSettingsNotes: "备注",
     shortcutSettingsNotesPlaceholder: "添加备注",
 
