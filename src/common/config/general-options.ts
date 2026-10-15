@@ -31,7 +31,7 @@ export const defaultGeneralOptions: GeneralOptions = {
     hideMainWindowAfterExecution: true,
     hideMainWindowOnBlur: true,
     hotKey: {
-        key: GlobalHotKeyKey.Space,
+        key: GlobalHotKeyKey.Return,
         modifier: GlobalHotKeyModifier.Alt,
         secondModifier: GlobalHotKeyModifier.None,
     },
