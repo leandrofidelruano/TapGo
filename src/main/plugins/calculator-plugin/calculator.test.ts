@@ -70,6 +70,13 @@ describe(Calculator.name, () => {
             const result = Calculator.calculate(calculation, precision);
             expect(result).toBe(expected);
         });
+
+        it("should evaluate natural logarithm using ln()", () => {
+            const precision = 16;
+
+            expect(Calculator.calculate("ln(1)", precision)).toBe("0");
+            expect(Calculator.isValidInput("ln(2)")).toBe(true);
+        });
     });
 
     describe(Calculator.toFraction.name, () => {
@@ -94,7 +101,7 @@ describe(Calculator.name, () => {
         it("should return null for integers", () => {
             expect(Calculator.toFraction(1)).toBeNull();
             expect(Calculator.toFraction(5)).toBeNull();
-            expect(Calculator.toFraction(0)).toBe("0/1");
+            expect(Calculator.toFraction(0)).toBeNull();
         });
 
         it("should return null for non-finite values", () => {
@@ -120,6 +127,12 @@ describe(Calculator.name, () => {
         it("should return null fraction for integers", () => {
             const result = Calculator.calculateWithFraction("2+2", 16);
             expect(result.decimal).toBe("4");
+            expect(result.fraction).toBeNull();
+        });
+
+        it("should return null fraction for log(1) = 0 (no redundant 0/1)", () => {
+            const result = Calculator.calculateWithFraction("log(1)", 16);
+            expect(result.decimal).toBe("0");
             expect(result.fraction).toBeNull();
         });
 

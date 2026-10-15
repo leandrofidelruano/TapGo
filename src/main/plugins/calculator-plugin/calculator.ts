@@ -33,7 +33,9 @@ export class Calculator {
     }
 
     private static normalizeInput(input: string, decimalSeparator: string, argumentSeparator: string) {
-        return input.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
+        // mathjs no trae la función `ln`, así que se traduce a `log` (logaritmo natural)
+        const withLn = input.replace(/ln\(/g, "log(");
+        return withLn.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
             match === decimalSeparator ? "." : ",",
         );
     }
@@ -106,8 +108,9 @@ export class Calculator {
             return null;
         }
 
-        if (value === 0) {
-            return "0/1";
+        // 0 y los enteros no necesitan fracción (evita el redundante "0/1" de log(1) = 0)
+        if (Number.isInteger(value)) {
+            return null;
         }
 
         const sign = value < 0 ? -1 : 1;
