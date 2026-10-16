@@ -9,7 +9,8 @@ jobs:
     release:
         strategy:
             matrix:
-                os: [macos-12, windows-2022]
+                # macOS builds will be added back once mac support is shipped
+                os: [windows-2022]
         runs-on: ${{ matrix.os }}
         name: Publish new release
         steps:
@@ -38,7 +39,7 @@ jobs:
                   NODE_ENV: production
 
             - name: Package and publish
-              run: pnpm exec electron-builder --config electron-builder-config.yml --publish always
+              run: pnpm exec electron-builder --config electron-builder.yml --publish always
               env:
                   CI: true
                   GH_TOKEN: ${{ secrets.GH_TOKEN }}
