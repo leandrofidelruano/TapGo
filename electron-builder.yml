@@ -9,6 +9,11 @@ files:
     - img/**/*
     - assets/**/*
 
+publish:
+    provider: github
+    owner: leandrofidelruano
+    repo: TapGo
+
 win:
     icon: ./img/icons/win/icon-black.ico
     target:
@@ -20,8 +25,6 @@ win:
           arch:
               - x64
               - ia32
-    publish:
-        - github
 
 mac:
     icon: ./img/icons/mac/icon-white-circle.icns
@@ -29,10 +32,9 @@ mac:
     target:
         - dmg
         - zip
-    publish:
-        - github
 
 nsis:
+    artifactName: ${productName}-Setup-${version}.${ext}
     allowToChangeInstallationDirectory: true
     oneClick: false
     perMachine: true

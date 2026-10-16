@@ -247,8 +247,8 @@ For known issues, check [here](https://github.com/leandrofidelruano/tapgo/issues
 ### Build Windows installer
 
     pnpm bundle
-    pnpm exec electron-builder --config electron-builder-config.yml --win nsis
+    pnpm exec electron-builder --config electron-builder.yml --win nsis
 
 The installer will be created in `dist/TapGo Setup <version>.exe`. For a quick test without installing, run `dist/win-unpacked/TapGo.exe` instead.
 
-> Note: avoid running `npx electron-builder --win` without `--config`, as it ignores `electron-builder-config.yml` and produces a build with the default Electron icon, a one-click installer and unnecessary files.
+> Important: always run `pnpm bundle` **before** packaging. The renderer bundle embeds `package.json`, so if you skip this step the packaged app keeps showing the previous version even though the file was updated.
