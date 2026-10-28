@@ -247,8 +247,8 @@ For known issues, check [here](https://github.com/leandrofidelruano/tapgo/issues
 ### Build Windows installer
 
     pnpm bundle
-    pnpm exec electron-builder --config electron-builder.yml --win nsis
+    pnpm exec electron-builder --win
 
-The installer will be created in `dist/TapGo Setup <version>.exe`. For a quick test without installing, run `dist/win-unpacked/TapGo.exe` instead.
+The installer will be created in `dist/TapGo-Setup-<version>.exe`. For a quick test without installing, run `dist/win-unpacked/TapGo.exe` instead.
 
 > Important: always run `pnpm bundle` **before** packaging. The renderer bundle embeds `package.json`, so if you skip this step the packaged app keeps showing the previous version even though the file was updated.
