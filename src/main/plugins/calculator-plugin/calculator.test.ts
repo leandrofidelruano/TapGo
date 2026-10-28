@@ -77,6 +77,14 @@ describe(Calculator.name, () => {
             expect(Calculator.calculate("ln(1)", precision)).toBe("0");
             expect(Calculator.isValidInput("ln(2)")).toBe(true);
         });
+
+        it("should evaluate sine using sen() as alias of sin()", () => {
+            const precision = 16;
+
+            expect(Calculator.calculate("sen(0)", precision)).toBe("0");
+            expect(Calculator.calculate("sen(0)", precision)).toBe(Calculator.calculate("sin(0)", precision));
+            expect(Calculator.isValidInput("sen(1)")).toBe(true);
+        });
     });
 
     describe(Calculator.toFraction.name, () => {

@@ -35,7 +35,11 @@ export class Calculator {
     private static normalizeInput(input: string, decimalSeparator: string, argumentSeparator: string) {
         // mathjs no trae la función `ln`, así que se traduce a `log` (logaritmo natural)
         const withLn = input.replace(/ln\(/g, "log(");
-        return withLn.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
+
+        // mathjs trae `sin`, pero se agrega `sen` como alias en español
+        const withSen = withLn.replace(/sen\(/g, "sin(");
+
+        return withSen.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
             match === decimalSeparator ? "." : ",",
         );
     }
