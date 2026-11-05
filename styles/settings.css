@@ -196,6 +196,15 @@ body {
     flex-grow: 1;
 }
 
+/* Keep every color code input the same width regardless of the label length (and thus the language) */
+.settings__option-content .field.has-addons:has(.input.font-mono) .control {
+    flex-shrink: 0;
+}
+
+.settings__option-content .input.font-mono {
+    width: calc(16ch + 24px);
+}
+
 .settings__notification {
     position: fixed;
     left: 50%;
