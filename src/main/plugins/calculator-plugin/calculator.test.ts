@@ -85,6 +85,27 @@ describe(Calculator.name, () => {
             expect(Calculator.calculate("sen(0)", precision)).toBe(Calculator.calculate("sin(0)", precision));
             expect(Calculator.isValidInput("sen(1)")).toBe(true);
         });
+
+        it("should evaluate square root using √ as alias of sqrt()", () => {
+            const precision = 16;
+
+            // Con paréntesis colocados por el usuario
+            expect(Calculator.calculate("√(9)", precision)).toBe("3");
+            expect(Calculator.calculate("√(9)", precision)).toBe(Calculator.calculate("sqrt(9)", precision));
+
+            // Sin paréntesis (número suelto)
+            expect(Calculator.calculate("√9", precision)).toBe("3");
+            expect(Calculator.calculate("2√9", precision)).toBe("6");
+            expect(Calculator.calculate("√16+√25", precision)).toBe("9");
+
+            expect(Calculator.isValidInput("√(16)")).toBe(true);
+            expect(Calculator.isValidInput("√9")).toBe(true);
+        });
+
+        it("should evaluate √ with locale decimal separator", () => {
+            expect(Calculator.calculate("√(2,25)", 16, ",", ";")).toBe("1,5");
+            expect(Calculator.calculate("√2,25", 16, ",", ";")).toBe("1,5");
+        });
     });
 
     describe(Calculator.toFraction.name, () => {

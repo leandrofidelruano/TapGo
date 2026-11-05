@@ -39,7 +39,12 @@ export class Calculator {
         // mathjs trae `sin`, pero se agrega `sen` como alias en español
         const withSen = withLn.replace(/sen\(/g, "sin(");
 
-        return withSen.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
+        // mathjs no trae el símbolo `√`, así que se traduce a `sqrt`
+        // `√(expresión)` → `sqrt(expresión)` (con los paréntesis que coloca el usuario)
+        // `√9` → `sqrt(9)` (número suelto, se envuelve automáticamente)
+        const withSqrt = withSen.replace(/√\(/g, "sqrt(").replace(/√(\d+(?:[.,]\d+)?)/g, "sqrt($1)");
+
+        return withSqrt.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
             match === decimalSeparator ? "." : ",",
         );
     }
