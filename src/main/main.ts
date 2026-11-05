@@ -38,6 +38,11 @@ import { FileHelpers } from "./../common/helpers/file-helpers";
 import { executeFilePathMacOs, executeFilePathWindows } from "./executors/file-path-executor";
 import { openUrlInBrowser } from "./executors/url-executor";
 import { getRescanIntervalInMilliseconds } from "./helpers/rescan-interval-helpers";
+import {
+    getUserDataPathOverrideFromArgs,
+    resolveUserDataPath,
+    useRealConfigFromArgs,
+} from "./helpers/user-data-path-helpers";
 import { trayIconPathMacOs, trayIconPathWindows } from "./helpers/tray-icon-helpers";
 import { windowIconMacOs, windowIconWindows } from "./helpers/window-icon-helpers";
 import { PluginType } from "./plugin-type";
@@ -54,6 +59,20 @@ if (!FileHelpers.fileExistsSync(tapgoTempFolder)) {
 const operatingSystem = getCurrentOperatingSystem(platform());
 const operatingSystemVersion = getOperatingSystemVersion(operatingSystem, release());
 const appIsInDevelopment = isDev(process.execPath);
+const userDataPath = resolveUserDataPath({
+    isDev: appIsInDevelopment,
+    appDataPath: app.getPath("appData"),
+    overridePath: getUserDataPathOverrideFromArgs(process.argv),
+    useRealConfig: useRealConfigFromArgs(process.argv),
+});
+
+// This must happen before the app is ready and before the first electron-store
+// instance is created, otherwise the renderer process and the settings window
+// would keep using the default userData folder.
+if (userDataPath) {
+    app.setPath("userData", userDataPath);
+}
+
 const minimumRefreshIntervalInSeconds = 10;
 const configRepository = new ElectronStoreConfigRepository(deepCopy(defaultUserConfigOptions));
 const filePathExecutor = operatingSystem === OperatingSystem.Windows ? executeFilePathWindows : executeFilePathMacOs;

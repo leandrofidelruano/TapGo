@@ -30,6 +30,8 @@
         "lint": "eslint \"src/**/*.ts\"",
         "bundle": "webpack --config webpack.config.js",
         "start": "electron . --remote-debugging-port=9223",
+        "start:fresh": "node scripts/reset-dev-profile.js && electron . --remote-debugging-port=9223",
+        "start:real": "electron . --remote-debugging-port=9223 --use-real-config",
         "test": "jest --config jest.json --silent ."
     },
     "devDependencies": {

@@ -237,12 +237,25 @@ For known issues, check [here](https://github.com/leandrofidelruano/tapgo/issues
 
 ### Commands
 
-| Command             | Description                 |
-| ------------------- | --------------------------- |
-| `pnpm bundle`       | Compile TypeScript with webpack |
-| `pnpm start`        | Run the app in Electron     |
-| `pnpm test`         | Run tests with Jest         |
-| `pnpm lint`         | Lint the source code        |
+| Command            | Description                                            |
+| ------------------ | ------------------------------------------------------ |
+| `pnpm bundle`      | Compile TypeScript with webpack                        |
+| `pnpm start`       | Run the app in Electron with the default configuration |
+| `pnpm start:fresh` | Delete the dev profile and run with default config     |
+| `pnpm start:real`  | Run the app in Electron with your real configuration   |
+| `pnpm test`        | Run tests with Jest                                    |
+| `pnpm lint`        | Lint the source code                                   |
+
+### Development configuration
+
+`pnpm start` does **not** use the configuration of your installed TapGo instance. In development the app stores its data in a dedicated userData folder (`%APPDATA%\TapGoDev` on Windows, `~/Library/Application Support/TapGoDev` on macOS), so it starts with the default configuration and never overwrites your real settings.
+
+-   The dev profile is created on the first run and kept between runs, so changes you make in the settings window persist while you develop.
+-   Run `pnpm start:fresh` to delete the dev profile and start again from the default configuration. Use it whenever you change default values in `src/common/config/*`, because previously saved values would override them.
+-   Run `pnpm start:real` to develop against your real configuration.
+-   Run `pnpm start -- --tapgo-user-data-dir=<path>` to use an arbitrary profile folder.
+
+> Important: always run `pnpm bundle` before `pnpm start`, otherwise you are testing the previously compiled code.
 
 ### Build Windows installer
 
