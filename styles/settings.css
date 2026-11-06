@@ -196,13 +196,26 @@ body {
     flex-grow: 1;
 }
 
-/* Keep every color code input the same width regardless of the label length (and thus the language) */
-.settings__option-content .field.has-addons:has(.input.font-mono) .control {
+/* Color theme rows (identified by their color preview button): the color code input always
+   has the same fixed width, big enough for "#RRGGBBAA" (16 hexadecimal characters plus the
+   hashtag), no matter how long the label on its left is. That way the box looks exactly the
+   same in every language and in every window size. */
+.settings__option:has(.preview-button) .settings__option-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.settings__option:has(.preview-button) .settings__option-content {
+    min-width: max-content;
+}
+
+.settings__option:has(.preview-button) .control {
     flex-shrink: 0;
 }
 
-.settings__option-content .input.font-mono {
-    width: calc(16ch + 24px);
+.settings__option:has(.preview-button) .input.font-mono {
+    width: calc(17ch + 1.5em);
+    max-width: none;
 }
 
 .settings__notification {
