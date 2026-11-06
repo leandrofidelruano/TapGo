@@ -63,25 +63,13 @@ export const searchResultsComponent = Vue.extend({
             if (activeSearchResult === undefined) return;
 
             const activeSearchResultIndex = searchResults.indexOf(activeSearchResult);
-            const firstVisibleSearchResultIndex = this.getIndexOfFirstVisibleSearchResult();
-            const lastVisibleSearchResultIndex = this.getIndexOfLastVisibleSearchResult();
 
-            let nextActiveIndex = 0;
             const appearanceOptions: AppearanceOptions = this.appearance;
             const maxSearchResultsPerPage = Number(appearanceOptions.maxSearchResultsPerPage);
-            if (direction === BrowseDirection.Next) {
-                nextActiveIndex =
-                    activeSearchResultIndex >= firstVisibleSearchResultIndex &&
-                    activeSearchResultIndex < lastVisibleSearchResultIndex
-                        ? lastVisibleSearchResultIndex
-                        : activeSearchResultIndex + maxSearchResultsPerPage;
-            } else {
-                nextActiveIndex =
-                    activeSearchResultIndex > firstVisibleSearchResultIndex &&
-                    activeSearchResultIndex <= lastVisibleSearchResultIndex
-                        ? firstVisibleSearchResultIndex
-                        : activeSearchResultIndex - maxSearchResultsPerPage;
-            }
+            let nextActiveIndex =
+                direction === BrowseDirection.Next
+                    ? activeSearchResultIndex + maxSearchResultsPerPage
+                    : activeSearchResultIndex - maxSearchResultsPerPage;
 
             if (nextActiveIndex < 0) nextActiveIndex = 0;
             else if (nextActiveIndex >= searchResults.length) nextActiveIndex = searchResults.length - 1;
@@ -89,25 +77,6 @@ export const searchResultsComponent = Vue.extend({
             activeSearchResult.active = false;
             searchResults[nextActiveIndex].active = true;
             this.scrollIntoView(searchResults[nextActiveIndex].id);
-        },
-        getIndexOfFirstVisibleSearchResult(): number {
-            const searchResultsContainer = document.getElementById(this.containerId);
-            if (searchResultsContainer == null) return 0;
-
-            const appearanceOptions: AppearanceOptions = this.appearance;
-            return Math.ceil(searchResultsContainer.scrollTop / appearanceOptions.searchResultHeight);
-        },
-        getIndexOfLastVisibleSearchResult(): number {
-            const searchResultsContainer = document.getElementById(this.containerId);
-            if (searchResultsContainer == null) return 0;
-
-            const appearanceOptions: AppearanceOptions = this.appearance;
-            return (
-                Math.floor(
-                    (searchResultsContainer.scrollTop + searchResultsContainer.clientHeight) /
-                        appearanceOptions.searchResultHeight,
-                ) - 1
-            );
         },
         handleSearchResultBrowsing(direction: BrowseDirection): void {
             const searchResults: SearchResultItemViewModel[] = this.searchResults;
@@ -139,16 +108,28 @@ export const searchResultsComponent = Vue.extend({
             const searchResultsContainer = document.getElementById(this.containerId);
             if (!htmlElement || !searchResultsContainer) return;
 
-            const elementIsOutOfViewBottom =
-                htmlElement.offsetTop + htmlElement.clientHeight >
-                searchResultsContainer.scrollTop + searchResultsContainer.clientHeight;
-            const elementIsOutOfViewTop = htmlElement.offsetTop < searchResultsContainer.scrollTop;
-            if (elementIsOutOfViewBottom || elementIsOutOfViewTop) {
-                const scrollTo =
-                    Math.floor(htmlElement.offsetTop / searchResultsContainer.clientHeight) *
-                    searchResultsContainer.clientHeight;
-                searchResultsContainer.scrollTo({ top: scrollTo, behavior: scrollBehavior });
-            }
+            const searchResultHeight = Number(appearanceOptions.searchResultHeight);
+            if (searchResultHeight <= 0) return;
+
+            const visibleSearchResults = Math.max(
+                1,
+                Math.round(searchResultsContainer.clientHeight / searchResultHeight),
+            );
+
+            const middleRowOffset = (Math.ceil(visibleSearchResults / 2) - 1) * searchResultHeight;
+
+            const maximumScrollTop = Math.max(
+                0,
+                searchResultsContainer.scrollHeight - searchResultsContainer.clientHeight,
+            );
+            const scrollTo = Math.min(
+                Math.max(htmlElement.offsetTop - middleRowOffset, 0),
+                maximumScrollTop,
+            );
+
+            if (Math.abs(scrollTo - searchResultsContainer.scrollTop) < 1) return;
+
+            searchResultsContainer.scrollTo({ top: scrollTo, behavior: scrollBehavior });
         },
     },
     props: ["appearance"],
