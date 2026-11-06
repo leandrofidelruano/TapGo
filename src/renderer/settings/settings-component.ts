@@ -62,7 +62,12 @@ export const settingsComponent = Vue.extend({
             draggedPluginIndex: -1,
             dropIndicatorIndex: -1,
             dropIndicatorPosition: "",
-            generalSettingMenuItems: Object.values(GeneralSettings).sort(),
+            generalSettingMenuItems: [
+                GeneralSettings.General,
+                GeneralSettings.Appearance,
+                GeneralSettings.ColorTheme,
+                GeneralSettings.SearchEngine,
+            ],
             notification: {
                 message: "",
                 type: undefined,
