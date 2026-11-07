@@ -251,6 +251,7 @@ For known issues, check [here](https://github.com/leandrofidelruano/tapgo/issues
 `pnpm start` does **not** use the configuration of your installed TapGo instance. In development the app stores its data in a dedicated userData folder (`%APPDATA%\TapGoDev` on Windows, `~/Library/Application Support/TapGoDev` on macOS), so it starts with the default configuration and never overwrites your real settings.
 
 -   The dev profile is created on the first run and kept between runs, so changes you make in the settings window persist while you develop.
+-   Before launching, `pnpm start`, `pnpm start:fresh` and `pnpm start:real` close any running TapGo instance (the installed app and previous development instances), so your test run does not compete with the installed app for the global shortcuts. Run `node scripts/close-tapgo.js` to close them manually.
 -   Run `pnpm start:fresh` to delete the dev profile and start again from the default configuration. Use it whenever you change default values in `src/common/config/*`, because previously saved values would override them.
 -   Run `pnpm start:real` to develop against your real configuration.
 -   Run `pnpm start -- --tapgo-user-data-dir=<path>` to use an arbitrary profile folder.
