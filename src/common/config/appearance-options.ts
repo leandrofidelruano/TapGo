@@ -1,7 +1,3 @@
-import { platform } from "os";
-import { getCurrentOperatingSystem } from "../helpers/operating-system-helpers";
-import { OperatingSystem } from "../operating-system";
-
 export interface AppearanceOptions {
     maxSearchResultsPerPage: number;
     searchResultHeight: number;
@@ -25,10 +21,7 @@ export interface AppearanceOptions {
     scrollbarBorderRadius: string;
 }
 
-const defaultFontFamily =
-    getCurrentOperatingSystem(platform()) === OperatingSystem.Windows
-        ? `"Segoe UI", Roboto, "Segoe UI Emoji", "Segoe UI Symbol"`
-        : `-apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif, "Apple Color Emoji`;
+const defaultFontFamily = `"Lato", sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"`;
 
 export const defaultAppearanceOptions: AppearanceOptions = {
     allowTransparentBackground: false,
