@@ -1,4 +1,4 @@
-import { atomOneDark } from "../../renderer/color-themes/color-themes";
+import { tapGoTheme } from "../../renderer/color-themes/color-themes";
 
 export interface ColorThemeOptions {
     name: string;
@@ -26,4 +26,4 @@ export interface ColorThemeOptions {
     settingsBoxBackgroundColor: string;
 }
 
-export const defaultColorThemeOptions = atomOneDark;
+export const defaultColorThemeOptions = tapGoTheme;

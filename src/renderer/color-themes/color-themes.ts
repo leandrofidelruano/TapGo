@@ -156,4 +156,38 @@ export const atomOneDark: ColorThemeOptions = {
     settingsBoxBackgroundColor: "#2c313a",
 };
 
-export const colorThemes: ColorThemeOptions[] = [atomOneDark, dark, light, polarNight, snowStorm, shadesOfPurple];
+export const tapGoTheme: ColorThemeOptions = {
+    name: "TapGo Theme",
+
+    userInputBackgroundColor: "#000000FF",
+    userInputTextColor: "#fff",
+
+    searchResultsBackgroundColor: "#000000FF",
+
+    searchResultsItemActiveBackgroundColor: "#FF7A00",
+    searchResultsItemActiveDescriptionColor: "#BBBBBBFF",
+    searchResultsItemActiveTextColor: "#fff",
+
+    searchResultsItemDescriptionTextColor: "#ccc",
+    searchResultsItemNameTextcolor: "#aab2c0",
+
+    scrollbarBackgroundColor: "#1f2328",
+    scrollbarForegroundColor: "#3d444f",
+
+    settingsBackgroundColor: "#000000FF",
+    settingsSidebarBackgroundColor: "#1C1C1CFF",
+    settingsTextColor: "#CECECEFF",
+    settingsSidebarTextColor: "#E3E3E3FF",
+    settingsAccentColor: "#FF7A00",
+    settingsBoxBackgroundColor: "#1C1C1CFF",
+};
+
+export const colorThemes: ColorThemeOptions[] = [
+    tapGoTheme,
+    atomOneDark,
+    dark,
+    light,
+    polarNight,
+    snowStorm,
+    shadesOfPurple,
+];
