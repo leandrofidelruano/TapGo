@@ -1,14 +1,3 @@
-/**
- * Closes every running TapGo instance before a development run.
- *
- * Two kinds of processes are targeted:
- *   - the installed app (TapGo.exe on Windows, TapGo.app on macOS)
- *   - previous development instances started with `pnpm start*`, detected by
- *     their Electron executable path or their `--remote-debugging-port` argument
- *
- * Usage:
- *   node scripts/close-tapgo.js
- */
 const { execFileSync } = require("child_process");
 const fs = require("fs");
 const net = require("net");
@@ -27,8 +16,6 @@ function resolveElectronDistPath() {
     }
 }
 
-// pnpm installs electron under .pnpm/, so the symlink is resolved to make sure
-// the pattern matches the command line of the actual processes.
 const electronDistPath = resolveElectronDistPath();
 const isWindows = process.platform === "win32";
 const isMac = process.platform === "darwin";
@@ -40,7 +27,6 @@ function run(command, args) {
             windowsHide: true,
         }).toString();
     } catch (error) {
-        // taskkill, pkill and pgrep fail when there is nothing to find.
         return (error.stdout || "").toString();
     }
 }
@@ -53,7 +39,6 @@ function parsePids(output) {
 }
 
 function escapePowerShellWildcards(value) {
-    // PowerShell's -like operator treats [], *, ? and ] as wildcards.
     return value.replace(/[[\]?*]/g, (character) => `[${character}]`);
 }
 
@@ -110,7 +95,6 @@ async function isDevInstanceRunning() {
     if (getDevInstancePids().length > 0) {
         return true;
     }
-    // Fallback in case the process query returns nothing useful.
     return isPortInUse(DEBUG_PORT);
 }
 
@@ -127,7 +111,6 @@ function isInstalledAppRunning() {
 
 function closeInstances() {
     if (isWindows) {
-        // /T also closes the child processes (renderers, helpers, ...)
         run("taskkill", ["/F", "/T", "/IM", "TapGo.exe"]);
         getDevInstancePidsWindows().forEach((pid) => run("taskkill", ["/F", "/T", "/PID", pid]));
         return;

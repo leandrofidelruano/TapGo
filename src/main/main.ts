@@ -105,6 +105,7 @@ let mainWindow: BrowserWindow;
 let settingsWindow: BrowserWindow;
 let lastWindowPosition = config.generalOptions.lastWindowPosition;
 let lastSearchUserInput: string | undefined;
+let hideMainWindowTimeout: NodeJS.Timeout | undefined;
 
 let translationSet = getTranslationSet(config.generalOptions.language);
 const logger = appIsInDevelopment ? new DevLogger() : new ProductionLogger(logFilePath, filePathExecutor);
@@ -234,6 +235,11 @@ function onBlur() {
 }
 
 function showMainWindow() {
+    if (hideMainWindowTimeout) {
+        clearTimeout(hideMainWindowTimeout);
+        hideMainWindowTimeout = undefined;
+    }
+
     if (windowExists(mainWindow)) {
         if (mainWindow.isVisible()) {
             mainWindow.focus();
@@ -276,7 +282,8 @@ function hideMainWindow() {
     if (windowExists(mainWindow)) {
         mainWindow.webContents.send(IpcChannels.mainWindowHasBeenHidden);
 
-        setTimeout(() => {
+        hideMainWindowTimeout = setTimeout(() => {
+            hideMainWindowTimeout = undefined;
             updateMainWindowSize(0, config.appearanceOptions);
             if (windowExists(mainWindow)) {
                 // this is a workaround to restore the focus on the previously focussed window
@@ -775,20 +782,27 @@ function registerAllIpcListeners() {
     ipcMain.on(
         IpcChannels.execute,
         (event, userInput: string, searchResultItem: SearchResultItem, privileged: boolean) => {
+            const shouldHideMainWindow =
+                searchResultItem.hideMainWindowAfterExecution && config.generalOptions.hideMainWindowAfterExecution;
+
+            if (shouldHideMainWindow) {
+                hideMainWindow();
+            } else {
+                updateMainWindowSize(0, config.appearanceOptions);
+            }
+
             searchEngine
                 .execute(searchResultItem, privileged)
                 .then(() => {
                     userInputHistoryManager.addItem(userInput);
-                    if (
-                        searchResultItem.hideMainWindowAfterExecution &&
-                        config.generalOptions.hideMainWindowAfterExecution
-                    ) {
-                        hideMainWindow();
-                    } else {
-                        updateMainWindowSize(0, config.appearanceOptions);
-                    }
                 })
-                .catch((err) => logger.error(err))
+                .catch((err) => {
+                    logger.error(err);
+                    if (shouldHideMainWindow) {
+                        showMainWindow();
+                    }
+                    showErrorSearchResultItem();
+                })
                 .finally(() => event.sender.send(IpcChannels.executionFinished));
         },
     );
