@@ -13,7 +13,7 @@ import { ColorThemeOptions } from "../../common/config/color-theme-options";
 import { isValidColorTheme } from "../../common/helpers/color-theme-helpers";
 import { showNotification } from "../notifications";
 import { colorThemes, tapGoTheme } from "../color-themes/color-themes";
-import { saveColorThemes } from "../color-themes/color-themes-repository";
+import { saveColorThemes, updateStoredColorTheme } from "../color-themes/color-themes-repository";
 import { UserConfirmationDialogParams, UserConfirmationDialogType } from "./modals/user-confirmation-dialog-params";
 import { deepCopy } from "../../common/helpers/object-helpers";
 
@@ -134,6 +134,7 @@ export const colorThemeSettingsComponent = Vue.extend({
             this.updateConfig();
         },
         updateConfig() {
+            updateStoredColorTheme(this.config.colorThemeOptions);
             vueEventDispatcher.$emit(VueEventChannels.configUpdated, this.config);
         },
         getPreviewColor(color: string): string {

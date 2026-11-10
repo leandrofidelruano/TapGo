@@ -188,8 +188,6 @@ body {
     border-bottom: none;
 }
 
-/* The color rows of the "add color theme" modal have no separator lines;
-   only the section titles separate them. */
 .color-theme-editing-modal-content .settings__option {
     border-bottom: none;
 }
@@ -481,8 +479,7 @@ body {
     background-color: rgba(128, 128, 128, 0.5) !important;
 }
 
-/* Scrollbar dark theme (applies to every scrollable element inside the settings window,
-   including modals and dropdowns) */
+/* Scrollbar dark theme */
 .settings::-webkit-scrollbar,
 .settings *::-webkit-scrollbar {
     width: 12px;
@@ -702,12 +699,10 @@ textarea.input {
     color: var(--settings--text-color) !important;
 }
 
-/* Help text with error color (needs to win over the generic help text color) */
 .help.is-danger {
     color: #e53935 !important;
 }
 
-/* Color theme editing modal */
 .color-theme-editing-modal-content {
     width: 700px;
     max-width: calc(100% - 40px);
@@ -715,9 +710,6 @@ textarea.input {
     overflow-y: auto;
 }
 
-/* Space above every section title (the color rows above have no bottom margin
-   on their last row) and above the Cancel/Save buttons (the last row of the
-   last section has no bottom margin either). */
 .color-theme-editing-modal-content .title.is-5 {
     margin-top: 1.5rem;
 }
@@ -726,7 +718,19 @@ textarea.input {
     margin-top: 1.5rem;
 }
 
-/* Color theme dropdown (theme list of the color theme settings) */
+.color-theme-save-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 4.5rem;
+    transform: translateX(-50%);
+    z-index: 30;
+}
+
+.color-theme-save-modal-content {
+    width: 420px;
+    max-width: calc(100% - 40px);
+}
+
 .dropdown-menu.color-theme-dropdown-menu {
     min-width: 0;
 }
@@ -737,14 +741,10 @@ textarea.input {
     padding: 8px 4px 4px 10px;
 }
 
-/* Bulma adds `margin-bottom: 1em` to every `.menu-label` that is not the last
-   child (specificity 0,2,0, higher than the plain class rule), so this needs
-   both selectors to cancel the extra space between the title and the list. */
 .menu-label.color-theme-dropdown-header {
     margin-bottom: 0;
 }
 
-/* Aligns the pencil icon with the drag handle of the list (both flush right) */
 .color-theme-dropdown-header .settings__sidebar-menu-button {
     padding-right: 0;
 }
@@ -754,9 +754,6 @@ textarea.input {
     overflow-y: auto;
 }
 
-/* The `a.dropdown-item` selector from Bulma (padding-right: 3rem) has a higher
-   specificity, so this selector needs the element + both classes to win.
-   The right padding matches the left padding of the items (1rem from Bulma). */
 a.dropdown-item.color-theme-dropdown-item {
     align-items: center;
     display: flex;
@@ -788,8 +785,6 @@ a.dropdown-item.color-theme-dropdown-item {
     margin-left: 10px;
 }
 
-/* The icons of Bulma have a fixed 24px box which centers the glyph and adds
-   free space on both sides; shrink them so the handle sits flush to the edge. */
 .color-theme-dropdown-item-actions .icon {
     height: auto;
     width: auto;

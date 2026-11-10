@@ -37,4 +37,5 @@ export enum IpcChannels {
     checkForUpdate = " check-for-update",
     checkForUpdateResponse = "check-for-update-response",
     downloadUpdate = "download-update",
+    settingsCloseBlocked = "settings-close-blocked",
 }

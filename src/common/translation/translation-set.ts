@@ -149,6 +149,9 @@ export interface TranslationSet {
     colorThemeDuplicateName: string;
     colorThemeReorder: string;
     colorThemeDeleteWarning: string;
+    colorThemeSaveNewTheme: string;
+    colorThemeSaveNewThemeWarning: string;
+    colorThemeSaveNewThemeSectionWarning: string;
     colorthemeUserInputBackgroundColor: string;
     colorThemeUserInputTextColor: string;
     colorThemeSearchResultsBackgroundColor: string;

@@ -32,6 +32,7 @@ import { websearchEditingModal } from "./settings/modals/websearch-editing-modal
 import { iconEditingComponent } from "./settings/icon-editing-component";
 import { colorThemeSettingsComponent } from "./settings/color-theme-settings-component";
 import { colorThemeEditingModal } from "./settings/modals/color-theme-editing-modal-component";
+import { colorThemeSaveBarComponent } from "./settings/color-theme-save-bar-component";
 import { loadColorThemes } from "./color-themes/color-themes-repository";
 import { ColorThemeOptions } from "../common/config/color-theme-options";
 import { colorPickerComponent } from "./settings/color-picker-component";
@@ -89,6 +90,7 @@ Vue.component("icon", iconComponent);
 Vue.component("icon-editing", iconEditingComponent);
 Vue.component("color-theme-settings", colorThemeSettingsComponent);
 Vue.component("color-theme-editing-modal", colorThemeEditingModal);
+Vue.component("color-theme-save-bar", colorThemeSaveBarComponent);
 Vue.component("chrome-picker", Chrome);
 Vue.component("color-picker", colorPickerComponent);
 Vue.component("filebrowser-settings", fileBrowserSettingsComponent);

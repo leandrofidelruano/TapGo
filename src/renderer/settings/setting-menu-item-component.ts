@@ -7,6 +7,10 @@ import { GeneralSettings } from "./general-settings";
 import { UserConfigOptions } from "../../common/config/user-config-options";
 import { platform } from "os";
 import { getSettingsItemName } from "./helpers";
+import { NotificationType } from "../../common/notification-type";
+import { TranslationSet } from "../../common/translation/translation-set";
+import { hasModifiedTapGoThemeColors } from "../color-themes/color-themes";
+import { showNotification } from "../notifications";
 
 export const settingMenuItemComponent = Vue.extend({
     data() {
@@ -85,6 +89,14 @@ export const settingMenuItemComponent = Vue.extend({
                     return false;
             }
         },
+        isNavigationBlocked(): boolean {
+            if (this.item === GeneralSettings.ColorTheme) {
+                return false;
+            }
+
+            const config: UserConfigOptions = this.config;
+            return hasModifiedTapGoThemeColors(config.colorThemeOptions);
+        },
         isPluginSetting(item: GeneralSettings | PluginSettings | SettingOsSpecific): boolean {
             const allPluginSettings = [
                 ...Object.values(PluginSettings).map((setting) => setting.toString()),
@@ -94,9 +106,17 @@ export const settingMenuItemComponent = Vue.extend({
             return allPluginSettings.find((setting) => setting === item) !== undefined;
         },
         showSetting() {
-            if (!this.editMode) {
-                vueEventDispatcher.$emit(VueEventChannels.showSetting, this.item);
+            if (this.editMode) {
+                return;
             }
+
+            if (this.isNavigationBlocked()) {
+                const translations: TranslationSet = this.translations;
+                showNotification(translations.colorThemeSaveNewThemeSectionWarning, NotificationType.Warning);
+                return;
+            }
+
+            vueEventDispatcher.$emit(VueEventChannels.showSetting, this.item);
         },
     },
     mounted() {

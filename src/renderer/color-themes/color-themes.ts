@@ -197,3 +197,13 @@ export const colorThemes: ColorThemeOptions[] = [...defaultColorThemes];
 export function isDefaultColorTheme(colorTheme: ColorThemeOptions): boolean {
     return defaultColorThemes.some((defaultColorTheme) => defaultColorTheme.name === colorTheme.name);
 }
+
+export function hasModifiedTapGoThemeColors(colorThemeOptions: ColorThemeOptions): boolean {
+    if (colorThemeOptions.name !== tapGoTheme.name) {
+        return false;
+    }
+
+    return (Object.keys(tapGoTheme) as (keyof ColorThemeOptions)[]).some(
+        (key) => key !== "name" && colorThemeOptions[key] !== tapGoTheme[key],
+    );
+}

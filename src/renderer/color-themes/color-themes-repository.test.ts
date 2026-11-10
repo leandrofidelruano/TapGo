@@ -15,7 +15,7 @@ jest.mock("electron-store", () => {
 import { ColorThemeOptions } from "../../common/config/color-theme-options";
 import { deepCopy } from "../../common/helpers/object-helpers";
 import { colorThemes, defaultColorThemes, tapGoTheme } from "./color-themes";
-import { loadColorThemes, saveColorThemes } from "./color-themes-repository";
+import { loadColorThemes, saveColorThemes, updateStoredColorTheme } from "./color-themes-repository";
 
 const storedColorThemeListKey = "colorThemeList";
 
@@ -143,6 +143,49 @@ describe("color-themes-repository", () => {
                 (defaultColorTheme) => defaultColorTheme.name !== defaultColorThemeToRemove.name,
             );
             expect(colorThemes).toEqual(expectedColorThemes);
+        });
+    });
+
+    describe("updateStoredColorTheme", () => {
+        it("should copy the colors into the matching color theme and persist the list", () => {
+            const customColorTheme = createCustomColorTheme("My Custom Theme");
+            colorThemes.push(customColorTheme);
+
+            const updatedColorThemeOptions = Object.assign(deepCopy(customColorTheme), {
+                userInputBackgroundColor: "#12345678",
+            });
+            updateStoredColorTheme(updatedColorThemeOptions);
+
+            const updatedColorTheme = colorThemes.filter((colorTheme) => colorTheme.name === "My Custom Theme")[0];
+            expect(updatedColorTheme.userInputBackgroundColor).toBe("#12345678");
+
+            resetColorThemes();
+            loadColorThemes();
+
+            const reloadedColorTheme = colorThemes.filter((colorTheme) => colorTheme.name === "My Custom Theme")[0];
+            expect(reloadedColorTheme.userInputBackgroundColor).toBe("#12345678");
+        });
+
+        it("should never modify the TapGo Theme", () => {
+            const updatedTapGoThemeOptions = Object.assign(deepCopy(tapGoTheme), {
+                userInputBackgroundColor: "#12345678",
+            });
+
+            updateStoredColorTheme(updatedTapGoThemeOptions);
+
+            expect(colorThemes[0].name).toBe(tapGoTheme.name);
+            expect(colorThemes[0].userInputBackgroundColor).not.toBe("#12345678");
+            expect(mockStoreData[storedColorThemeListKey]).toBeUndefined();
+        });
+
+        it("should do nothing when no color theme with that name exists in the list", () => {
+            const unknownColorThemeOptions = Object.assign(deepCopy(tapGoTheme), {
+                name: "Unknown Theme",
+            });
+
+            updateStoredColorTheme(unknownColorThemeOptions);
+
+            expect(mockStoreData[storedColorThemeListKey]).toBeUndefined();
         });
     });
 });

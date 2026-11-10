@@ -103,6 +103,8 @@ let config = configRepository.getConfig();
 let trayIcon: Tray;
 let mainWindow: BrowserWindow;
 let settingsWindow: BrowserWindow;
+let settingsWindowCloseBlocked = false;
+let appIsQuitting = false;
 let lastWindowPosition = config.generalOptions.lastWindowPosition;
 let lastSearchUserInput: string | undefined;
 let hideMainWindowTimeout: NodeJS.Timeout | undefined;
@@ -679,7 +681,20 @@ function onSettingsOpen() {
     }
 }
 
-function onSettingsClose() {
+function onSettingsClose(event: Electron.Event) {
+    if (settingsWindowCloseBlocked && !appIsQuitting) {
+        event.preventDefault();
+        if (windowExists(settingsWindow)) {
+            settingsWindow.focus();
+            settingsWindow.webContents.send(
+                IpcChannels.notification,
+                translationSet.colorThemeSaveNewThemeWarning,
+                NotificationType.Warning,
+            );
+        }
+        return;
+    }
+
     if (operatingSystem === OperatingSystem.macOS) {
         app.dock.hide();
     }
@@ -688,6 +703,7 @@ function onSettingsClose() {
 function openSettings() {
     onSettingsOpen();
     if (!settingsWindow || settingsWindow.isDestroyed()) {
+        settingsWindowCloseBlocked = false;
         settingsWindow = new BrowserWindow({
             height: 750,
             icon: windowIconFilePath,
@@ -834,6 +850,10 @@ function registerAllIpcListeners() {
         openSettings();
     });
 
+    ipcMain.on(IpcChannels.settingsCloseBlocked, (event: Electron.IpcMainEvent, blocked: boolean) => {
+        settingsWindowCloseBlocked = blocked;
+    });
+
     ipcMain.on(IpcChannels.folderPathRequested, (event: Electron.IpcMainEvent) => {
         dialog
             .showOpenDialog(settingsWindow, { properties: ["openDirectory"] })
@@ -947,6 +967,9 @@ app.on("ready", () => {
 });
 
 app.on("window-all-closed", quitApp);
+app.on("before-quit", () => {
+    appIsQuitting = true;
+});
 app.on("quit", app.quit);
 app.commandLine.appendSwitch("force-color-profile", "srgb");
 

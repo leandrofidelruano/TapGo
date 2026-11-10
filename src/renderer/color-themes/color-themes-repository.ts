@@ -2,7 +2,7 @@ import Store = require("electron-store");
 import { ColorThemeOptions, defaultColorThemeOptions } from "../../common/config/color-theme-options";
 import { isValidColorTheme } from "../../common/helpers/color-theme-helpers";
 import { deepCopy } from "../../common/helpers/object-helpers";
-import { colorThemes, defaultColorThemes, isDefaultColorTheme } from "./color-themes";
+import { colorThemes, defaultColorThemes, isDefaultColorTheme, tapGoTheme } from "./color-themes";
 
 interface StoredColorThemeList {
     customThemes: ColorThemeOptions[];
@@ -28,10 +28,6 @@ function getStoredCustomThemes(storedColorThemeList: StoredColorThemeList): Colo
         .filter((customTheme) => isValidColorTheme(customTheme) && !isDefaultColorTheme(customTheme));
 }
 
-/**
- * Restores the color themes (custom themes and their order) from the user config.
- * If nothing has been stored yet the default color themes are kept as they are.
- */
 export function loadColorThemes(): void {
     const storedColorThemeList = getStore().get(colorThemeListStoreKey) as StoredColorThemeList;
 
@@ -70,9 +66,6 @@ export function loadColorThemes(): void {
     colorThemes.splice(0, colorThemes.length, ...orderedColorThemes);
 }
 
-/**
- * Persists the current color themes (custom themes and their order) in the user config.
- */
 export function saveColorThemes(): void {
     const storedColorThemeList: StoredColorThemeList = {
         customThemes: colorThemes
@@ -87,4 +80,21 @@ export function saveColorThemes(): void {
     };
 
     getStore().set(colorThemeListStoreKey, storedColorThemeList);
+}
+
+export function updateStoredColorTheme(colorThemeOptions: ColorThemeOptions): void {
+    if (colorThemeOptions.name === tapGoTheme.name) {
+        return;
+    }
+
+    const colorTheme = colorThemes.find((availableColorTheme) => availableColorTheme.name === colorThemeOptions.name);
+    if (colorTheme === undefined) {
+        return;
+    }
+
+    (Object.keys(colorThemeOptions) as (keyof ColorThemeOptions)[]).forEach((key) => {
+        colorTheme[key] = colorThemeOptions[key];
+    });
+
+    saveColorThemes();
 }

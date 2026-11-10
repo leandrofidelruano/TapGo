@@ -104,7 +104,8 @@ export const settingsComponent = Vue.extend({
                 return;
             }
             const items = this.pluginSettingMenuItems.slice();
-            let targetIndex = this.dropIndicatorPosition === "bottom" ? this.dropIndicatorIndex + 1 : this.dropIndicatorIndex;
+            let targetIndex =
+                this.dropIndicatorPosition === "bottom" ? this.dropIndicatorIndex + 1 : this.dropIndicatorIndex;
             const moved = items.splice(this.draggedPluginIndex, 1)[0];
             if (this.draggedPluginIndex < targetIndex) {
                 targetIndex -= 1;
@@ -246,6 +247,7 @@ export const settingsComponent = Vue.extend({
                 <button class="delete" @click="removeNotification"></button>
                 {{ notification.message }}
             </div>
+            <color-theme-save-bar :config="config" :translations="translations"></color-theme-save-bar>
             <div class="settings__setting">
                 <general-settings :config="config" :translations="translations"></general-settings>
                 <appearance-settings :config="config" :translations="translations"></appearance-settings>
