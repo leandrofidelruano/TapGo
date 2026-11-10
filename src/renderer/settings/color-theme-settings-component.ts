@@ -12,14 +12,19 @@ import { NotificationType } from "../../common/notification-type";
 import { ColorThemeOptions } from "../../common/config/color-theme-options";
 import { isValidColorTheme } from "../../common/helpers/color-theme-helpers";
 import { showNotification } from "../notifications";
-import { colorThemes } from "../color-themes/color-themes";
+import { colorThemes, tapGoTheme } from "../color-themes/color-themes";
+import { saveColorThemes } from "../color-themes/color-themes-repository";
 import { UserConfirmationDialogParams, UserConfirmationDialogType } from "./modals/user-confirmation-dialog-params";
 import { deepCopy } from "../../common/helpers/object-helpers";
 
 export const colorThemeSettingsComponent = Vue.extend({
     data() {
         return {
+            colorThemeEditMode: false,
             colorThemes,
+            draggedColorThemeIndex: -1,
+            dropIndicatorIndex: -1,
+            dropIndicatorPosition: "",
             dropdownVisible: false,
             presetDropdownVisible: false,
             settingName: GeneralSettings.ColorTheme,
@@ -156,12 +161,116 @@ export const colorThemeSettingsComponent = Vue.extend({
             this.updateConfig();
         },
         toggleDropDown() {
+            if (this.dropdownVisible) {
+                this.dropdownVisible = false;
+            } else {
+                this.closeColorThemeList();
+                this.dropdownVisible = true;
+            }
+        },
+        closeColorThemeList() {
             this.presetDropdownVisible = false;
-            this.dropdownVisible = !this.dropdownVisible;
+            this.colorThemeEditMode = false;
+            this.resetColorThemeDragState();
         },
         togglePresetDropDown() {
+            if (this.presetDropdownVisible) {
+                this.closeColorThemeList();
+            } else {
+                this.dropdownVisible = false;
+                this.presetDropdownVisible = true;
+            }
+        },
+        openColorThemeEditingModal() {
+            this.closeColorThemeList();
             this.dropdownVisible = false;
-            this.presetDropdownVisible = !this.presetDropdownVisible;
+            vueEventDispatcher.$emit(VueEventChannels.openColorThemeEditingModal);
+        },
+        onDocumentClick(event: MouseEvent) {
+            const target = event.target as Node;
+            const themeListDropdown = this.$refs.themeListDropdown as HTMLElement;
+            const importExportDropdown = this.$refs.importExportDropdown as HTMLElement;
+            if (this.dropdownVisible && importExportDropdown && !importExportDropdown.contains(target)) {
+                this.dropdownVisible = false;
+            }
+            if (this.presetDropdownVisible && themeListDropdown && !themeListDropdown.contains(target)) {
+                this.closeColorThemeList();
+            }
+        },
+        toggleColorThemeEditMode() {
+            this.colorThemeEditMode = !this.colorThemeEditMode;
+            this.resetColorThemeDragState();
+        },
+        onColorThemeItemClick(colorTheme: ColorThemeOptions, event: MouseEvent) {
+            if (this.colorThemeEditMode) {
+                event.preventDefault();
+                return;
+            }
+            this.changeColorTheme(colorTheme.name);
+        },
+        onColorThemeItemMouseDown(index: number, event: MouseEvent) {
+            if (!this.colorThemeEditMode) {
+                return;
+            }
+            event.preventDefault();
+            this.draggedColorThemeIndex = index;
+            window.addEventListener("mouseup", this.finishColorThemeDrag, { once: true });
+        },
+        onColorThemeListMouseMove(event: MouseEvent) {
+            if (this.draggedColorThemeIndex < 0) {
+                return;
+            }
+            const target = event.target as HTMLElement;
+            const colorThemeItem = target.closest("[data-theme-index]") as HTMLElement | null;
+            if (!colorThemeItem) {
+                return;
+            }
+            const rect = colorThemeItem.getBoundingClientRect();
+            this.dropIndicatorIndex = Number(colorThemeItem.dataset.themeIndex);
+            this.dropIndicatorPosition = event.clientY - rect.top < rect.height / 2 ? "top" : "bottom";
+        },
+        finishColorThemeDrag() {
+            if (this.draggedColorThemeIndex < 0 || this.dropIndicatorIndex < 0) {
+                this.resetColorThemeDragState();
+                return;
+            }
+            let targetIndex =
+                this.dropIndicatorPosition === "bottom" ? this.dropIndicatorIndex + 1 : this.dropIndicatorIndex;
+            const movedColorTheme = colorThemes.splice(this.draggedColorThemeIndex, 1)[0];
+            if (this.draggedColorThemeIndex < targetIndex) {
+                targetIndex -= 1;
+            }
+            colorThemes.splice(targetIndex, 0, movedColorTheme);
+            this.resetColorThemeDragState();
+            saveColorThemes();
+        },
+        resetColorThemeDragState() {
+            this.draggedColorThemeIndex = -1;
+            this.dropIndicatorIndex = -1;
+            this.dropIndicatorPosition = "";
+        },
+        canDeleteColorTheme(colorTheme: ColorThemeOptions): boolean {
+            return colorTheme.name !== tapGoTheme.name;
+        },
+        deleteColorTheme(index: number) {
+            const colorTheme = colorThemes[index];
+            if (!colorTheme || !this.canDeleteColorTheme(colorTheme)) {
+                return;
+            }
+            const translations: TranslationSet = this.translations;
+            const userConfirmationDialogParams: UserConfirmationDialogParams = {
+                callback: () => {
+                    const colorThemeIndex = colorThemes.indexOf(colorTheme);
+                    if (colorThemeIndex > -1) {
+                        colorThemes.splice(colorThemeIndex, 1);
+                        saveColorThemes();
+                    }
+                },
+                message: translations.colorThemeDeleteWarning,
+                modalTitle: translations.remove,
+                type: UserConfirmationDialogType.Error,
+            };
+            vueEventDispatcher.$emit(VueEventChannels.settingsConfirmation, userConfirmationDialogParams);
         },
         importColorTheme() {
             getFilePath([{ extensions: ["json"], name: "JSON" }])
@@ -171,7 +280,11 @@ export const colorThemeSettingsComponent = Vue.extend({
                         FileHelpers.readFile(filePath)
                             .then((fileContent: string) => {
                                 const colorThemeOptions = JSON.parse(fileContent) as ColorThemeOptions;
-                                const mergedTheme = Object.assign({}, deepCopy(defaultColorThemeOptions), colorThemeOptions);
+                                const mergedTheme = Object.assign(
+                                    {},
+                                    deepCopy(defaultColorThemeOptions),
+                                    colorThemeOptions,
+                                );
                                 if (isValidColorTheme(mergedTheme)) {
                                     const config: UserConfigOptions = this.config;
                                     config.colorThemeOptions = mergedTheme;
@@ -238,12 +351,19 @@ export const colorThemeSettingsComponent = Vue.extend({
                 this.visible = true;
             } else {
                 this.visible = false;
+                this.closeColorThemeList();
+                this.dropdownVisible = false;
             }
         });
 
         vueEventDispatcher.$on(VueEventChannels.saveColor, (pickerId: string, color: string) => {
             this.updateColor(pickerId, color);
         });
+
+        document.addEventListener("click", this.onDocumentClick);
+    },
+    beforeDestroy() {
+        document.removeEventListener("click", this.onDocumentClick);
     },
     props: ["config", "translations"],
     template: `
@@ -256,7 +376,7 @@ export const colorThemeSettingsComponent = Vue.extend({
                 <button class="button" @click="resetAll">
                     <span class="icon"><i class="fas fa-undo-alt"></i></span>
                 </button>
-                <div class="dropdown is-right" :class="{ 'is-active' : dropdownVisible}">
+                <div ref="importExportDropdown" class="dropdown is-right" :class="{ 'is-active' : dropdownVisible}">
                     <div class="dropdown-trigger">
                         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="toggleDropDown">
                             <span class="icon">
@@ -277,7 +397,7 @@ export const colorThemeSettingsComponent = Vue.extend({
                         </div>
                     </div>
                 </div>
-                <div class="dropdown is-right" :class="{ 'is-active' : presetDropdownVisible}">
+                <div ref="themeListDropdown" class="dropdown is-right" :class="{ 'is-active' : presetDropdownVisible}">
                     <div class="dropdown-trigger">
                         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="togglePresetDropDown">
                             <span class="icon">
@@ -285,14 +405,74 @@ export const colorThemeSettingsComponent = Vue.extend({
                             </span>
                         </button>
                     </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div class="dropdown-content">
-                            <a v-for="colorTheme in colorThemes" href="#" class="dropdown-item" @click="changeColorTheme(colorTheme.name)">
-                                {{ colorTheme.name }}
-                            </a>
+                    <div class="dropdown-menu color-theme-dropdown-menu" id="dropdown-menu" role="menu">
+                        <div
+                            class="dropdown-content color-theme-dropdown"
+                            :class="{ 'color-theme-dropdown--dragging' : draggedColorThemeIndex >= 0 }"
+                            >
+                            <div class="menu-label settings__sidebar-menu-label color-theme-dropdown-header">
+                                <span>{{ translations.colorThemeThemeList }}</span>
+                                <span class="settings__sidebar-menu-actions">
+                                    <button
+                                        class="settings__sidebar-menu-button tooltip"
+                                        :class="{ 'is-active': colorThemeEditMode }"
+                                        :data-tooltip="translations.colorThemeReorder"
+                                        @click="toggleColorThemeEditMode"
+                                        >
+                                        <span class="icon"><i class="fas fa-pen"></i></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="color-theme-dropdown-list" @mousemove="onColorThemeListMouseMove">
+                                <a
+                                    v-for="(colorTheme, index) in colorThemes"
+                                    :key="colorTheme.name"
+                                    href="#"
+                                    class="dropdown-item color-theme-dropdown-item"
+                                    :class="{
+                                        'color-theme-dropdown-item--draggable': colorThemeEditMode,
+                                        'color-theme-dropdown-item--dragging-source': draggedColorThemeIndex === index,
+                                    }"
+                                    :data-theme-index="index"
+                                    @click="onColorThemeItemClick(colorTheme, $event)"
+                                    @mousedown="onColorThemeItemMouseDown(index, $event)"
+                                    >
+                                    <span
+                                        v-if="dropIndicatorIndex === index && dropIndicatorPosition"
+                                        class="color-theme-drop-indicator"
+                                        :class="'color-theme-drop-indicator--' + dropIndicatorPosition"
+                                        ></span>
+                                    <span class="color-theme-dropdown-item-name">
+                                        {{ colorTheme.name }}
+                                    </span>
+                                    <span v-if="colorThemeEditMode" class="color-theme-dropdown-item-actions">
+                                        <button
+                                            v-if="canDeleteColorTheme(colorTheme)"
+                                            class="color-theme-dropdown-item-delete"
+                                            :title="translations.remove"
+                                            @mousedown.stop
+                                            @click.stop="deleteColorTheme(index)"
+                                            >
+                                            <span class="icon is-size-7"><i class="fas fa-trash"></i></span>
+                                        </button>
+                                        <span class="icon is-size-7">
+                                            <i class="fas fa-bars"></i>
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <button
+                    class="button"
+                    :title="translations.colorThemeAddNewColorTheme"
+                    @click="openColorThemeEditingModal"
+                    >
+                    <span class="icon">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </button>
             </div>
         </div>
         <div class="box">
@@ -835,6 +1015,7 @@ export const colorThemeSettingsComponent = Vue.extend({
             </div class="settings__options-container">
         </div class="box">
 
+        <color-theme-editing-modal :config="config" :translations="translations"></color-theme-editing-modal>
         <color-picker :translations="translations"></color-picker>
     </div>
     `,

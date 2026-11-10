@@ -79,6 +79,13 @@ export const generalSettingsComponent = Vue.extend({
         dropdownTrigger() {
             this.dropdownVisible = !this.dropdownVisible;
         },
+        onDocumentClick(event: MouseEvent) {
+            const target = event.target as Node;
+            const dropdown = this.$refs.generalDropdown as HTMLElement;
+            if (this.dropdownVisible && dropdown && !dropdown.contains(target)) {
+                this.dropdownVisible = false;
+            }
+        },
         exportCurrentSettings() {
             getFolderPath()
                 .then((filePath: string) => {
@@ -285,6 +292,7 @@ export const generalSettingsComponent = Vue.extend({
                 this.visible = true;
             } else {
                 this.visible = false;
+                this.dropdownVisible = false;
             }
         });
 
@@ -292,9 +300,14 @@ export const generalSettingsComponent = Vue.extend({
             this.changeUpdateStatus(updateCheckResult);
         });
 
+        document.addEventListener("click", this.onDocumentClick);
+
         setTimeout(() => {
             this.checkForUpdate();
         }, 500);
+    },
+    beforeDestroy() {
+        document.removeEventListener("click", this.onDocumentClick);
     },
     props: ["config", "translations"],
     template: `
@@ -304,7 +317,7 @@ export const generalSettingsComponent = Vue.extend({
                     {{ translations.generalSettings }}
                 </span>
                 <div>
-                    <div class="dropdown is-right" :class="{ 'is-active' : dropdownVisible}">
+                    <div ref="generalDropdown" class="dropdown is-right" :class="{ 'is-active' : dropdownVisible}">
                         <div class="dropdown-trigger">
                             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="dropdownTrigger">
                                 <span class="icon">

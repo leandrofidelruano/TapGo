@@ -30,6 +30,7 @@ export enum VueEventChannels {
     languageUpdated = "language-updated",
     openWebSearchEditingModal = "open-websearch-editing-modal",
     websearchEngineEdited = "websearch-engine-edited",
+    openColorThemeEditingModal = "open-color-theme-editing-modal",
     editColor = "edit-color",
     saveColor = "save-color",
     favoritesRequested = "favorites-requested",

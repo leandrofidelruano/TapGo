@@ -188,6 +188,12 @@ body {
     border-bottom: none;
 }
 
+/* The color rows of the "add color theme" modal have no separator lines;
+   only the section titles separate them. */
+.color-theme-editing-modal-content .settings__option {
+    border-bottom: none;
+}
+
 .settings__option-name {
     padding-right: 10px;
     box-sizing: border-box;
@@ -475,43 +481,34 @@ body {
     background-color: rgba(128, 128, 128, 0.5) !important;
 }
 
-/* Scrollbar dark theme */
+/* Scrollbar dark theme (applies to every scrollable element inside the settings window,
+   including modals and dropdowns) */
 .settings::-webkit-scrollbar,
-.settings__sidebar::-webkit-scrollbar,
-.settings__setting::-webkit-scrollbar,
-.table-container::-webkit-scrollbar {
+.settings *::-webkit-scrollbar {
     width: 12px;
     height: 12px;
 }
 
 .settings::-webkit-scrollbar-track,
-.settings__sidebar::-webkit-scrollbar-track,
-.settings__setting::-webkit-scrollbar-track,
-.table-container::-webkit-scrollbar-track {
+.settings *::-webkit-scrollbar-track {
     background: var(--settings--sidebar-background-color);
     border-radius: 6px;
 }
 
 .settings::-webkit-scrollbar-thumb,
-.settings__sidebar::-webkit-scrollbar-thumb,
-.settings__setting::-webkit-scrollbar-thumb,
-.table-container::-webkit-scrollbar-thumb {
+.settings *::-webkit-scrollbar-thumb {
     background-color: rgba(128, 128, 128, 0.5);
     border-radius: 4px;
     border: 2px solid var(--settings--sidebar-background-color);
 }
 
 .settings::-webkit-scrollbar-thumb:hover,
-.settings__sidebar::-webkit-scrollbar-thumb:hover,
-.settings__setting::-webkit-scrollbar-thumb:hover,
-.table-container::-webkit-scrollbar-thumb:hover {
+.settings *::-webkit-scrollbar-thumb:hover {
     background-color: rgba(128, 128, 128, 0.7);
 }
 
 .settings::-webkit-scrollbar-corner,
-.settings__sidebar::-webkit-scrollbar-corner,
-.settings__setting::-webkit-scrollbar-corner,
-.table-container::-webkit-scrollbar-corner {
+.settings *::-webkit-scrollbar-corner {
     background: var(--settings--sidebar-background-color);
 }
 
@@ -703,4 +700,133 @@ textarea.input {
 /* Field labels */
 .label {
     color: var(--settings--text-color) !important;
+}
+
+/* Help text with error color (needs to win over the generic help text color) */
+.help.is-danger {
+    color: #e53935 !important;
+}
+
+/* Color theme editing modal */
+.color-theme-editing-modal-content {
+    width: 700px;
+    max-width: calc(100% - 40px);
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+/* Space above every section title (the color rows above have no bottom margin
+   on their last row) and above the Cancel/Save buttons (the last row of the
+   last section has no bottom margin either). */
+.color-theme-editing-modal-content .title.is-5 {
+    margin-top: 1.5rem;
+}
+
+.color-theme-editing-modal-content .field.is-grouped {
+    margin-top: 1.5rem;
+}
+
+/* Color theme dropdown (theme list of the color theme settings) */
+.dropdown-menu.color-theme-dropdown-menu {
+    min-width: 0;
+}
+
+.color-theme-dropdown-header {
+    color: var(--settings--text-color) !important;
+    font-size: 0.95rem;
+    padding: 8px 4px 4px 10px;
+}
+
+/* Bulma adds `margin-bottom: 1em` to every `.menu-label` that is not the last
+   child (specificity 0,2,0, higher than the plain class rule), so this needs
+   both selectors to cancel the extra space between the title and the list. */
+.menu-label.color-theme-dropdown-header {
+    margin-bottom: 0;
+}
+
+/* Aligns the pencil icon with the drag handle of the list (both flush right) */
+.color-theme-dropdown-header .settings__sidebar-menu-button {
+    padding-right: 0;
+}
+
+.color-theme-dropdown-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* The `a.dropdown-item` selector from Bulma (padding-right: 3rem) has a higher
+   specificity, so this selector needs the element + both classes to win.
+   The right padding matches the left padding of the items (1rem from Bulma). */
+a.dropdown-item.color-theme-dropdown-item {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1rem;
+}
+
+.color-theme-dropdown-item--draggable {
+    cursor: grab;
+}
+
+.color-theme-dropdown-item--draggable:active {
+    cursor: grabbing;
+}
+
+.color-theme-dropdown-item--dragging-source {
+    opacity: 0.4;
+}
+
+.color-theme-dropdown-item-name {
+    overflow-wrap: anywhere;
+}
+
+.color-theme-dropdown-item-actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+/* The icons of Bulma have a fixed 24px box which centers the glyph and adds
+   free space on both sides; shrink them so the handle sits flush to the edge. */
+.color-theme-dropdown-item-actions .icon {
+    height: auto;
+    width: auto;
+}
+
+.color-theme-dropdown-item-delete {
+    background: transparent;
+    border: none;
+    color: var(--settings--text-color);
+    cursor: pointer;
+    padding: 0;
+}
+
+.color-theme-dropdown-item-delete:hover {
+    color: #e53935;
+}
+
+.color-theme-dropdown--dragging,
+.color-theme-dropdown--dragging * {
+    cursor: grabbing !important;
+    user-select: none !important;
+}
+
+.color-theme-drop-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--settings--accent-color, #61afef);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.color-theme-drop-indicator--top {
+    top: -1px;
+}
+
+.color-theme-drop-indicator--bottom {
+    bottom: -1px;
 }

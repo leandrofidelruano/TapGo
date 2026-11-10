@@ -182,7 +182,7 @@ export const tapGoTheme: ColorThemeOptions = {
     settingsBoxBackgroundColor: "#1C1C1CFF",
 };
 
-export const colorThemes: ColorThemeOptions[] = [
+export const defaultColorThemes: ColorThemeOptions[] = [
     tapGoTheme,
     atomOneDark,
     dark,
@@ -191,3 +191,9 @@ export const colorThemes: ColorThemeOptions[] = [
     snowStorm,
     shadesOfPurple,
 ];
+
+export const colorThemes: ColorThemeOptions[] = [...defaultColorThemes];
+
+export function isDefaultColorTheme(colorTheme: ColorThemeOptions): boolean {
+    return defaultColorThemes.some((defaultColorTheme) => defaultColorTheme.name === colorTheme.name);
+}

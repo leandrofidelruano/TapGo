@@ -143,6 +143,12 @@ export interface TranslationSet {
     colorThemeImportFailed: string;
     colorThemeInvalidColorTheme: string;
     colorThemePresets: string;
+    colorThemeAddNewColorTheme: string;
+    colorThemeThemeList: string;
+    colorThemeThemeName: string;
+    colorThemeDuplicateName: string;
+    colorThemeReorder: string;
+    colorThemeDeleteWarning: string;
     colorthemeUserInputBackgroundColor: string;
     colorThemeUserInputTextColor: string;
     colorThemeSearchResultsBackgroundColor: string;
