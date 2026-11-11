@@ -77,21 +77,45 @@ export class CalculatorPlugin implements ExecutionPlugin {
         });
     }
 
+    // Limita el resultado mostrado a 4 decimales. Se redondea (no se trunca) para que
+    // sin(pi/6) = 0.4999999999999999 se muestre como 0,5 y se respeta el exponente de la
+    // notación científica: antes, "-3.807686783083602e-16" se partía en "-3" y "8076...",
+    // y el truncado convertía ese residuo de -0,00000000000000038 en un "-3,8076" inexistente.
     private formatDecimal(value: string, decimalSeparator: string): string {
-        const parts = value.split(/[.,]/);
+        const scientificNotation = value.match(/^(.*?)([eE][+-]?\d+)$/);
+        const mantissa = scientificNotation ? scientificNotation[1] : value;
+        const exponent = scientificNotation ? scientificNotation[2] : "";
+
+        const parts = mantissa.split(/[.,]/);
         if (parts.length !== 2) {
             return value;
         }
 
-        const intPart = parts[0];
-        const decPart = parts[1];
-
-        if (decPart.length <= 4) {
+        const decimalPart = parts[1];
+        if (decimalPart.length <= 4) {
             return value;
         }
 
-        const truncated = decPart.substring(0, 4);
-        return `${intPart}${decimalSeparator}${truncated}`;
+        const numericValue = Number(mantissa.replace(decimalSeparator, "."));
+        if (!isFinite(numericValue)) {
+            return value;
+        }
+
+        const roundedValue = Math.round(numericValue * 10000) / 10000;
+
+        if (roundedValue === 0) {
+            return "0";
+        }
+
+        const roundedString = String(roundedValue);
+
+        // Si el redondeo sale en notación científica (números gigantes con decimales) se
+        // devuelve el valor original: recortarlo a 4 decimales ahí no aporta nada
+        if (/[eE]/.test(roundedString)) {
+            return value;
+        }
+
+        return `${roundedString.replace(".", decimalSeparator)}${exponent}`;
     }
 
     public isEnabled(): boolean {

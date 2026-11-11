@@ -86,6 +86,67 @@ describe(Calculator.name, () => {
             expect(Calculator.isValidInput("sen(1)")).toBe(true);
         });
 
+        it("should evaluate trigonometric functions in radians without rounding noise", () => {
+            const precision = 16;
+
+            // Residuos de redondeo de pi: deben ser 0 exacto, no -3.8076e-16
+            expect(Calculator.calculate("cos(pi/2)", precision)).toBe("0");
+            expect(Calculator.calculate("sen(pi)", precision)).toBe("0");
+            expect(Calculator.calculate("sin(2*pi)", precision)).toBe("0");
+            expect(Calculator.calculate("tan(pi)", precision)).toBe("0");
+            expect(Calculator.calculate("cos(2*pi)", precision)).toBe("1");
+
+            // Ángulos conocidos, calculados en radianes
+            expect(Calculator.calculate("sin(pi/2)", precision)).toBe("1");
+            expect(Calculator.calculate("tan(pi/4)", precision)).toBe("1");
+            expect(Number(Calculator.calculate("sin(pi/6)", precision))).toBeCloseTo(0.5, 10);
+            expect(Number(Calculator.calculate("cos(pi/3)", precision))).toBeCloseTo(0.5, 10);
+            expect(Number(Calculator.calculate("sen(pi/6)", precision))).toBeCloseTo(0.5, 10);
+
+            // En grados sin(180) sería 0; en radianes es -0.801...
+            expect(Number(Calculator.calculate("sin(180)", precision))).toBeCloseTo(Math.sin(180), 10);
+        });
+
+        it("should return infinity in the poles of tangent and reciprocal functions", () => {
+            const precision = 16;
+
+            expect(Calculator.calculate("tan(pi/2)", precision)).toBe("Infinity");
+            expect(Calculator.calculate("sec(pi/2)", precision)).toBe("Infinity");
+            expect(Calculator.calculate("csc(pi)", precision)).toBe("Infinity");
+            expect(Calculator.calculate("1/cos(pi/2)", precision)).toBe("Infinity");
+            expect(Calculator.calculate("cot(0)", precision)).toBe("Infinity");
+
+            // cot(pi/2) = coseno/seno = 0/1 = 0
+            expect(Calculator.calculate("cot(pi/2)", precision)).toBe("0");
+        });
+
+        it("should keep small but legit trigonometric results", () => {
+            const precision = 16;
+
+            expect(Number(Calculator.calculate("sin(1e-16)", precision))).toBeCloseTo(1e-16, 30);
+            expect(Number(Calculator.calculate("sin(1e-20)", precision))).toBeCloseTo(1e-20, 30);
+            expect(Number(Calculator.calculate("cos(1.5)", precision))).toBeCloseTo(Math.cos(1.5), 10);
+            expect(Number(Calculator.calculate("sin(0.5)", precision))).toBeCloseTo(Math.sin(0.5), 10);
+        });
+
+        it("should evaluate inverse trigonometric functions in radians", () => {
+            const precision = 16;
+
+            expect(Number(Calculator.calculate("asin(1)", precision))).toBeCloseTo(Math.PI / 2, 10);
+            expect(Number(Calculator.calculate("acos(0)", precision))).toBeCloseTo(Math.PI / 2, 10);
+            expect(Number(Calculator.calculate("atan(1)", precision))).toBeCloseTo(Math.PI / 4, 10);
+            expect(Number(Calculator.calculate("atan2(1,1)", precision))).toBeCloseTo(Math.PI / 4, 10);
+            expect(Number(Calculator.calculate("asin(0.5)", precision))).toBeCloseTo(Math.PI / 6, 10);
+        });
+
+        it("should not sanitize trigonometric noise on other precisions", () => {
+            [8, 16, 32, 64].forEach((precision) => {
+                expect(Calculator.calculate("cos(pi/2)", precision)).toBe("0");
+                expect(Calculator.calculate("sin(pi)", precision)).toBe("0");
+                expect(Number(Calculator.calculate("sin(0.5)", precision))).toBeCloseTo(Math.sin(0.5), 5);
+            });
+        });
+
         it("should evaluate square root using √ as alias of sqrt()", () => {
             const precision = 16;
 
