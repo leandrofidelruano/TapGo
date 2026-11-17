@@ -57,8 +57,11 @@ export class Calculator {
     }
 
     private static normalizeInput(input: string, decimalSeparator: string, argumentSeparator: string) {
+        // mathjs no reconoce el símbolo `π`, solo la constante `pi`
+        const withPi = input.replace(/π/g, "pi");
+
         // mathjs no trae la función `ln`, así que se traduce a `log` (logaritmo natural)
-        const withLn = input.replace(/ln\(/g, "log(");
+        const withLn = withPi.replace(/ln\(/g, "log(");
 
         // mathjs trae `sin`, pero se agrega `sen` como alias en español
         const withSen = withLn.replace(/sen\(/g, "sin(");
@@ -66,7 +69,8 @@ export class Calculator {
         // mathjs no trae el símbolo `√`, así que se traduce a `sqrt`
         // `√(expresión)` → `sqrt(expresión)` (con los paréntesis que coloca el usuario)
         // `√9` → `sqrt(9)` (número suelto, se envuelve automáticamente)
-        const withSqrt = withSen.replace(/√\(/g, "sqrt(").replace(/√(\d+(?:[.,]\d+)?)/g, "sqrt($1)");
+        // `√π`/`√pi` → `sqrt(pi)` (constante suelta, igual que el número)
+        const withSqrt = withSen.replace(/√\(/g, "sqrt(").replace(/√(\d+(?:[.,]\d+)?|pi)/g, "sqrt($1)");
 
         return withSqrt.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
             match === decimalSeparator ? "." : ",",

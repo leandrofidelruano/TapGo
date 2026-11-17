@@ -167,6 +167,33 @@ describe(Calculator.name, () => {
             expect(Calculator.calculate("√(2,25)", 16, ",", ";")).toBe("1,5");
             expect(Calculator.calculate("√2,25", 16, ",", ";")).toBe("1,5");
         });
+
+        it("should evaluate π as alias of pi", () => {
+            const precision = 16;
+
+            // El símbolo debe dar exactamente el mismo resultado que `pi`
+            expect(Calculator.calculate("π", precision)).toBe(Calculator.calculate("pi", precision));
+            expect(Calculator.calculate("π/6", precision)).toBe(Calculator.calculate("pi/6", precision));
+            expect(Number(Calculator.calculate("π/2", precision))).toBeCloseTo(Math.PI / 2, 10);
+            expect(Number(Calculator.calculate("2π", precision))).toBeCloseTo(2 * Math.PI, 10);
+
+            // El saneado del residuo de redondeo también aplica al símbolo
+            expect(Calculator.calculate("cos(π/2)", precision)).toBe("0");
+            expect(Calculator.calculate("sen(π)", precision)).toBe("0");
+            expect(Calculator.calculate("sin(2π)", precision)).toBe("0");
+
+            // Combinado con √
+            expect(Calculator.calculate("√π", precision)).toBe(Calculator.calculate("sqrt(pi)", precision));
+            expect(Number(Calculator.calculate("√π", precision))).toBeCloseTo(Math.sqrt(Math.PI), 10);
+            expect(Calculator.calculate("√(π)", precision)).toBe(Calculator.calculate("√(pi)", precision));
+
+            // Con separador decimal en español
+            expect(Calculator.calculate("π/2", precision, ",", ";")).toBe(
+                Calculator.calculate("pi/2", precision, ",", ";"),
+            );
+
+            expect(Calculator.isValidInput("π/2")).toBe(true);
+        });
     });
 
     describe(Calculator.toFraction.name, () => {

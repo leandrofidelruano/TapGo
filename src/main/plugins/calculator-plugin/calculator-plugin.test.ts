@@ -24,6 +24,12 @@ describe(CalculatorPlugin.name, () => {
         expect(await getFirstName("cos(pi/2)")).toBe("= 0");
         expect(await getFirstName("cos(pi/2)", ",")).toBe("= 0");
         expect(await getFirstName("sen(pi)")).toBe("= 0");
+
+        // El símbolo π debe comportarse igual que la constante pi
+        expect(await getFirstName("cos(π/2)")).toBe("= 0");
+        expect(await getFirstName("cos(π/2)", ",")).toBe("= 0");
+        expect(await getFirstName("sin(π/6)")).toBe("= 0.5");
+        expect(await getFirstName("sin(π/6)", ",")).toBe("= 0,5");
     });
 
     it("should round to 4 decimal places instead of truncating them", async () => {
