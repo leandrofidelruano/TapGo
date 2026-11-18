@@ -24,9 +24,19 @@ const trigonometricFunctions = [
     "atanh",
 ] as const;
 
+// Radicandos libres de cuadrados entre 2 y 97, para reconstruir una expresión con raíz a
+// partir del resultado numérico. Se excluyen los múltiplos de un cuadrado (4, 8, 9, 12…)
+// porque sus raíces se simplifican: √8 ya es 2√2, que se encuentra con el radicando 2
+const squareFreeRadicands = [
+    2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30, 31, 33, 34, 35, 37, 38, 39, 41, 42, 43, 46,
+    47, 51, 53, 55, 57, 58, 59, 61, 62, 65, 66, 67, 69, 70, 71, 73, 74, 77, 78, 79, 82, 83, 85, 86, 87, 89, 91, 93,
+    94, 95, 97,
+] as const;
+
 export interface CalculateResult {
     decimal: string;
     fraction: string | null;
+    radical: string | null;
 }
 
 export class Calculator {
@@ -69,8 +79,10 @@ export class Calculator {
         // mathjs no trae el símbolo `√`, así que se traduce a `sqrt`
         // `√(expresión)` → `sqrt(expresión)` (con los paréntesis que coloca el usuario)
         // `√9` → `sqrt(9)` (número suelto, se envuelve automáticamente)
-        // `√π`/`√pi` → `sqrt(pi)` (constante suelta, igual que el número)
-        const withSqrt = withSen.replace(/√\(/g, "sqrt(").replace(/√(\d+(?:[.,]\d+)?|pi)/g, "sqrt($1)");
+        // `√π`/`√pi` → `sqrt(pi)` y `√e` → `sqrt(e)` (constantes sueltas, igual que el número)
+        const withSqrt = withSen
+            .replace(/√\(/g, "sqrt(")
+            .replace(/√(\d+(?:[.,]\d+)?|pi|e)/g, "sqrt($1)");
 
         return withSqrt.replace(new RegExp(`\\${decimalSeparator}|\\${argumentSeparator}`, "g"), (match) =>
             match === decimalSeparator ? "." : ",",
@@ -115,32 +127,51 @@ export class Calculator {
             throw new Error("Failed to instantiate math js static");
         }
 
+        const normalizedInput = this.normalizeInput(input, decimalSeparator, argumentSeparator);
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const rawResult: any = math.evaluate(this.normalizeInput(input, decimalSeparator, argumentSeparator));
+        const rawResult: any = math.evaluate(normalizedInput);
         const resultStr = String(rawResult);
 
         const decimalFormatted = resultStr.replace(new RegExp(",|\\.", "g"), (match) =>
             match === "." ? decimalSeparator : argumentSeparator,
         );
 
-        // Try to get fraction for simple numeric results
-        if (typeof rawResult === "number" && isFinite(rawResult)) {
-            const fraction = this.toFraction(rawResult);
-            return { decimal: decimalFormatted, fraction };
-        }
+        // Valor numérico del resultado, si lo hay (para fracciones y expresiones con raíz)
+        let numericValue: number | null = null;
 
-        if (typeof rawResult === "object" && rawResult !== null && typeof rawResult.toFixed === "function") {
+        if (typeof rawResult === "number" && isFinite(rawResult)) {
+            numericValue = rawResult;
+        } else if (typeof rawResult === "object" && rawResult !== null && typeof rawResult.toFixed === "function") {
             const num = parseFloat(rawResult.toFixed(precision));
+
             if (isFinite(num)) {
-                const fraction = this.toFraction(num);
-                return { decimal: decimalFormatted, fraction };
+                numericValue = num;
             }
         }
 
-        return { decimal: decimalFormatted, fraction: null };
+        if (numericValue === null) {
+            return { decimal: decimalFormatted, fraction: null, radical: null };
+        }
+
+        const fraction = this.toFraction(numericValue, precision);
+
+        // La fracción tiene prioridad sobre la expresión con raíz: si el valor es racional se
+        // muestra como fracción (√4/6 → 1/3). La expresión con raíz (√2/2) solo aparece cuando
+        // no hay fracción y el resultado no es un entero exacto, que ya se escribe sin más.
+        // Primero se intenta con la expresión que escribió el usuario (da su forma literal)
+        // y, si contiene funciones (`cos(pi/4)`), se reconstruye numéricamente a partir del
+        // resultado: p*√b/q que reproduzca el valor con la tolerancia de la precisión
+        const radical =
+            fraction === null && !Number.isInteger(numericValue)
+                ? (this.toRadical(normalizedInput, numericValue, math, precision, decimalSeparator, argumentSeparator) ??
+                  this.toRadicalFromValue(numericValue, precision))
+                : null;
+
+        return { decimal: decimalFormatted, fraction, radical };
     }
 
-    public static toFraction(value: number): string | null {
+    public static toFraction(value: number, precision = 16): string | null {
         if (!isFinite(value) || isNaN(value)) {
             return null;
         }
@@ -159,7 +190,38 @@ export class Calculator {
         }
 
         const maxDenominator = 10000;
-        const tolerance = 1e-9;
+
+        // La fracción debe reproducir el valor dentro de la precisión configurada. Con una
+        // tolerancia fija (1e-9), irracionales como e+√2 encajarían con una fracción
+        // arbitraria y se mostraría como si fuera su forma exacta
+        const tolerance = Math.min(1e-9, Math.max(1e-12, Math.pow(10, 1 - precision)));
+
+        const ratio = this.approximateRatio(absValue, maxDenominator, tolerance);
+
+        if (ratio === null) {
+            return null;
+        }
+
+        const numerator = sign * ratio.numerator;
+        const denominator = ratio.denominator;
+
+        if (denominator === 1) {
+            return null;
+        }
+
+        return `${numerator}/${denominator}`;
+    }
+
+    // Mejor aproximación racional de un valor positivo con denominador acotado, mediante
+    // fracciones continuas. Devuelve null si no converge dentro de la tolerancia indicada
+    private static approximateRatio(
+        absValue: number,
+        maxDenominator: number,
+        tolerance: number,
+    ): { numerator: number; denominator: number } | null {
+        if (!isFinite(absValue) || absValue === 0) {
+            return null;
+        }
 
         // Continued fraction algorithm
         let h1 = 1;
@@ -183,14 +245,190 @@ export class Calculator {
             return null;
         }
 
-        const numerator = sign * h1;
-        const denominator = k1;
+        return { numerator: h1, denominator: k1 };
+    }
 
-        if (denominator === 1) {
+    // Expresión exacta con raíz, p. ej. `√2/2` para 0.7071067811865475. A diferencia de la
+    // fracción, no se deduce del resultado numérico (sería imposible para un irracional),
+    // sino que se construye a partir de la expresión que escribió el usuario. Solo se
+    // devuelve si, al volver a evaluarla, da el mismo valor que el resultado: así una
+    // expresión mal formada se descarta en lugar de mostrar un valor incorrecto.
+    private static toRadical(
+        normalizedInput: string,
+        numericValue: number,
+        math: Partial<math.MathJsStatic>,
+        precision: number,
+        decimalSeparator: string,
+        argumentSeparator: string,
+    ): string | null {
+        if (!math.evaluate || !this.isPureRadicalExpression(normalizedInput)) {
             return null;
         }
 
-        return `${numerator}/${denominator}`;
+        const display = this.toRadicalDisplay(normalizedInput, decimalSeparator);
+
+        // La forma exacta debe mostrar √ o la constante `e` (un input sin ninguna de las
+        // dos, p. ej. solo números, no aporta nada como segundo resultado)
+        if (!/[√e]/.test(display)) {
+            return null;
+        }
+
+        let displayedValue: number;
+
+        try {
+            displayedValue = Number(
+                String(math.evaluate(this.normalizeInput(display, decimalSeparator, argumentSeparator))),
+            );
+        } catch {
+            return null;
+        }
+
+        if (!isFinite(displayedValue)) {
+            return null;
+        }
+
+        // La tolerancia contempla el redondeo de la precisión configurada
+        const tolerance = Math.max(1e-12, Math.pow(10, 1 - precision));
+
+        return Math.abs(displayedValue - numericValue) <= Math.abs(numericValue) * tolerance ? display : null;
+    }
+
+    // Reconstrucción numérica de la forma exacta con raíz: busca p*√b/q (con b libre de
+    // cuadrados) que reproduzca el valor. Sirve cuando la expresión del usuario contiene
+    // funciones (`cos(pi/4)`) y por tanto no puede mostrarse tal cual. Se verifica al final
+    // que la reconstrucción vuelva a dar el valor: si no coincide, no se muestra nada en
+    // lugar de una expresión incorrecta
+    private static toRadicalFromValue(numericValue: number, precision: number): string | null {
+        if (!isFinite(numericValue) || numericValue === 0) {
+            return null;
+        }
+
+        const tolerance = Math.min(1e-9, Math.max(1e-12, Math.pow(10, 1 - precision)));
+        const maxNumerator = 10000;
+        const maxDenominator = 1000;
+        const sign = numericValue < 0 ? -1 : 1;
+        const absValue = Math.abs(numericValue);
+
+        for (const radicand of squareFreeRadicands) {
+            // valor/√b debe ser una fracción p/q: si lo es, el valor es p*√b/q
+            const ratio = this.approximateRatio(absValue / Math.sqrt(radicand), maxDenominator, tolerance);
+
+            if (ratio === null || ratio.numerator === 0 || ratio.numerator > maxNumerator) {
+                continue;
+            }
+
+            const reconstructed = (sign * ratio.numerator * Math.sqrt(radicand)) / ratio.denominator;
+
+            if (Math.abs(reconstructed - numericValue) <= Math.abs(numericValue) * tolerance) {
+                return this.formatRadical(sign * ratio.numerator, radicand, ratio.denominator);
+            }
+        }
+
+        return null;
+    }
+
+    // Forma de exhibición de una reconstrucción p*√b/q, p. ej. `√2/2`, `3√2`, `-√3`, `√2/4`
+    private static formatRadical(numerator: number, radicand: number, denominator: number): string {
+        const sign = numerator < 0 ? "-" : "";
+        const coefficient = Math.abs(numerator) === 1 ? "" : String(Math.abs(numerator));
+        const radical = `${sign}${coefficient}√${radicand}`;
+
+        return denominator === 1 ? radical : `${radical}/${denominator}`;
+    }
+
+    // Una expresión es una forma exacta si está compuesta solo por números, √, las
+    // constantes π y e y operadores. Cualquier otra cosa (funciones como sin() o log(),
+    // matrices, unidades, etc.) la descarta: en el segundo resultado solo interesa poder
+    // copiar una expresión exacta equivalente al decimal
+    private static isPureRadicalExpression(expression: string): boolean {
+        // La `e` de Euler solo cuenta cuando está sola: en `sec`, `exp` o la notación
+        // científica (`2e16`, pegada a un dígito) es parte de otro elemento
+        const hasRoot = /√|sqrt/.test(expression);
+        const hasEulerConstant = /(?<![a-z\d])e(?![a-z\d])/.test(expression);
+
+        if (!hasRoot && !hasEulerConstant) {
+            return false;
+        }
+
+        const withoutElements = expression
+            .replace(/\s+/g, "")
+            .replace(/(?:\d+\.\d+|\d+\.|\d+|\.\d+)(?:e[+-]?\d+)?/gi, "")
+            .replace(/sqrt|pi/g, "")
+            .replace(/(?<![a-z\d])e(?![a-z\d])/g, "")
+            .replace(/[+\-*/^()]/g, "");
+
+        return withoutElements === "";
+    }
+
+    // Convierte la expresión normalizada (`sqrt(2)/2`) en su forma con símbolos (`√2/2`)
+    private static toRadicalDisplay(normalizedExpression: string, decimalSeparator: string): string {
+        // sqrt(X) → √X, sin paréntesis cuando X es un número o una constante, y quitando los
+        // paréntesis redundantes de (√2). Se itera de adentro hacia afuera hasta que ya no
+        // cambie para que sqrt(sqrt(2)) termine como √(√2): los paréntesis que el símbolo √
+        // necesita al volver a evaluar la expresión se conservan
+        let display = normalizedExpression;
+        let previous: string;
+
+        do {
+            previous = display;
+            display = display
+                .replace(/sqrt\(([^()]*)\)/g, (_match, content: string) =>
+                    this.isSimpleRadicalContent(content) ? `√${content}` : `√(${content})`,
+                )
+                .replace(/pi/g, "π")
+                // No se tocan los paréntesis de un sqrt() sin convertir (letra antes) ni los
+                // que pertenecen a un √ previo: sqrt(√2) debe conservar sus paréntesis
+                .replace(/(?<![a-z√])\(√([^+\-*/^()]+)\)/g, "√$1")
+                // (e) → e: los paréntesis de la constante son redundantes. Ante un dígito
+                // no se quitan porque `2e` se leería como notación científica incompleta
+                .replace(/(?<![a-z\d])\(e\)/g, "e");
+        } while (display !== previous);
+
+        // Racionaliza el denominador: 1/√2 → √2/2. El numerador se conserva tal cual (salvo
+        // un `1` inicial, que es redundante) para que el resto de la expresión siga igual
+        display = display.replace(
+            /(\d*\.?\d*)\/√(\d+)(?![\d.])/g,
+            (match, numerator: string, radicand: string, offset: number, whole: string) => {
+                const preceding = this.significantCharBefore(whole, offset);
+                let prefix = numerator;
+
+                if (numerator === "1" && (preceding === "" || "+-*(,".includes(preceding))) {
+                    // 1/√2 → √2/2
+                    prefix = "";
+                } else if (numerator === "" && /[a-zπ]/i.test(preceding)) {
+                    // π/√2 → π*√2/2: sin el `*` formaría el identificador inválido `pisqrt`
+                    prefix = "*";
+                }
+
+                return `${prefix}√${radicand}/${radicand}`;
+            },
+        );
+
+        // 2 * √3 → 2√3: la yuxtaposición es segura solo si lo que precede al `*` es un
+        // número, un punto o un paréntesis de cierre. Delante de π o e se unirían en un
+        // único identificador (pisqrt), que mathjs no sabe interpretar
+        display = display.replace(/(?<=[\d.)])\s*\*\s*(?=√)/g, "");
+
+        // Separador decimal local: 1.5 → 1,5
+        return display.split(".").join(decimalSeparator);
+    }
+
+    // Contenido que puede ir sin paréntesis después de √: un número o una constante. Los
+    // números en notación científica se excluyen porque `√2e16` se re-evaluaría como
+    // `sqrt(2)e16` (identificador inválido) en lugar de `sqrt(2e16)`
+    private static isSimpleRadicalContent(content: string): boolean {
+        return /^[0-9a-z]+(?:\.[0-9a-z]+)?$/i.test(content) && !/\d[eE]/.test(content);
+    }
+
+    // Carácter significativo anterior a una posición, ignorando los espacios
+    private static significantCharBefore(text: string, offset: number): string {
+        let index = offset - 1;
+
+        while (index >= 0 && /\s/.test(text[index])) {
+            index--;
+        }
+
+        return index < 0 ? "" : text[index];
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

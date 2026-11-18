@@ -60,14 +60,17 @@ export class CalculatorPlugin implements ExecutionPlugin {
                 searchable: [],
             });
 
-            // Result 2: fraction (if available)
-            if (result.fraction) {
+            // Result 2: forma exacta del resultado, copiable: la fracción si el valor es
+            // racional, o la expresión con raíz (√2/2) cuando no hay fracción
+            const exactResult = result.fraction || result.radical;
+
+            if (exactResult) {
                 results.push({
                     description: this.translationSet.calculatorCopyToClipboard,
-                    executionArgument: result.fraction,
+                    executionArgument: exactResult,
                     hideMainWindowAfterExecution: true,
                     icon: defaultCalculatorIcon,
-                    name: `= ${result.fraction}`,
+                    name: `= ${exactResult}`,
                     originPluginType: this.pluginType,
                     searchable: [],
                 });

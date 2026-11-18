@@ -50,4 +50,52 @@ describe(CalculatorPlugin.name, () => {
         expect(results).toHaveLength(1);
         expect(results[0].name).toBe("= 0");
     });
+
+    it("should show the radical expression as second result", async () => {
+        const results = await createPlugin().getSearchResults("√2/2");
+
+        expect(results).toHaveLength(2);
+        expect(results[0].name).toBe("= 0.7071");
+        expect(results[1].name).toBe("= √2/2");
+        expect(results[1].executionArgument).toBe("√2/2");
+    });
+
+    it("should show the radical expression with locale decimal separator", async () => {
+        const results = await createPlugin(",").getSearchResults("√2");
+
+        expect(results).toHaveLength(2);
+        expect(results[0].name).toBe("= 1,4142");
+        expect(results[1].name).toBe("= √2");
+    });
+
+    it("should keep the fraction as second result when the value is rational", async () => {
+        const results = await createPlugin().getSearchResults("√4/6");
+
+        expect(results).toHaveLength(2);
+        expect(results[1].name).toBe("= 1/3");
+    });
+
+    it("should show the radical expression as second result for trigonometric input", async () => {
+        const results = await createPlugin().getSearchResults("cos(pi/4)");
+
+        expect(results).toHaveLength(2);
+        expect(results[0].name).toBe("= 0.7071");
+        expect(results[1].name).toBe("= √2/2");
+        expect(results[1].executionArgument).toBe("√2/2");
+    });
+
+    it("should show the expression with Euler's number as second result", async () => {
+        const constant = await createPlugin().getSearchResults("e");
+
+        expect(constant).toHaveLength(2);
+        expect(constant[0].name).toBe("= 2.7183");
+        expect(constant[1].name).toBe("= e");
+
+        const power = await createPlugin().getSearchResults("e^2");
+
+        expect(power).toHaveLength(2);
+        expect(power[0].name).toBe("= 7.3891");
+        expect(power[1].name).toBe("= e^2");
+        expect(power[1].executionArgument).toBe("e^2");
+    });
 });

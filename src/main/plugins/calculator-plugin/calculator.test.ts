@@ -263,6 +263,106 @@ describe(Calculator.name, () => {
             expect(result.decimal).toBe("0,6");
             expect(result.fraction).toBe("3/5");
         });
+
+        it("should return radical expression for irrational results with roots", () => {
+            expect(Calculator.calculateWithFraction("√2/2", 16).radical).toBe("√2/2");
+            expect(Calculator.calculateWithFraction("sqrt(2)/2", 16).radical).toBe("√2/2");
+            expect(Calculator.calculateWithFraction("√(2)/2", 16).radical).toBe("√2/2");
+            expect(Calculator.calculateWithFraction("√2", 16).radical).toBe("√2");
+            expect(Calculator.calculateWithFraction("-√2/2", 16).radical).toBe("-√2/2");
+            expect(Calculator.calculateWithFraction("2*√2/3", 16).radical).toBe("2√2/3");
+            expect(Calculator.calculateWithFraction("√(√2)", 16).radical).toBe("√(√2)");
+        });
+
+        it("should rationalize denominators in radical expressions", () => {
+            expect(Calculator.calculateWithFraction("1/√2", 16).radical).toBe("√2/2");
+            expect(Calculator.calculateWithFraction("2+1/√3", 16).radical).toBe("2+√3/3");
+            expect(Calculator.calculateWithFraction("1/(√8)", 16).radical).toBe("√8/8");
+        });
+
+        it("should keep constants and products of roots in radical expressions", () => {
+            expect(Calculator.calculateWithFraction("√π", 16).radical).toBe("√π");
+            expect(Calculator.calculateWithFraction("π*√2", 16).radical).toBe("π*√2");
+            expect(Calculator.calculateWithFraction("√2*√3", 16).radical).toBe("√2√3");
+        });
+
+        it("should prefer the fraction over the radical expression", () => {
+            const result = Calculator.calculateWithFraction("√4/6", 16);
+            expect(result.fraction).toBe("1/3");
+            expect(result.radical).toBeNull();
+        });
+
+        it("should not return radical for exact integer results", () => {
+            expect(Calculator.calculateWithFraction("√4/2", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("√16", 16).radical).toBeNull();
+        });
+
+        it("should not return radical for expressions that are not pure radical constants", () => {
+            expect(Calculator.calculateWithFraction("log(2)", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("sin(0.3)*√2", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("6/10", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("2+2", 16).radical).toBeNull();
+        });
+
+        it("should reconstruct the radical expression for trigonometric results", () => {
+            expect(Calculator.calculateWithFraction("cos(pi/4)", 16).radical).toBe("√2/2");
+            expect(Calculator.calculateWithFraction("sen(pi/4)", 16).radical).toBe("√2/2");
+            expect(Calculator.calculateWithFraction("cos(pi/6)", 16).radical).toBe("√3/2");
+            expect(Calculator.calculateWithFraction("tan(pi/3)", 16).radical).toBe("√3");
+            expect(Calculator.calculateWithFraction("tan(pi/6)", 16).radical).toBe("√3/3");
+            expect(Calculator.calculateWithFraction("-cos(pi/4)", 16).radical).toBe("-√2/2");
+            expect(Calculator.calculateWithFraction("2*cos(pi/4)", 16).radical).toBe("√2");
+            expect(Calculator.calculateWithFraction("cos(pi/4)/2", 16).radical).toBe("√2/4");
+            expect(Calculator.calculateWithFraction("sen(pi/4)+cos(pi/4)", 16).radical).toBe("√2");
+        });
+
+        it("should prefer the fraction over the radical for rational trigonometric results", () => {
+            const sine = Calculator.calculateWithFraction("sen(pi/6)", 16);
+            expect(sine.fraction).toBe("1/2");
+            expect(sine.radical).toBeNull();
+
+            const cosine = Calculator.calculateWithFraction("cos(pi/3)", 16);
+            expect(cosine.fraction).toBe("1/2");
+            expect(cosine.radical).toBeNull();
+        });
+
+        it("should not return radical for trigonometric values that are not simple radicals", () => {
+            expect(Calculator.calculateWithFraction("cos(pi/5)", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("sin(1)", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("pi", 16).radical).toBeNull();
+        });
+
+        it("should return the exact expression with Euler's number as second result", () => {
+            expect(Calculator.calculateWithFraction("e", 16).radical).toBe("e");
+            expect(Calculator.calculateWithFraction("e^2", 16).radical).toBe("e^2");
+            expect(Calculator.calculateWithFraction("2*e", 16).radical).toBe("2*e");
+            expect(Calculator.calculateWithFraction("e/2", 16).radical).toBe("e/2");
+            expect(Calculator.calculateWithFraction("-e", 16).radical).toBe("-e");
+            expect(Calculator.calculateWithFraction("(e)^2", 16).radical).toBe("e^2");
+            expect(Calculator.calculateWithFraction("e+√2", 16).radical).toBe("e+√2");
+        });
+
+        it("should combine Euler's number with roots in radical expressions", () => {
+            expect(Calculator.calculateWithFraction("√e", 16).radical).toBe("√e");
+            expect(Calculator.calculateWithFraction("sqrt(e)", 16).radical).toBe("√e");
+            expect(Calculator.calculateWithFraction("2*sqrt(e)", 16).radical).toBe("2√e");
+            expect(Calculator.calculateWithFraction("e/√2", 16).radical).toBe("e*√2/2");
+        });
+
+        it("should not return radical when e is not Euler's constant", () => {
+            expect(Calculator.calculateWithFraction("exp(2)", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("sec(0.5)", 16).radical).toBeNull();
+            expect(Calculator.calculateWithFraction("sin(1)*e", 16).radical).toBeNull();
+        });
+
+        it("should use the locale decimal separator in radical expressions", () => {
+            const result = Calculator.calculateWithFraction("√(2,25)*√3", 16, ",", ";");
+            expect(result.radical).toBe("√2,25√3");
+        });
+
+        it("should not return radical when the result has no finite numeric value", () => {
+            expect(Calculator.calculateWithFraction("√(2)/2 + [1,2]", 16).radical).toBeNull();
+        });
     });
 
     describe(Calculator.isValidInput.name, () => {
